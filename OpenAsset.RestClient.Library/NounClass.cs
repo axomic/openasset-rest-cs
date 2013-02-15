@@ -199,8 +199,6 @@ namespace OARestClientLib
             _useForContactSheet = strNumberToBool(_useForContactSheetStr);
             _userForPowerPoint = strNumberToBool(_userForPowerPointStr);
             _useForZip = strNumberToBool(_useForZipStr);
-
-
             _protected = strNumberToBool(_protectedStr);
             _watermarked = strNumberToBool(_watermarkedStr);
             _recreate = strNumberToBool(_recreateStr);

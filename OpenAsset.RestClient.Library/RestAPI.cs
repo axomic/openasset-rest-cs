@@ -20,9 +20,14 @@ namespace OARestClientLib
         public const string PROJECTS_ENDPOINT                   = "Projects";
         public const string SIZES_ENDPOINT                      = "Sizes";
 
+        public const string SIZES_PARAMETER             = "sizes";
+        public const string FIELDS_PARAMETER            = "fields";
+        public const string KEYWORDS_PARAMETER          = "keywords";
+        public const string PROJECT_KEYWORDS_PARAMETER  = "projectKeywords";
+        public const string LIMIT_PARAMETER             = "limit";
+        public const string OFFSET_PARAMETER            = "offset";
+
         private string _baseURL;
-        private string _password;
-        private string _username;
 
         public RestAPI(string baseURL)
         {

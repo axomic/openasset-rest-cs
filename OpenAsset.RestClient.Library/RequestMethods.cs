@@ -25,10 +25,22 @@ namespace OARestClientLib
 
     abstract public class RequestMethods
     {
-        static protected Stream httpGetResponseStream(string sURL)
+        protected string _password;
+        protected string _username;
+
+        protected Stream httpGetResponseStream(string sURL)
         {
             WebRequest wrGETURL;
             wrGETURL = WebRequest.Create(sURL);
+            if (_username != null && _password != null)
+            {
+                // set the authorization header
+                string credentials = String.Format("{0}:{1}", _username, _password);
+                byte[] bytes = Encoding.ASCII.GetBytes(credentials);
+                string base64 = Convert.ToBase64String(bytes);
+                string authorization = String.Concat("Basic ", base64);
+                wrGETURL.Headers.Add("Authorization", authorization);
+            }
             
             Stream objStream;
             objStream = wrGETURL.GetResponse().GetResponseStream();
@@ -44,7 +56,7 @@ namespace OARestClientLib
             return text;
         }
 
-        static protected string getAsString(string sURL)
+        public string getAsString(string sURL)
         {
             Stream httpResponseStream = httpGetResponseStream(sURL);
             string result = streamToString(httpResponseStream);
@@ -64,7 +76,7 @@ namespace OARestClientLib
             return resultObjArray;
         }
 
-        static protected T[] getGeneric<T>(string sURL)
+        protected T[] getGeneric<T>(string sURL)
         {
             Stream httpResponseStream = httpGetResponseStream(sURL);
             return jsonStreamToObjectArray<T>(httpResponseStream);
