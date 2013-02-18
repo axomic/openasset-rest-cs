@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OARestClientLib.Noun;
 
 namespace OARestClientLib
 {
@@ -50,84 +51,84 @@ namespace OARestClientLib
         
 
         // get nouns
-        public CategoryNoun[] getCategories(string sURL)
+        public CategoryObject[] getCategories(string sURL)
         {
-            return getGeneric<CategoryNoun>(sURL);
+            return getGeneric<CategoryObject>(sURL);
         }
 
-        public FileNoun[] getFiles(string sURL)
+        public FileObject[] getFiles(string sURL)
         {
-            return getGeneric<FileNoun>(sURL);
+            return getGeneric<FileObject>(sURL);
         }
 
-        public FieldValueNoun[] getFieldValues(string sURL)
+        public FieldValueObject[] getFieldValues(string sURL)
         {
-            return getGeneric<FieldValueNoun>(sURL);
+            return getGeneric<FieldValueObject>(sURL);
         }
 
-        public KeywordValueNoun[] getKeywordValues(string sURL)
+        public KeywordValueObject[] getKeywordValues(string sURL)
         {
-            return getGeneric<KeywordValueNoun>(sURL);
+            return getGeneric<KeywordValueObject>(sURL);
         }
 
-        public SizeValueNoun[] getSizeValues(string sURL)
+        public SizeValueObject[] getSizeValues(string sURL)
         {
-            return getGeneric<SizeValueNoun>(sURL);
+            return getGeneric<SizeValueObject>(sURL);
         }
 
-        public ProjectKeywordValueNoun[] getProjectKeywordValues(string sURL)
+        public ProjectKeywordValueObject[] getProjectKeywordValues(string sURL)
         {
-            return getGeneric<ProjectKeywordValueNoun>(sURL);
+            return getGeneric<ProjectKeywordValueObject>(sURL);
         }
 
-        public ProjectNoun[] getProjects(string sURL)
+        public ProjectObject[] getProjects(string sURL)
         {
-            return getGeneric<ProjectNoun>(sURL);
+            return getGeneric<ProjectObject>(sURL);
         }
 
-        public CopyrightHolderNoun[] getCopyrightHolders(string sURL)
+        public CopyrightHolderObject[] getCopyrightHolders(string sURL)
         {
-            return getGeneric<CopyrightHolderNoun>(sURL);
+            return getGeneric<CopyrightHolderObject>(sURL);
         }
 
-        public CopyrightPolicyNoun[] getCopyrightPolicies(string sURL)
+        public CopyrightPolicyObject[] getCopyrightPolicies(string sURL)
         {
-            return getGeneric<CopyrightPolicyNoun>(sURL);
+            return getGeneric<CopyrightPolicyObject>(sURL);
         }
 
-        public FieldNoun[] getFields(string sURL)
+        public FieldObject[] getFields(string sURL)
         {
-            return getGeneric<FieldNoun>(sURL);
+            return getGeneric<FieldObject>(sURL);
         }
 
-        public KeywordCategoryNoun[] getKeywordCategories(string sURL)
+        public KeywordCategoryObject[] getKeywordCategories(string sURL)
         {
-            return getGeneric<KeywordCategoryNoun>(sURL);
+            return getGeneric<KeywordCategoryObject>(sURL);
         }
 
-        public KeywordNoun[] getKeywords(string sURL)
+        public KeywordObject[] getKeywords(string sURL)
         {
-            return getGeneric<KeywordNoun>(sURL);
+            return getGeneric<KeywordObject>(sURL);
         }
 
-        public PhotographerNoun[] getPhotographers(string sURL)
+        public PhotographerObject[] getPhotographers(string sURL)
         {
-            return getGeneric<PhotographerNoun>(sURL);
+            return getGeneric<PhotographerObject>(sURL);
         }
 
-        public ProjectKeywordCategoryNoun[] getProjectKeywordCategories(string sURL)
+        public ProjectKeywordCategoryObject[] getProjectKeywordCategories(string sURL)
         {
-            return getGeneric<ProjectKeywordCategoryNoun>(sURL);
+            return getGeneric<ProjectKeywordCategoryObject>(sURL);
         }
 
-        public ProjectKeywordNoun[] getProjectKeywords(string sURL)
+        public ProjectKeywordObject[] getProjectKeywords(string sURL)
         {
-            return getGeneric<ProjectKeywordNoun>(sURL);
+            return getGeneric<ProjectKeywordObject>(sURL);
         }
 
-        public SizeNoun[] getSizes(string sURL)
+        public SizeObject[] getSizes(string sURL)
         {
-            return getGeneric<SizeNoun>(sURL);
+            return getGeneric<SizeObject>(sURL);
         }
     }
 }
