@@ -44,26 +44,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Nouns\CopyrightHolderObject.cs" />
-    <Compile Include="Nouns\CopyrightPolicyObject.cs" />
-    <Compile Include="Nouns\FieldObject.cs" />
-    <Compile Include="Nouns\KeywordCategoryObject.cs" />
-    <Compile Include="Nouns\KeywordObject.cs" />
-    <Compile Include="Nouns\FieldValueObject.cs" />
-    <Compile Include="Nouns\FileObject.cs" />
-    <Compile Include="Nouns\OARestNounObject.cs" />
-    <Compile Include="Nouns\CategoryObject.cs" />
-    <Compile Include="Nouns\KeywordValueObject.cs" />
-    <Compile Include="Nouns\PhotographerObject.cs" />
-    <Compile Include="Nouns\ProjectKeywordCategoryObject.cs" />
-    <Compile Include="Nouns\ProjectKeywordObject.cs" />
-    <Compile Include="Nouns\ProjectKeywordValueObject.cs" />
-    <Compile Include="Nouns\ProjectObject.cs" />
+    <Compile Include="Nouns\CategoryNoun.cs" />
+    <Compile Include="NounObjects\CategoryObject.cs" />
+    <Compile Include="NounObjects\CopyrightHolderObject.cs" />
+    <Compile Include="NounObjects\CopyrightPolicyObject.cs" />
+    <Compile Include="NounObjects\FieldObject.cs" />
+    <Compile Include="NounObjects\FieldValueObject.cs" />
+    <Compile Include="NounObjects\FileObject.cs" />
+    <Compile Include="NounObjects\KeywordCategoryObject.cs" />
+    <Compile Include="NounObjects\KeywordObject.cs" />
+    <Compile Include="NounObjects\KeywordValueObject.cs" />
+    <Compile Include="NounObjects\OARestNounObject.cs" />
+    <Compile Include="NounObjects\PhotographerObject.cs" />
+    <Compile Include="NounObjects\ProjectKeywordCategoryObject.cs" />
+    <Compile Include="NounObjects\ProjectKeywordObject.cs" />
+    <Compile Include="NounObjects\ProjectKeywordValueObject.cs" />
+    <Compile Include="NounObjects\ProjectObject.cs" />
+    <Compile Include="NounObjects\SizeObject.cs" />
+    <Compile Include="NounObjects\SizeValueObject.cs" />
+    <Compile Include="Nouns\ProjectNoun.cs" />
+    <Compile Include="Nouns\ProjectKeywordCategoryNoun.cs" />
+    <Compile Include="Nouns\ProjectKeywordNoun.cs" />
+    <Compile Include="Nouns\CopyrightHolderNoun.cs" />
+    <Compile Include="Nouns\CopyrightPolicyNoun.cs" />
+    <Compile Include="Nouns\FieldNoun.cs" />
+    <Compile Include="Nouns\FileNoun.cs" />
+    <Compile Include="Nouns\KeywordCategoryNoun.cs" />
+    <Compile Include="Nouns\KeywordNoun.cs" />
+    <Compile Include="Nouns\PhotographerNoun.cs" />
+    <Compile Include="Nouns\SizeNoun.cs" />
     <Compile Include="RequestMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestAPI.cs" />
-    <Compile Include="Nouns\SizeObject.cs" />
-    <Compile Include="Nouns\SizeValueObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

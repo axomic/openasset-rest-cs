@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OARestClientLib.Noun
+namespace OARestClientLib.NounObject
 {
-    public class KeywordCategoryObject : OARestNounObject
+    public class CopyrightPolicyObject : OARestNounObject
     {
         public long Id { get; set; }
-        public string Name { get; set; }
         public string Code { get; set; }
-        public int DisplayOrder { get; set; }
-        public long CategoryId { get; set; }
+        public string Description { get; set; }
+        public string Name { get; set; }
 
         protected override void getVariablesFromParent()
         {
             Id = _id;
             Name = _name;
-            CategoryId = _categoryId;
+            Description = _description;
             Code = _code;
-            DisplayOrder = _displayOrder;
         }
     }
 }

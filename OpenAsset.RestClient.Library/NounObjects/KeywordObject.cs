@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OARestClientLib.Noun
+namespace OARestClientLib.NounObject
 {
-    public class ProjectKeywordCategoryObject : OARestNounObject
+    public class KeywordObject : OARestNounObject
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Code { get; set; }
-        public int DisplayOrder { get; set; }
+        public long KeywordCategoryId { get; set; }
 
         protected override void getVariablesFromParent()
         {
             Id = _id;
             Name = _name;
-            Code = _code;
-            DisplayOrder = _displayOrder;
+            KeywordCategoryId = _keywordCategoryId;
         }
     }
 }

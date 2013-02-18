@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
 
-namespace OARestClientLib.Noun
+namespace OARestClientLib.NounObject
 {
     // generic OARestNounObject
     public abstract class OARestNounObject

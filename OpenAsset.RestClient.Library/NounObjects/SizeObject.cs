@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OARestClientLib.Noun
+namespace OARestClientLib.NounObject
 {
     public class SizeObject : OARestNounObject
     {

@@ -2,33 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OARestClientLib.Noun;
+using OARestClientLib.NounObject;
 
 namespace OARestClientLib
 {
-    public class RestAPI : RequestMethods
+    public class RestAPI<T> : RequestMethods
     {
-        public const string REST_ENDPONT                        = "/REST/";
-        public const string CATEGORIES_ENDPOINT                 = "Categories";
-        public const string COPYRIGHT_HOLDERS_ENDPOINT          = "CopyrightHolders";
-        public const string COPYRIGHT_POLICIES_ENDPOINT         = "CopyrightPolicies";
-        public const string FIELDS_ENDPOINT                     = "Fields";
-        public const string FILES_ENDPOINT                      = "Files";
-        public const string KEYWORD_CATEGORIES_ENDPOINT         = "KeywordCategories";
-        public const string KEYWORDS_ENDPOINT                   = "Keywords";
-        public const string PROJECT_KEYWORD_CATEGORIES_ENDPOINT = "ProjectKeywordCategories";
-        public const string PROJECT_KEYWORDS_ENDPOINT           = "ProjectKeywords";
-        public const string PROJECTS_ENDPOINT                   = "Projects";
-        public const string SIZES_ENDPOINT                      = "Sizes";
+        protected const string REST_ENDPOINT                        = "/REST/";
+        protected const string CATEGORIES_ENDPOINT                  = "Categories";
+        protected const string COPYRIGHT_HOLDERS_ENDPOINT           = "CopyrightHolders";
+        protected const string COPYRIGHT_POLICIES_ENDPOINT          = "CopyrightPolicies";
+        protected const string FIELDS_ENDPOINT                      = "Fields";
+        protected const string FILES_ENDPOINT                       = "Files";
+        protected const string KEYWORD_CATEGORIES_ENDPOINT          = "KeywordCategories";
+        protected const string KEYWORDS_ENDPOINT                    = "Keywords";
+        protected const string PROJECT_KEYWORD_CATEGORIES_ENDPOINT  = "ProjectKeywordCategories";
+        protected const string PROJECT_KEYWORDS_ENDPOINT            = "ProjectKeywords";
+        protected const string PROJECTS_ENDPOINT                    = "Projects";
+        protected const string SIZES_ENDPOINT                       = "Sizes";
+        protected const string PHOTOGRAPHERS_ENDPOINT               = "Photographers";
 
-        public const string SIZES_PARAMETER             = "sizes";
-        public const string FIELDS_PARAMETER            = "fields";
-        public const string KEYWORDS_PARAMETER          = "keywords";
-        public const string PROJECT_KEYWORDS_PARAMETER  = "projectKeywords";
-        public const string LIMIT_PARAMETER             = "limit";
-        public const string OFFSET_PARAMETER            = "offset";
+        protected const string SIZES_PARAMETER              = "sizes";
+        protected const string FIELDS_PARAMETER             = "fields";
+        protected const string KEYWORDS_PARAMETER           = "keywords";
+        protected const string PROJECT_KEYWORDS_PARAMETER   = "projectKeywords";
+        protected const string LIMIT_PARAMETER              = "limit";
+        protected const string OFFSET_PARAMETER             = "offset";
 
-        private string _baseURL;
+        protected string _baseURL;
+        protected string _nounURL;
+        protected T[] _cachedNounObjectArray;
 
         public RestAPI(string baseURL)
         {
@@ -44,91 +47,39 @@ namespace OARestClientLib
         private void init(string baseURL, string username, string password)
         {
             _baseURL = baseURL;
+            _nounURL = baseURL+REST_ENDPOINT;
             _username = username;
             _password = password;
+            _cachedNounObjectArray = null;
         }
 
-        
+        protected string addParameter(string sURL, string parameterName, string parameterValue)
+        {
+            if (!sURL.Contains("?"))
+            {
+                sURL += "?";
+            }
+            sURL += "&" + parameterName + "=" + parameterValue;
+            return sURL;
+        }
 
         // get nouns
-        public CategoryObject[] getCategories(string sURL)
+        protected T[] getNounObjectArray(string sURL, bool forceHTTPRequest = false)
         {
-            return getGeneric<CategoryObject>(sURL);
+            if (forceHTTPRequest || _cachedNounObjectArray == null)
+            {
+                _cachedNounObjectArray = getGeneric<T>(sURL);
+            }
+            return _cachedNounObjectArray;
         }
 
-        public FileObject[] getFiles(string sURL)
+        // public methods
+        public T[] getNounObjects(int limit = 10, int offset = 0, bool forceHTTPRequest = false)
         {
-            return getGeneric<FileObject>(sURL);
-        }
-
-        public FieldValueObject[] getFieldValues(string sURL)
-        {
-            return getGeneric<FieldValueObject>(sURL);
-        }
-
-        public KeywordValueObject[] getKeywordValues(string sURL)
-        {
-            return getGeneric<KeywordValueObject>(sURL);
-        }
-
-        public SizeValueObject[] getSizeValues(string sURL)
-        {
-            return getGeneric<SizeValueObject>(sURL);
-        }
-
-        public ProjectKeywordValueObject[] getProjectKeywordValues(string sURL)
-        {
-            return getGeneric<ProjectKeywordValueObject>(sURL);
-        }
-
-        public ProjectObject[] getProjects(string sURL)
-        {
-            return getGeneric<ProjectObject>(sURL);
-        }
-
-        public CopyrightHolderObject[] getCopyrightHolders(string sURL)
-        {
-            return getGeneric<CopyrightHolderObject>(sURL);
-        }
-
-        public CopyrightPolicyObject[] getCopyrightPolicies(string sURL)
-        {
-            return getGeneric<CopyrightPolicyObject>(sURL);
-        }
-
-        public FieldObject[] getFields(string sURL)
-        {
-            return getGeneric<FieldObject>(sURL);
-        }
-
-        public KeywordCategoryObject[] getKeywordCategories(string sURL)
-        {
-            return getGeneric<KeywordCategoryObject>(sURL);
-        }
-
-        public KeywordObject[] getKeywords(string sURL)
-        {
-            return getGeneric<KeywordObject>(sURL);
-        }
-
-        public PhotographerObject[] getPhotographers(string sURL)
-        {
-            return getGeneric<PhotographerObject>(sURL);
-        }
-
-        public ProjectKeywordCategoryObject[] getProjectKeywordCategories(string sURL)
-        {
-            return getGeneric<ProjectKeywordCategoryObject>(sURL);
-        }
-
-        public ProjectKeywordObject[] getProjectKeywords(string sURL)
-        {
-            return getGeneric<ProjectKeywordObject>(sURL);
-        }
-
-        public SizeObject[] getSizes(string sURL)
-        {
-            return getGeneric<SizeObject>(sURL);
+            string resultURL = _nounURL;
+            resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
+            resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
+            return getNounObjectArray(resultURL, forceHTTPRequest);
         }
     }
 }
