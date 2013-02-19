@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Newtonsoft.Json;
+
 namespace OARestClientLib.NounObject
 {
     public class CategoryObject : OARestNounObject
     {
-
         public long Id { get; set; }
         public string Name { get; set; }
         public bool Alive { get; set; }

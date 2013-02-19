@@ -29,6 +29,8 @@ namespace OARestClientLib
         protected const string LIMIT_PARAMETER              = "limit";
         protected const string OFFSET_PARAMETER             = "offset";
 
+        protected const bool _forceRequest = true;
+
         protected string _baseURL;
         protected string _nounURL;
         protected T[] _cachedNounObjectArray;
@@ -64,22 +66,33 @@ namespace OARestClientLib
         }
 
         // get nouns
-        protected T[] getNounObjectArray(string sURL, bool forceHTTPRequest = false)
+        protected T[] getNounObjectArray(string sURL, bool forceHTTPRequest = _forceRequest)
         {
+            int responseCode;
             if (forceHTTPRequest || _cachedNounObjectArray == null)
             {
-                _cachedNounObjectArray = getGeneric<T>(sURL);
+                _cachedNounObjectArray = getGeneric<T>(sURL, out responseCode);
             }
             return _cachedNounObjectArray;
         }
 
         // public methods
-        public T[] getNounObjects(int limit = 10, int offset = 0, bool forceHTTPRequest = false)
+        public virtual T[] getNounObjects(int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
         {
             string resultURL = _nounURL;
             resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
             resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
             return getNounObjectArray(resultURL, forceHTTPRequest);
+        }
+
+        public virtual T[] putNounObjects( T[] objectArray,int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
+        {
+            string resultURL = _nounURL;
+            int responseCode;
+            resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
+            resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
+            _cachedNounObjectArray = putGeneric<T>(resultURL, objectArray, out responseCode);
+            return _cachedNounObjectArray;
         }
     }
 }

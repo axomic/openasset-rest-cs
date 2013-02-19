@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
+using System.IO;
+using System.Text.RegularExpressions;
 // could have used the JavaScriptSerializer but the Newtonsoft seems to be faster
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
 
 namespace OARestClientLib.NounObject
 {
+
     // generic OARestNounObject
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class OARestNounObject
     {
         [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
@@ -209,10 +215,67 @@ namespace OARestClientLib.NounObject
             getVariablesFromParent();
         }
 
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            string errorMsg = "ERROR: An error ocurred during serialization. ErrorPath:" + errorContext.Path;
+            throw new Exception(errorMsg, errorContext.Error);
+        }
+        
         private bool strNumberToBool(string str)
         {
             bool result = str != null && str.Equals("1") ? true : false;
             return result;
+        }
+
+        public string ToJson()
+        {
+
+            PropertyInfo[] propertyInfos = this.GetType().GetProperties();
+
+            StringWriter sw = new StringWriter();
+            JsonTextWriter writer = new JsonTextWriter(sw);
+
+            writer.WriteStartObject();
+
+            foreach (var info in propertyInfos)
+            {
+                if (info.GetValue(this, null) != null)
+                {
+                    string underlinedName = Regex.Replace(info.Name, @"(?<a>(?<!^)((?:[A-Z][a-z])|(?:(?<!^[A-Z]+)[A-Z0-9]+(?:(?=[A-Z][a-z])|$))|(?:[0-9]+)))", @"_${a}");
+                    writer.WritePropertyName(underlinedName.ToLower());
+                    var prop = info.GetValue(this, null);
+                    if (info.PropertyType.IsArray)
+                    {
+                        writer.WriteStartArray();
+                        dynamic obj = prop;
+                        for (int i = 0; i < obj.Length; i++)
+                        {
+                            if (obj[i] != null)
+                            {
+                                if (typeof(string) == obj[i].GetType() ||
+                                    typeof(int) == obj[i].GetType())
+                                {
+                                    writer.WriteValue(obj[i].ToString());
+                                }
+                                else
+                                {
+                                    writer.WriteRawValue(obj[i].ToJson());
+                                }
+                            }
+                        }
+                        writer.WriteEndArray();
+                    }
+                    else
+                    {
+                        writer.WriteValue(prop.ToString());
+                    }
+                }
+            }
+
+            writer.WriteEndObject();
+
+            return sw.ToString();
         }
 
         protected abstract void getVariablesFromParent();
