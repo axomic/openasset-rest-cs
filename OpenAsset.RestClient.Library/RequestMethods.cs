@@ -43,6 +43,11 @@ namespace OARestClientLib
             return httpRequestStream("POST", sURL, sData, out responseCode, filePath);
         }
 
+        protected Stream httpDeleteResponseStream(string sURL, out int responseCode)
+        {
+            return httpRequestStream("DELETE", sURL, null, out responseCode, null);
+        }
+
         protected Stream httpRequestStream(string method, string sURL, string sData, out int responseCode, string filePath)
         {
             WebRequest wrGETURL;
@@ -242,6 +247,13 @@ namespace OARestClientLib
             PostResponse[] result = jsonStreamToObjectArray<PostResponse>(httpResponseStream);
             httpResponseStream.Close();
             return result;
+        }
+
+        protected int deleteGeneric(string sURL, out int responseCode)
+        {
+            Stream httpResponseStream = httpDeleteResponseStream(sURL, out responseCode);
+            httpResponseStream.Close();
+            return responseCode;
         }
     }
 }

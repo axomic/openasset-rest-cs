@@ -104,5 +104,16 @@ namespace OARestClientLib
             PostResponse[] result = postGeneric<T>(resultURL, objectArray, out responseCode, filePath);
             return result;
         }
+
+        public virtual int deleteNounObjects(T[] objectArray)
+        {
+            string resultURL = _nounURL;
+            int responseCode = 0;
+            foreach (dynamic objectNoun in objectArray)
+            {
+                deleteGeneric(resultURL.Replace("?", "/" + objectNoun.Id + "?"), out responseCode);
+            }
+            return responseCode;
+        }
     }
 }
