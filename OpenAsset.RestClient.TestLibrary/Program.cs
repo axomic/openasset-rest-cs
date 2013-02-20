@@ -23,25 +23,20 @@ namespace WindowsFormsApplication1
             string password = "admin";
             string username = "admin";
 
-            /*
             FileNoun apiMethods = new FileNoun(baseURL, username, password);
-
-            int[] fieldIds = {31,222};
-            int[] projectKeywordIds = { 221, 222 };
-            FileObject[] resultArray = apiMethods.getNounObjects(projectKeywordIds, fieldIds);
-
-            testForm.addToRows<FileObject>(resultArray);
-             */
-
-            ProjectNoun apiMethods = new ProjectNoun(baseURL, username, password);
 
             int[] fieldIds = { 31, 222 };
             int[] projectKeywordIds = { /*221, 222*/ 1 };
-            ProjectObject[] resultArray = apiMethods.getNounObjects();
-            resultArray[0].Fields[0].Values[0] = "LIVE FROM THE REST CLIENT LIBRARY!";
-            resultArray = apiMethods.putNounObjects(resultArray);
+            FileObject[] resultArray = apiMethods.getNounObjects();
+            resultArray[5].Name = "new name";
+            //resultArray[1].Caption = "LIVE FROM THE REST CLIENT LIBRARY!";
+            //resultArray[1].Fields[1].Values[0] = "LIVE FROM THE REST CLIENT LIBRARY!";
+            //int responseCode = apiMethods.putNounObjects(resultArray);
+            //PostResponse[] responseCode = apiMethods.postNounObjects(resultArray);
+            string filepath = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Penguins.jpg";
+            PostResponse[] responseCode = apiMethods.postNounObjects(resultArray,10,0,filepath);
 
-            testForm.addToRows<ProjectObject>(resultArray);
+            testForm.addToRows<FileObject>(resultArray);
 
             Application.Run(testForm);
         }

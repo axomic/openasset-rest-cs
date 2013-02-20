@@ -58,7 +58,6 @@ namespace OARestClientLib.NounObject
             Fields = _fields;
             Keywords = _keywords;
             Sizes = _sizes;
-            string o = ToJson();
         }
     }
 }

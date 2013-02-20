@@ -85,14 +85,24 @@ namespace OARestClientLib
             return getNounObjectArray(resultURL, forceHTTPRequest);
         }
 
-        public virtual T[] putNounObjects( T[] objectArray,int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
+        public virtual int putNounObjects(T[] objectArray, int limit = 10, int offset = 0)
         {
             string resultURL = _nounURL;
             int responseCode;
             resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
             resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
-            _cachedNounObjectArray = putGeneric<T>(resultURL, objectArray, out responseCode);
-            return _cachedNounObjectArray;
+            putGeneric<T>(resultURL, objectArray, out responseCode);
+            return responseCode;
+        }
+
+        public virtual PostResponse[] postNounObjects(T[] objectArray, int limit = 10, int offset = 0, string filePath = null)
+        {
+            string resultURL = _nounURL;
+            int responseCode;
+            resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
+            resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
+            PostResponse[] result = postGeneric<T>(resultURL, objectArray, out responseCode, filePath);
+            return result;
         }
     }
 }

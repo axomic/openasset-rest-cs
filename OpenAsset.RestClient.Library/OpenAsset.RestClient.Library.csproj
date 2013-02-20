@@ -73,6 +73,7 @@
     <Compile Include="Nouns\KeywordNoun.cs" />
     <Compile Include="Nouns\PhotographerNoun.cs" />
     <Compile Include="Nouns\SizeNoun.cs" />
+    <Compile Include="PostResponse.cs" />
     <Compile Include="RequestMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestAPI.cs" />
