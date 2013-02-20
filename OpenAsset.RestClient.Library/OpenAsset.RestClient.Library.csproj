@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1E56E79F-E20C-4AD5-BC93-D974792990CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OARestClientLib</RootNamespace>
+    <AssemblyName>OpenAsset.RestClient.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NewtonJsonLib\Bin\Net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Nouns\CategoryNoun.cs" />
+    <Compile Include="NounObjects\CategoryObject.cs" />
+    <Compile Include="NounObjects\CopyrightHolderObject.cs" />
+    <Compile Include="NounObjects\CopyrightPolicyObject.cs" />
+    <Compile Include="NounObjects\FieldObject.cs" />
+    <Compile Include="NounObjects\FieldValueObject.cs" />
+    <Compile Include="NounObjects\FileObject.cs" />
+    <Compile Include="NounObjects\KeywordCategoryObject.cs" />
+    <Compile Include="NounObjects\KeywordObject.cs" />
+    <Compile Include="NounObjects\KeywordValueObject.cs" />
+    <Compile Include="NounObjects\OARestNounObject.cs" />
+    <Compile Include="NounObjects\PhotographerObject.cs" />
+    <Compile Include="NounObjects\ProjectKeywordCategoryObject.cs" />
+    <Compile Include="NounObjects\ProjectKeywordObject.cs" />
+    <Compile Include="NounObjects\ProjectKeywordValueObject.cs" />
+    <Compile Include="NounObjects\ProjectObject.cs" />
+    <Compile Include="NounObjects\SizeObject.cs" />
+    <Compile Include="NounObjects\SizeValueObject.cs" />
+    <Compile Include="Nouns\ProjectNoun.cs" />
+    <Compile Include="Nouns\ProjectKeywordCategoryNoun.cs" />
+    <Compile Include="Nouns\ProjectKeywordNoun.cs" />
+    <Compile Include="Nouns\CopyrightHolderNoun.cs" />
+    <Compile Include="Nouns\CopyrightPolicyNoun.cs" />
+    <Compile Include="Nouns\FieldNoun.cs" />
+    <Compile Include="Nouns\FileNoun.cs" />
+    <Compile Include="Nouns\KeywordCategoryNoun.cs" />
+    <Compile Include="Nouns\KeywordNoun.cs" />
+    <Compile Include="Nouns\PhotographerNoun.cs" />
+    <Compile Include="Nouns\SizeNoun.cs" />
+    <Compile Include="PostResponse.cs" />
+    <Compile Include="RequestMethods.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestAPI.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
