@@ -1,0 +1,30 @@
+# Set default behavior, in case users don't have core.autocrlf set.
+*   text=auto
+
+# Explicitly declare text files to always be normalized and converted to native on checkout
+*.pl    text
+*.pm    text
+*.tmpl  text
+*.cs    text
+*.css   text
+*.txt   text
+*.xml   text
+*.xsl   text
+*.vbs   text
+*.js    text
+*.php   text
+*.java  text
+*.html  text
+*.csv   text
+*.conf  text
+*.addin text
+*.sql   text
+*.config    text
+
+# Denote all files that are truly binary and should not be modified.
+*.png   binary
+*.jpg   binary
+*.ppt   binary
+*.jar   binary
+*.gif   binary
+*.bmp   binary
