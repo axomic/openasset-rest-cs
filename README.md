@@ -19,8 +19,9 @@ http://help.axomic.com/07_Technical_Stuff/APIs/REST
 
 Please get in contact if you're interested in knowing more
 
-https://twitter.com/OpenAsset
-http://www.axomic.com
+ https://twitter.com/OpenAsset
+
+ http://www.axomic.com
 
 ### License
 
