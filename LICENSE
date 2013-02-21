@@ -1,29 +1,3 @@
-openasset-rest-cs
-=================
-
-C# library &amp; sample code for using the OpenAsset REST API
-
-### Intro
-
-In 2013 Axomic will release a REST API for OpenAsset.
-
-To accompany this, a set of client libraries are freely available to downloaded and use. The REST API is still under development and will innevitibly change during 2013 before a final release is announced, the features frozen and back compatibility guaranteed.
-
-### Docs
-
-The documentation can be found at:
-
-http://help.axomic.com/07_Technical_Stuff/APIs/REST
-
-### Find out more
-
-Please get in contact if you're interested in knowing more
-
-- https://twitter.com/OpenAsset
-- http://www.axomic.com
-
-### License
-
 The MIT License (MIT)
 Copyright (c) 2013 Axomic Ltd
 
