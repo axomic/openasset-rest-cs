@@ -43,5 +43,13 @@ namespace OARestClientLib
             }
             return getNounObjectArray(resultURL, forceHTTPRequest);
         }
+
+        public PostResponse createNewObjectNoun( string name, string code)
+        {
+            ProjectObject newNounObj = new ProjectObject(name, code);
+            ProjectObject[] newNounObjArray = { newNounObj };
+            PostResponse[] response = this.postNounObjects(newNounObjArray);
+            return response[0];
+        }
     }
 }

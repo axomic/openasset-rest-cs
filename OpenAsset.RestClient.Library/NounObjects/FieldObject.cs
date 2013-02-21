@@ -18,6 +18,15 @@ namespace OARestClientLib.NounObject
         public string FieldType { get; set; }
         public bool Protected { get; set; }
 
+        internal FieldObject() { }
+
+        internal FieldObject(string name, long fieldTypeId, long fieldDisplayTypeId)
+        {
+            Name = _name = name;
+            _fieldDisplayTypeId = fieldDisplayTypeId;
+            _fieldTypeId = fieldTypeId;
+        }
+
         protected override void getVariablesFromParent()
         {
             Id = _id;

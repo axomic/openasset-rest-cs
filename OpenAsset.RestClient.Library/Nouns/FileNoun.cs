@@ -53,5 +53,14 @@ namespace OARestClientLib
             
             return getNounObjectArray(resultURL, forceHTTPRequest);
         }
+
+        public PostResponse createNewObjectNoun(string name, long categoryId, long projectId, long albumId,
+    int accessLevel, bool alive, string caption, long copyrightHolderId, string description, long photographerId, string newFilePath)
+        {
+            FileObject newFileObj = new FileObject(name, categoryId, projectId, albumId, accessLevel, alive, caption, copyrightHolderId, description, photographerId);
+            FileObject[] newFileObjArray = { newFileObj };
+            PostResponse[] response = this.postNounObjects(newFileObjArray, filePath: newFilePath);
+            return response[0];
+        }
     }
 }

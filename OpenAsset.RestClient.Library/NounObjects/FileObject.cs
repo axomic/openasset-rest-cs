@@ -32,6 +32,23 @@ namespace OARestClientLib.NounObject
         public KeywordValueObject[] Keywords { get; set; }
         public SizeValueObject[] Sizes { get; set; }
 
+        internal FileObject() { }
+
+        internal FileObject(string name, long categoryId, long projectId, long albumId, 
+            int accessLevel, bool alive, string caption, long copyrightHolderId, string description, long photographerId)
+        {
+            _name = Name = name;
+            _categoryId = CategoryId = categoryId;
+            _projectId = ProjectId = projectId;
+            _albumId = albumId;
+            _accessLevel = AccessLevel = accessLevel;
+            _alive = alive;
+            _caption = Caption = caption;
+            _copyrightHolderId = CopyrightHolderId = copyrightHolderId;
+            _description = description;
+            _photographerId = PhotographerId = photographerId;
+        }
+
         protected override void getVariablesFromParent()
         {
             Id = _id;
@@ -58,6 +75,26 @@ namespace OARestClientLib.NounObject
             Fields = _fields;
             Keywords = _keywords;
             Sizes = _sizes;
+        }
+
+        protected override string getSpecificJson(string method)
+        {
+            string result = null;
+            if (method.Equals("POST"))
+            {
+                result = "{\"name\":\"" + _name +
+                    "\",\"category_id\":\"" + _categoryId +
+                    "\",\"project_id\":\"" + _projectId +
+                    "\",\"album_id\":\"" + _albumId +
+                    "\",\"access_level\":\"" + _accessLevel +
+                    "\",\"alive\":\"" + _alive +
+                    "\",\"caption\":\"" + _caption +
+                    "\",\"copyright_holder_id\":\"" + _copyrightHolderId +
+                    "\",\"description\":\"" + _description +
+                    "\",\"photographer_id\":\"" + _photographerId +
+                    "\"}";
+            }
+            return result;
         }
     }
 }

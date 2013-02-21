@@ -14,5 +14,14 @@ namespace OARestClientLib
         {
             _nounURL += COPYRIGHT_HOLDERS_ENDPOINT;
         }
+
+
+        public PostResponse createNewObjectNoun(string name)
+        {
+            CopyrightHolderObject newNounObj = new CopyrightHolderObject(name);
+            CopyrightHolderObject[] newNounObjArray = { newNounObj };
+            PostResponse[] response = this.postNounObjects(newNounObjArray);
+            return response[0];
+        }
     }
 }

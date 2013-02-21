@@ -106,8 +106,12 @@ namespace OARestClientLib.NounObject
         protected int _cardinality { get; set; }
         [JsonProperty("field_display_type", NullValueHandling = NullValueHandling.Ignore)]
         protected string _fieldDisplayType { get; set; }
+        [JsonProperty("field_display_type_id", NullValueHandling = NullValueHandling.Ignore)]
+        protected long _fieldDisplayTypeId { get; set; }
         [JsonProperty("field_type", NullValueHandling = NullValueHandling.Ignore)]
         protected string _fieldType { get; set; }
+        [JsonProperty("field_type_id", NullValueHandling = NullValueHandling.Ignore)]
+        protected long _fieldTypeId { get; set; }
         [JsonProperty("keyword_category_id", NullValueHandling = NullValueHandling.Ignore)]
         protected long _keywordCategoryId { get; set; }
         [JsonProperty("project_keyword_category_id", NullValueHandling = NullValueHandling.Ignore)]
@@ -116,6 +120,8 @@ namespace OARestClientLib.NounObject
         protected int _quality { get; set; }
         [JsonProperty("postfix", NullValueHandling = NullValueHandling.Ignore)]
         protected string _postfix { get; set; }
+        [JsonProperty("album_id", NullValueHandling = NullValueHandling.Ignore)]
+        protected long _albumId { get; set; }
 
         // variables that need to have their ype changed
         [JsonProperty("alive", NullValueHandling = NullValueHandling.Ignore)]
@@ -228,8 +234,13 @@ namespace OARestClientLib.NounObject
             return result;
         }
 
-        public string ToJson()
+        // this function can be improved: TODO
+        public string ToJson(string method)
         {
+
+            string specificJson = getSpecificJson(method);
+            if (specificJson != null)
+                return specificJson;
 
             PropertyInfo[] propertyInfos = this.GetType().GetProperties();
 
@@ -245,10 +256,10 @@ namespace OARestClientLib.NounObject
                     string underlinedName = Regex.Replace(info.Name, @"(?<a>(?<!^)((?:[A-Z][a-z])|(?:(?<!^[A-Z]+)[A-Z0-9]+(?:(?=[A-Z][a-z])|$))|(?:[0-9]+)))", @"_${a}");
                     writer.WritePropertyName(underlinedName.ToLower());
                     var prop = info.GetValue(this, null);
+                    dynamic obj = prop;
                     if (info.PropertyType.IsArray)
                     {
                         writer.WriteStartArray();
-                        dynamic obj = prop;
                         for (int i = 0; i < obj.Length; i++)
                         {
                             if (obj[i] != null)
@@ -258,9 +269,13 @@ namespace OARestClientLib.NounObject
                                 {
                                     writer.WriteValue(obj[i].ToString());
                                 }
+                                else if (typeof(bool) == obj[i].GetType()) 
+                                {
+                                    writer.WriteValue(obj[i]?"1":"0");
+                                }
                                 else
                                 {
-                                    writer.WriteRawValue(obj[i].ToJson());
+                                    writer.WriteRawValue(obj[i].ToJson(method));
                                 }
                             }
                         }
@@ -268,7 +283,14 @@ namespace OARestClientLib.NounObject
                     }
                     else
                     {
-                        writer.WriteValue(prop.ToString());
+                        if (typeof(bool) == obj.GetType())
+                        {
+                            writer.WriteValue(obj ? "1" : "0");
+                        }
+                        else
+                        {
+                            writer.WriteValue(obj.ToString());
+                        }
                     }
                 }
             }
@@ -276,6 +298,11 @@ namespace OARestClientLib.NounObject
             writer.WriteEndObject();
 
             return sw.ToString();
+        }
+
+        protected virtual string getSpecificJson(string method)
+        {
+            return null;
         }
 
         protected abstract void getVariablesFromParent();

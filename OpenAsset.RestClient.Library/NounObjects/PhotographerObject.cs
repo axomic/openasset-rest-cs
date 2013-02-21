@@ -10,6 +10,13 @@ namespace OARestClientLib.NounObject
         public long Id { get; set; }
         public string Name { get; set; }
 
+        internal PhotographerObject() { }
+
+        internal PhotographerObject(string name)
+        {
+            Name = _name = name;
+        }
+
         protected override void getVariablesFromParent()
         {
             Id = _id;

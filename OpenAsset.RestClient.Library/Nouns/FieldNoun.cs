@@ -14,5 +14,13 @@ namespace OARestClientLib
         {
             _nounURL += FIELDS_ENDPOINT;
         }
+
+        public PostResponse createNewObjectNoun(string name, long fieldTypeId, long fieldDisplayTypeId)
+        {
+            FieldObject newNounObj = new FieldObject(name, fieldTypeId,fieldDisplayTypeId);
+            FieldObject[] newNounObjArray = { newNounObj };
+            PostResponse[] response = this.postNounObjects(newNounObjArray);
+            return response[0];
+        }
     }
 }

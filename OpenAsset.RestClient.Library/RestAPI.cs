@@ -6,7 +6,7 @@ using OARestClientLib.NounObject;
 
 namespace OARestClientLib
 {
-    public class RestAPI<T> : RequestMethods
+    public abstract class RestAPI<T> : RequestMethods
     {
         protected const string REST_ENDPOINT                        = "/REST/";
         protected const string CATEGORIES_ENDPOINT                  = "Categories";
@@ -95,7 +95,7 @@ namespace OARestClientLib
             return responseCode;
         }
 
-        public virtual PostResponse[] postNounObjects(T[] objectArray, int limit = 10, int offset = 0, string filePath = null)
+        protected virtual PostResponse[] postNounObjects(T[] objectArray, int limit = 10, int offset = 0, string filePath = null)
         {
             string resultURL = _nounURL;
             int responseCode;

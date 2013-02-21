@@ -12,6 +12,13 @@ namespace OARestClientLib.NounObject
         public string Description { get; set; }
         public string Name { get; set; }
 
+        internal CopyrightPolicyObject() { }
+
+        internal CopyrightPolicyObject(string name)
+        {
+            Name = _name = name;
+        }
+
         protected override void getVariablesFromParent()
         {
             Id = _id;

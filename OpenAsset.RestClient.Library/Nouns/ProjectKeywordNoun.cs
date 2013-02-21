@@ -14,5 +14,13 @@ namespace OARestClientLib
         {
             _nounURL += PROJECT_KEYWORDS_ENDPOINT;
         }
+
+        public PostResponse createNewObjectNoun(string name, long projectKeywordCategoryId)
+        {
+            ProjectKeywordObject newNounObj = new ProjectKeywordObject(name,projectKeywordCategoryId);
+            ProjectKeywordObject[] newNounObjArray = { newNounObj };
+            PostResponse[] response = this.postNounObjects(newNounObjArray);
+            return response[0];
+        }
     }
 }

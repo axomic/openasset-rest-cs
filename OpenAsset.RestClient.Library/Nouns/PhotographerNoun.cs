@@ -14,5 +14,13 @@ namespace OARestClientLib
         {
             _nounURL += PHOTOGRAPHERS_ENDPOINT;
         }
+
+        public PostResponse createNewObjectNoun(string name)
+        {
+            PhotographerObject newNounObj = new PhotographerObject(name);
+            PhotographerObject[] newNounObjArray = { newNounObj };
+            PostResponse[] response = this.postNounObjects(newNounObjArray);
+            return response[0];
+        }
     }
 }

@@ -11,6 +11,14 @@ namespace OARestClientLib.NounObject
         public string Name { get; set; }
         public long ProjectKeywordCategoryId { get; set; }
 
+        internal ProjectKeywordObject() { }
+
+        internal ProjectKeywordObject(string name, long projectKeywordCategoryId)
+        {
+            Name = _name = name;
+            ProjectKeywordCategoryId = _projectKeywordCategoryId = projectKeywordCategoryId;
+        }
+
         protected override void getVariablesFromParent()
         {
             Id = _id;

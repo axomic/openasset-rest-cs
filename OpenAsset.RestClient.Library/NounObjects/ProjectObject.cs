@@ -12,12 +12,30 @@ namespace OARestClientLib.NounObject
         public FieldValueObject[] Fields { get; set; }
         public ProjectKeywordValueObject[] ProjectKeywords { get; set; }
 
+        internal ProjectObject() { }
+
+        internal ProjectObject(string name, string code)
+        {
+            _name = name;
+            _code = code;
+        }
+
         protected override void getVariablesFromParent()
         {
             Id = _id;
             Alive = _alive;
             ProjectKeywords = _projectKeywords;
             Fields = _fields;
+        }
+
+        protected override string getSpecificJson(string method)
+        {
+            string result = null;
+            if(method.Equals("POST")) {
+                result = "{\"name\":\"" + _name + "\",\"code\":\"" + _code + "\"}";
+            }
+
+            return result;
         }
     }
 }

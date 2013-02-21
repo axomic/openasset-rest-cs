@@ -10,6 +10,13 @@ using Newtonsoft.Json.Linq;
 
 namespace OARestClientLib
 {
+    public enum HttpMethod
+    {
+        GET,
+        POST,
+        PUT,
+        DELETE
+    }
 
     public class Test
     {
@@ -30,22 +37,22 @@ namespace OARestClientLib
 
         protected Stream httpGetResponseStream(string sURL, out int responseCode)
         {
-            return httpRequestStream("GET", sURL, null, out responseCode, null);
+            return httpRequestStream(HttpMethod.GET.ToString(), sURL, null, out responseCode, null);
         }
 
         protected Stream httpPutResponseStream(string sURL, string sData, out int responseCode)
         {
-            return httpRequestStream("PUT", sURL, sData, out responseCode, null);
+            return httpRequestStream(HttpMethod.PUT.ToString(), sURL, sData, out responseCode, null);
         }
 
         protected Stream httpPostResponseStream(string sURL, string sData, out int responseCode, string filePath)
         {
-            return httpRequestStream("POST", sURL, sData, out responseCode, filePath);
+            return httpRequestStream(HttpMethod.POST.ToString(), sURL, sData, out responseCode, filePath);
         }
 
         protected Stream httpDeleteResponseStream(string sURL, out int responseCode)
         {
-            return httpRequestStream("DELETE", sURL, null, out responseCode, null);
+            return httpRequestStream(HttpMethod.DELETE.ToString(), sURL, null, out responseCode, null);
         }
 
         protected Stream httpRequestStream(string method, string sURL, string sData, out int responseCode, string filePath)
@@ -183,19 +190,22 @@ namespace OARestClientLib
         public string getAsString(string sURL)
         {
             int responseCode;
-            Stream httpResponseStream = httpGetResponseStream(sURL, out responseCode);
+            string sData = null;
+            string filePath = null;
+            string method = HttpMethod.GET.ToString();
+            Stream httpResponseStream = httpRequestStream( method, sURL, sData, out responseCode, filePath);
             string result = streamToString(httpResponseStream);
             httpResponseStream.Close();
             return result;
         }
 
-        static protected string objectArrayToJsonString<T>(T[] objectArray)
+        static protected string objectArrayToJsonString<T>(string method, T[] objectArray)
         {
             string separator = "";
             string json = "[";
             foreach (dynamic objectNoun in objectArray)
             {
-                json += separator + objectNoun.ToJson();
+                json += separator + objectNoun.ToJson(method);
                 separator = ",";
             }
             return json + "]";
@@ -217,7 +227,10 @@ namespace OARestClientLib
 
         protected T[] getGeneric<T>(string sURL, out int responseCode)
         {
-            Stream httpResponseStream = httpGetResponseStream(sURL, out responseCode);
+            string sData = null;
+            string filePath = null;
+            string method = HttpMethod.GET.ToString();
+            Stream httpResponseStream = httpRequestStream( method, sURL, sData, out responseCode, filePath);
             T[] result = jsonStreamToObjectArray<T>(httpResponseStream);
             httpResponseStream.Close();
             return result;
@@ -225,25 +238,28 @@ namespace OARestClientLib
 
         protected T[] putGeneric<T>(string sURL, T[] objectArray, out int responseCode)
         {
-            string sData = objectArrayToJsonString(objectArray);
-            Stream httpResponseStream = httpPutResponseStream(sURL, sData, out responseCode);
+            string filePath = null;
+            string method = HttpMethod.PUT.ToString();
+            string sData = objectArrayToJsonString(method, objectArray);
+            Stream httpResponseStream = httpRequestStream(method, sURL, sData, out responseCode, filePath);
             T[] result = jsonStreamToObjectArray<T>(httpResponseStream);
             httpResponseStream.Close();
             return result;
         }
 
-        protected PostResponse[] postGeneric<T>(string sURL, T[] objectArray, out int responseCode, string filePath)
+        protected virtual PostResponse[] postGeneric<T>(string sURL, T[] objectArray, out int responseCode, string filePath)
         {
             string sData = null;
+            string method = HttpMethod.POST.ToString();
             if (filePath == null)
             {
-                sData = objectArrayToJsonString(objectArray);
+                sData = objectArrayToJsonString(method, objectArray);
             }
             else
             {
-                sData = ((dynamic)objectArray[0]).ToJson();
+                sData = ((dynamic)objectArray[0]).ToJson(method);
             }
-            Stream httpResponseStream = httpPostResponseStream(sURL, sData, out responseCode, filePath);
+            Stream httpResponseStream = httpRequestStream(method, sURL, sData, out responseCode, filePath);
             PostResponse[] result = jsonStreamToObjectArray<PostResponse>(httpResponseStream);
             httpResponseStream.Close();
             return result;
@@ -251,7 +267,10 @@ namespace OARestClientLib
 
         protected int deleteGeneric(string sURL, out int responseCode)
         {
-            Stream httpResponseStream = httpDeleteResponseStream(sURL, out responseCode);
+            string sData = null;
+            string filePath = null;
+            string method = HttpMethod.DELETE.ToString();
+            Stream httpResponseStream = httpRequestStream(method, sURL, sData, out responseCode, filePath);
             httpResponseStream.Close();
             return responseCode;
         }
