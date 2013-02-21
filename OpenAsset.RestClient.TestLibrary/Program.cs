@@ -30,9 +30,11 @@ namespace WindowsFormsApplication1
 
             //get file rows as FileObject
             FileObject[] resultArray = apiMethods.getNounObjects();
+            //
+            FileObject resultObj = apiMethods.getNounObjectById(7390);
 
             //updating a file rows
-            resultArray[5].Name = "new name";
+            resultArray[5].Caption = "new caption";
             //resultArray[5].Fields[0].Values = new string{"field1", "field2"};
             int putResponseCode = apiMethods.putNounObjects(resultArray);
 

@@ -35,26 +35,6 @@ namespace OARestClientLib
         protected string _password;
         protected string _username;
 
-        protected Stream httpGetResponseStream(string sURL, out int responseCode)
-        {
-            return httpRequestStream(HttpMethod.GET.ToString(), sURL, null, out responseCode, null);
-        }
-
-        protected Stream httpPutResponseStream(string sURL, string sData, out int responseCode)
-        {
-            return httpRequestStream(HttpMethod.PUT.ToString(), sURL, sData, out responseCode, null);
-        }
-
-        protected Stream httpPostResponseStream(string sURL, string sData, out int responseCode, string filePath)
-        {
-            return httpRequestStream(HttpMethod.POST.ToString(), sURL, sData, out responseCode, filePath);
-        }
-
-        protected Stream httpDeleteResponseStream(string sURL, out int responseCode)
-        {
-            return httpRequestStream(HttpMethod.DELETE.ToString(), sURL, null, out responseCode, null);
-        }
-
         protected Stream httpRequestStream(string method, string sURL, string sData, out int responseCode, string filePath)
         {
             WebRequest wrGETURL;

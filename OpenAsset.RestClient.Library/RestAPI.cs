@@ -85,6 +85,18 @@ namespace OARestClientLib
             return getNounObjectArray(resultURL, forceHTTPRequest);
         }
 
+        public virtual T getNounObjectById(long id, int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
+        {
+            string resultURL = _nounURL;
+            resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
+            resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
+            T[] resultObj = getNounObjectArray(resultURL.Replace("?", "/" + id + "?"), forceHTTPRequest);
+            if (resultObj.Length == 1)
+                return resultObj[0];
+            else
+                return default(T);
+        }
+
         public virtual int putNounObjects(T[] objectArray, int limit = 10, int offset = 0)
         {
             string resultURL = _nounURL;

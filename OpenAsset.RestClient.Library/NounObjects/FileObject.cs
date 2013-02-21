@@ -8,7 +8,6 @@ namespace OARestClientLib.NounObject
     public class FileObject : OARestNounObject
     {
         public long Id { get; set; }
-        public string Name { get; set; }
         public int AccessLevel { get; set; }
         public string Caption { get; set; }
         public long CategoryId { get; set; }
@@ -37,7 +36,7 @@ namespace OARestClientLib.NounObject
         internal FileObject(string name, long categoryId, long projectId, long albumId, 
             int accessLevel, bool alive, string caption, long copyrightHolderId, string description, long photographerId)
         {
-            _name = Name = name;
+            _name = name;
             _categoryId = CategoryId = categoryId;
             _projectId = ProjectId = projectId;
             _albumId = albumId;
@@ -52,7 +51,6 @@ namespace OARestClientLib.NounObject
         protected override void getVariablesFromParent()
         {
             Id = _id;
-            Name = _name;
             AccessLevel = _accessLevel;
             Caption = _caption;
             CategoryId = _categoryId;
