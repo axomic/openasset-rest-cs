@@ -17,7 +17,7 @@ namespace OARestClientLib
 
         // public methods
         public ProjectObject[] getNounObjects( int[] keywords = null, int[] fields = null,
-                                               int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
+                                               int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequestDefault)
         {
             string separator = ",";
             string resultURL = _nounURL;

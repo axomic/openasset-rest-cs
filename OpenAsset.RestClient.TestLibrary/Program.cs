@@ -9,24 +9,28 @@ namespace WindowsFormsApplication1
 {
     static class Program
     {
+        static private FileNoun _apiMethods;
+        static public Form1 _testForm;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Form1 testForm = new Form1();
-
             string baseURL = "http://192.168.1.153";
             string password = "admin";
             string username = "admin";
 
-            FileNoun apiMethods = new FileNoun(baseURL, username, password);
+            _apiMethods = new FileNoun(baseURL, username, password);
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            _testForm = new Form1();
+/*
 
             int[] fieldIds = { 31, 222 };
-            int[] projectKeywordIds = { /*221, 222*/ 1 };
+            int[] projectKeywordIds = { 1 };
 
             //get file rows as FileObject
             FileObject[] resultArray = apiMethods.getNounObjects();
@@ -42,20 +46,26 @@ namespace WindowsFormsApplication1
             string filepath = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Koala.jpg";
             PostResponse postResp = apiMethods.createNewObjectNoun("TEST TODAY", 1, 92, 0, 3, true, "TEST AGAIN", 1, "description", 1, filepath);
 
-            
-
-            //resultArray[1].Caption = "LIVE FROM THE REST CLIENT LIBRARY!";
-            //resultArray[1].Fields[1].Values[0] = "LIVE FROM THE REST CLIENT LIBRARY!";
-            //int responseCode = apiMethods.putNounObjects(resultArray);
-            //PostResponse[] responseCode = apiMethods.postNounObjects(resultArray);
-            //PostResponse[] responseCode = apiMethods.postNounObjects(resultArray,10,0,filepath);
-            
-            //ProjectObject[] newProjArray = { new ProjectObject("TEST 1", "A0009") };
-            //PostResponse[] responseCode = apiMethods.postNounObjects(newProjArray);
+            //int deleteResponseCode = apiMethods.deleteNounObjectById(7390);
 
             testForm.addToRows<FileObject>(resultArray);
+*/
 
-            Application.Run(testForm);
+            Application.Run(_testForm);
         }
+
+        public static void fillGetData(int limit, int offset)
+        {
+            FileObject[] resultArray = _apiMethods.getNounObjects(limit: limit, offset: offset,forceHTTPRequest:true);
+            _testForm.addToRows<FileObject>(resultArray);
+        }
+
+        public static void updatePutData(long id, string caption)
+        {
+            FileObject resultObj = _apiMethods.getNounObjectById(id);
+            resultObj.Caption = caption;
+            int putResponseCode = _apiMethods.putNounObjects(new FileObject[] {resultObj});
+        }
+
     }
 }

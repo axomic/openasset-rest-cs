@@ -16,10 +16,6 @@ namespace WindowsFormsApplication1
             InitializeComponent();
         }
 
-        public void setTexboxText (string str) {
-            this.richTextBox1.Text = str;
-        }
-
         public void addToRows<T>(T[] dataArray)
         {
             dataGridView1.DataSource = dataArray.ToList();
@@ -29,5 +25,23 @@ namespace WindowsFormsApplication1
         {
 
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Program.fillGetData(int.Parse(limitTextBox.Text), int.Parse(offsetTextBox.Text));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            button2.Text = "Updating!";
+            Program.updatePutData(long.Parse(idTextBox.Text), captionTextBox.Text);
+            button2.Text = "Update caption";
+        }
+
     }
 }

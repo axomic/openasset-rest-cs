@@ -8,6 +8,8 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+using OARestClientLib.NounObject;
+
 namespace OARestClientLib
 {
     public enum HttpMethod
@@ -167,11 +169,11 @@ namespace OARestClientLib
             return result;
         }
 
-        static protected string objectArrayToJsonString<T>(HttpMethod method, T[] objectArray)
+        static protected string objectArrayToJsonString(HttpMethod method, OARestNounObject[] objectArray)
         {
             string separator = "";
             string json = "[";
-            foreach (dynamic objectNoun in objectArray)
+            foreach (OARestNounObject objectNoun in objectArray)
             {
                 json += separator + objectNoun.ToJson(method);
                 separator = ",";
@@ -204,7 +206,7 @@ namespace OARestClientLib
             return result;
         }
 
-        protected T[] putGeneric<T>(string sURL, T[] objectArray, out int responseCode)
+        protected T[] putGeneric<T>(string sURL, OARestNounObject[] objectArray, out int responseCode)
         {
             string filePath = null;
             HttpMethod method = HttpMethod.PUT;
@@ -215,7 +217,7 @@ namespace OARestClientLib
             return result;
         }
 
-        protected virtual PostResponse[] postGeneric<T>(string sURL, T[] objectArray, out int responseCode, string filePath)
+        protected virtual PostResponse[] postGeneric(string sURL, OARestNounObject[] objectArray, out int responseCode, string filePath)
         {
             string sData = null;
             HttpMethod method = HttpMethod.POST;

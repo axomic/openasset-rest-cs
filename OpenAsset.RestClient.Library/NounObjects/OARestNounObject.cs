@@ -74,10 +74,10 @@ namespace OARestClientLib.NounObject
         protected FieldValueObject[] _fields { get; set; }
         [JsonProperty("keyword_id", NullValueHandling = NullValueHandling.Ignore)]
         protected long _keywordId { get; set; }
-        [JsonProperty("keywords", NullValueHandling = NullValueHandling.Ignore)]
-        protected KeywordValueObject[] _keywords { get; set; }
         [JsonProperty("sizes", NullValueHandling = NullValueHandling.Ignore)]
         protected SizeValueObject[] _sizes { get; set; }
+        [JsonProperty("keywords", NullValueHandling = NullValueHandling.Ignore)]
+        protected KeywordValueObject[] _keywords { get; set; }
         [JsonProperty("size_id", NullValueHandling = NullValueHandling.Ignore)]
         protected long _sizeId { get; set; }
         [JsonProperty("colourspace", NullValueHandling = NullValueHandling.Ignore)]
@@ -123,7 +123,7 @@ namespace OARestClientLib.NounObject
         [JsonProperty("album_id", NullValueHandling = NullValueHandling.Ignore)]
         protected long _albumId { get; set; }
 
-        // variables that need to have their ype changed
+        // variables that need to have their type changed
         [JsonProperty("alive", NullValueHandling = NullValueHandling.Ignore)]
         private string _aliveStr { get; set; }
         [JsonIgnore]
@@ -181,7 +181,6 @@ namespace OARestClientLib.NounObject
         [JsonIgnore]
         protected bool _useForZip { get; set; }
 
-
         // serialization methods
         [OnSerializing]
         internal void OnSerializingMethod(StreamingContext context)
@@ -237,7 +236,6 @@ namespace OARestClientLib.NounObject
         // this function can be improved: TODO
         public string ToJson(HttpMethod method)
         {
-
             string specificJson = getSpecificJson(method);
             if (specificJson != null)
                 return specificJson;
@@ -246,6 +244,16 @@ namespace OARestClientLib.NounObject
 
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw);
+
+            ToJson(method, writer);
+
+            return sw.ToString();
+        }
+
+        protected void ToJson(HttpMethod method, JsonTextWriter writer)
+        {
+
+            PropertyInfo[] propertyInfos = this.GetType().GetProperties();
 
             writer.WriteStartObject();
 
@@ -256,48 +264,51 @@ namespace OARestClientLib.NounObject
                     string underlinedName = Regex.Replace(info.Name, @"(?<a>(?<!^)((?:[A-Z][a-z])|(?:(?<!^[A-Z]+)[A-Z0-9]+(?:(?=[A-Z][a-z])|$))|(?:[0-9]+)))", @"_${a}");
                     writer.WritePropertyName(underlinedName.ToLower());
                     var prop = info.GetValue(this, null);
-                    dynamic obj = prop;
+
                     if (info.PropertyType.IsArray)
                     {
+                        object[] obj = (object[])prop;
                         writer.WriteStartArray();
-                        for (int i = 0; i < obj.Length; i++)
+                        foreach(object propertyObj in obj)
                         {
-                            if (obj[i] != null)
+                            if (propertyObj != null)
                             {
-                                if (typeof(string) == obj[i].GetType() ||
-                                    typeof(int) == obj[i].GetType())
-                                {
-                                    writer.WriteValue(obj[i].ToString());
-                                }
-                                else if (typeof(bool) == obj[i].GetType()) 
-                                {
-                                    writer.WriteValue(obj[i]?"1":"0");
-                                }
-                                else
-                                {
-                                    writer.WriteRawValue(obj[i].ToJson(method));
-                                }
+                                string propertyStr = propertyToString(method, propertyObj, writer);
+                                if (propertyStr != null)
+                                    writer.WriteValue(propertyStr);
                             }
                         }
                         writer.WriteEndArray();
                     }
                     else
                     {
-                        if (typeof(bool) == obj.GetType())
-                        {
-                            writer.WriteValue(obj ? "1" : "0");
-                        }
-                        else
-                        {
-                            writer.WriteValue(obj.ToString());
-                        }
+                        object obj = prop;
+                        writer.WriteValue(propertyToString(method, obj, writer));
                     }
                 }
             }
 
             writer.WriteEndObject();
+        }
 
-            return sw.ToString();
+        private string propertyToString(HttpMethod method, object obj, JsonTextWriter writer)
+        {
+            string result = null;
+            Type typeNounObject = typeof(OARestNounObject);
+            Type typeObj = obj.GetType();
+            if (typeObj.IsSubclassOf(typeNounObject))
+            {
+                ((OARestNounObject)obj).ToJson(method, writer);
+            }
+            else if (typeof(bool) == obj.GetType())
+            {
+                result = ((bool)obj) ? "1" : "0";
+            }
+            else
+            {
+                result = obj.ToString();
+            }
+            return result;
         }
 
         protected virtual string getSpecificJson(HttpMethod method)

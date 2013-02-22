@@ -28,20 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.idTextBox = new System.Windows.Forms.TextBox();
+            this.idLabel = new System.Windows.Forms.Label();
+            this.captionLabel = new System.Windows.Forms.Label();
+            this.captionTextBox = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.limitLabel = new System.Windows.Forms.Label();
+            this.limitTextBox = new System.Windows.Forms.TextBox();
+            this.offsetLabel = new System.Windows.Forms.Label();
+            this.offsetTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.richTextBox1.Location = new System.Drawing.Point(12, 12);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(274, 238);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
             // 
             // dataGridView1
             // 
@@ -54,24 +53,130 @@
             this.dataGridView1.Size = new System.Drawing.Size(446, 238);
             this.dataGridView1.TabIndex = 1;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 40);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(274, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Simple GET";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // idTextBox
+            // 
+            this.idTextBox.Location = new System.Drawing.Point(34, 69);
+            this.idTextBox.Name = "idTextBox";
+            this.idTextBox.Size = new System.Drawing.Size(35, 20);
+            this.idTextBox.TabIndex = 4;
+            this.idTextBox.Text = "0";
+            // 
+            // idLabel
+            // 
+            this.idLabel.AutoSize = true;
+            this.idLabel.Location = new System.Drawing.Point(12, 72);
+            this.idLabel.Name = "idLabel";
+            this.idLabel.Size = new System.Drawing.Size(16, 13);
+            this.idLabel.TabIndex = 5;
+            this.idLabel.Text = "Id";
+            // 
+            // captionLabel
+            // 
+            this.captionLabel.AutoSize = true;
+            this.captionLabel.Location = new System.Drawing.Point(84, 72);
+            this.captionLabel.Name = "captionLabel";
+            this.captionLabel.Size = new System.Drawing.Size(43, 13);
+            this.captionLabel.TabIndex = 7;
+            this.captionLabel.Text = "Caption";
+            // 
+            // captionTextBox
+            // 
+            this.captionTextBox.Location = new System.Drawing.Point(133, 69);
+            this.captionTextBox.Name = "captionTextBox";
+            this.captionTextBox.Size = new System.Drawing.Size(153, 20);
+            this.captionTextBox.TabIndex = 6;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 95);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(274, 23);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "Update caption";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // limitLabel
+            // 
+            this.limitLabel.AutoSize = true;
+            this.limitLabel.Location = new System.Drawing.Point(12, 17);
+            this.limitLabel.Name = "limitLabel";
+            this.limitLabel.Size = new System.Drawing.Size(28, 13);
+            this.limitLabel.TabIndex = 10;
+            this.limitLabel.Text = "Limit";
+            // 
+            // limitTextBox
+            // 
+            this.limitTextBox.Location = new System.Drawing.Point(46, 14);
+            this.limitTextBox.Name = "limitTextBox";
+            this.limitTextBox.Size = new System.Drawing.Size(35, 20);
+            this.limitTextBox.TabIndex = 9;
+            this.limitTextBox.Text = "10";
+            // 
+            // offsetLabel
+            // 
+            this.offsetLabel.AutoSize = true;
+            this.offsetLabel.Location = new System.Drawing.Point(111, 17);
+            this.offsetLabel.Name = "offsetLabel";
+            this.offsetLabel.Size = new System.Drawing.Size(35, 13);
+            this.offsetLabel.TabIndex = 12;
+            this.offsetLabel.Text = "Offset";
+            // 
+            // offsetTextBox
+            // 
+            this.offsetTextBox.Location = new System.Drawing.Point(152, 14);
+            this.offsetTextBox.Name = "offsetTextBox";
+            this.offsetTextBox.Size = new System.Drawing.Size(35, 20);
+            this.offsetTextBox.TabIndex = 11;
+            this.offsetTextBox.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 262);
+            this.Controls.Add(this.offsetLabel);
+            this.Controls.Add(this.offsetTextBox);
+            this.Controls.Add(this.limitLabel);
+            this.Controls.Add(this.limitTextBox);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.captionLabel);
+            this.Controls.Add(this.captionTextBox);
+            this.Controls.Add(this.idLabel);
+            this.Controls.Add(this.idTextBox);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.richTextBox1);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox idTextBox;
+        private System.Windows.Forms.Label idLabel;
+        private System.Windows.Forms.Label captionLabel;
+        private System.Windows.Forms.TextBox captionTextBox;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label limitLabel;
+        private System.Windows.Forms.TextBox limitTextBox;
+        private System.Windows.Forms.Label offsetLabel;
+        private System.Windows.Forms.TextBox offsetTextBox;
 
 
 

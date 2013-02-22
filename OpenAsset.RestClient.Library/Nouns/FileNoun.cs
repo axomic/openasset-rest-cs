@@ -17,7 +17,7 @@ namespace OARestClientLib
 
         // public methods
         public FileObject[] getNounObjects(int[] keywords = null, int[] fields = null, int[] sizes = null,
-                                               int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
+                                               int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequestDefault)
         {
             string separator = ",";
             string resultURL = _nounURL;
@@ -25,7 +25,7 @@ namespace OARestClientLib
             resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
             if (keywords == null)
             {
-                resultURL = addParameter(resultURL, PROJECT_KEYWORDS_PARAMETER, "all");
+                resultURL = addParameter(resultURL, KEYWORDS_PARAMETER, "all");
             }
             else
             {

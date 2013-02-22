@@ -29,7 +29,7 @@ namespace OARestClientLib
         protected const string LIMIT_PARAMETER              = "limit";
         protected const string OFFSET_PARAMETER             = "offset";
 
-        protected const bool _forceRequest = true;
+        protected const bool _forceRequestDefault = true;
 
         protected string _baseURL;
         protected string _nounURL;
@@ -70,7 +70,7 @@ namespace OARestClientLib
         }
 
         // get nouns
-        protected T[] getNounObjectArray(string sURL, bool forceHTTPRequest = _forceRequest)
+        protected T[] getNounObjectArray(string sURL, bool forceHTTPRequest = _forceRequestDefault)
         {
             int responseCode;
             if (forceHTTPRequest || _cachedNounObjectArray == null)
@@ -81,7 +81,7 @@ namespace OARestClientLib
         }
 
         // public methods
-        public virtual T[] getNounObjects(int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
+        public virtual T[] getNounObjects(int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequestDefault)
         {
             string resultURL = _nounURL;
             resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
@@ -89,11 +89,11 @@ namespace OARestClientLib
             return getNounObjectArray(resultURL, forceHTTPRequest);
         }
 
-        public virtual T getNounObjectById(long id, int limit = 10, int offset = 0, bool forceHTTPRequest = _forceRequest)
+        public virtual T getNounObjectById(long id, bool forceHTTPRequest = _forceRequestDefault)
         {
             string resultURL = _nounURL;
-            resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
-            resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
+            resultURL = addParameter(resultURL, LIMIT_PARAMETER, "1");
+            resultURL = addParameter(resultURL, OFFSET_PARAMETER, "0");
             T[] resultObj = getNounObjectArray(resultURL.Replace("?", "/" + id + "?"), forceHTTPRequest);
             if (resultObj.Length == 1)
                 return resultObj[0];
@@ -107,7 +107,7 @@ namespace OARestClientLib
             int responseCode;
             resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
             resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
-            putGeneric<T>(resultURL, objectArray, out responseCode);
+            putGeneric<T>(resultURL, (objectArray as OARestNounObject[]), out responseCode);
             return responseCode;
         }
 
@@ -117,18 +117,34 @@ namespace OARestClientLib
             int responseCode;
             resultURL = addParameter(resultURL, LIMIT_PARAMETER, limit.ToString());
             resultURL = addParameter(resultURL, OFFSET_PARAMETER, offset.ToString());
-            PostResponse[] result = postGeneric<T>(resultURL, objectArray, out responseCode, filePath);
+            PostResponse[] result = postGeneric(resultURL, (objectArray as OARestNounObject[]), out responseCode, filePath);
             return result;
         }
 
-        public virtual int deleteNounObjects(T[] objectArray)
+        public virtual int[] deleteNounObjects(T[] objectArray)
+        {
+            int[] responseCodeArray = new int[objectArray.Length];
+            int i = 0;
+            foreach (dynamic objectNoun in objectArray)
+            {
+                responseCodeArray[i++] = deleteNounObjectById(objectNoun.Id);
+            }
+            return responseCodeArray;
+        }
+
+        public virtual int deleteNounObjectById(long id)
         {
             string resultURL = _nounURL;
             int responseCode = 0;
-            foreach (dynamic objectNoun in objectArray)
+            if (resultURL.Contains("?"))
             {
-                deleteGeneric(resultURL.Replace("?", "/" + objectNoun.Id + "?"), out responseCode);
+                resultURL = resultURL.Replace("?", "/" + id + "?");
             }
+            else
+            {
+                resultURL += "/" + id;
+            }
+            deleteGeneric(resultURL, out responseCode);
             return responseCode;
         }
     }
