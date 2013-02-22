@@ -7,7 +7,7 @@ namespace OARestClientLib.NounObject
 {
     public class PhotographerObject : OARestNounObject
     {
-        public long Id { get; set; }
+        public long Id { get; protected set; }
         public string Name { get; set; }
 
         internal PhotographerObject() { }

@@ -18,28 +18,16 @@ namespace OARestClientLib
         DELETE
     }
 
-    public class Test
-    {
-        public Test()
-        {
-        }
-
-        static public string getString()
-        {
-            return "Hello! This is REST Client Lib!";
-        }
-    }
-
     abstract public class RequestMethods
     {
         protected string _password;
         protected string _username;
 
-        protected Stream httpRequestStream(string method, string sURL, string sData, out int responseCode, string filePath)
+        protected Stream httpRequestStream(HttpMethod method, string sURL, string sData, out int responseCode, string filePath)
         {
             WebRequest wrGETURL;
             wrGETURL = WebRequest.Create(sURL);
-            wrGETURL.Method = method;
+            wrGETURL.Method = method.ToString();
             if (_username != null && _password != null)
             {
                 // set the authorization header
@@ -172,14 +160,14 @@ namespace OARestClientLib
             int responseCode;
             string sData = null;
             string filePath = null;
-            string method = HttpMethod.GET.ToString();
+            HttpMethod method = HttpMethod.GET;
             Stream httpResponseStream = httpRequestStream( method, sURL, sData, out responseCode, filePath);
             string result = streamToString(httpResponseStream);
             httpResponseStream.Close();
             return result;
         }
 
-        static protected string objectArrayToJsonString<T>(string method, T[] objectArray)
+        static protected string objectArrayToJsonString<T>(HttpMethod method, T[] objectArray)
         {
             string separator = "";
             string json = "[";
@@ -209,7 +197,7 @@ namespace OARestClientLib
         {
             string sData = null;
             string filePath = null;
-            string method = HttpMethod.GET.ToString();
+            HttpMethod method = HttpMethod.GET;
             Stream httpResponseStream = httpRequestStream( method, sURL, sData, out responseCode, filePath);
             T[] result = jsonStreamToObjectArray<T>(httpResponseStream);
             httpResponseStream.Close();
@@ -219,7 +207,7 @@ namespace OARestClientLib
         protected T[] putGeneric<T>(string sURL, T[] objectArray, out int responseCode)
         {
             string filePath = null;
-            string method = HttpMethod.PUT.ToString();
+            HttpMethod method = HttpMethod.PUT;
             string sData = objectArrayToJsonString(method, objectArray);
             Stream httpResponseStream = httpRequestStream(method, sURL, sData, out responseCode, filePath);
             T[] result = jsonStreamToObjectArray<T>(httpResponseStream);
@@ -230,7 +218,7 @@ namespace OARestClientLib
         protected virtual PostResponse[] postGeneric<T>(string sURL, T[] objectArray, out int responseCode, string filePath)
         {
             string sData = null;
-            string method = HttpMethod.POST.ToString();
+            HttpMethod method = HttpMethod.POST;
             if (filePath == null)
             {
                 sData = objectArrayToJsonString(method, objectArray);
@@ -249,7 +237,7 @@ namespace OARestClientLib
         {
             string sData = null;
             string filePath = null;
-            string method = HttpMethod.DELETE.ToString();
+            HttpMethod method = HttpMethod.DELETE;
             Stream httpResponseStream = httpRequestStream(method, sURL, sData, out responseCode, filePath);
             httpResponseStream.Close();
             return responseCode;

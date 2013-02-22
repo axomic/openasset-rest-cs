@@ -7,7 +7,7 @@ namespace OARestClientLib.NounObject
 {
     public class ProjectObject : OARestNounObject
     {
-        public long Id { get; set; }
+        public long Id { get; protected set; }
         public bool Alive { get; set; }
         public FieldValueObject[] Fields { get; set; }
         public ProjectKeywordValueObject[] ProjectKeywords { get; set; }
@@ -28,10 +28,10 @@ namespace OARestClientLib.NounObject
             Fields = _fields;
         }
 
-        protected override string getSpecificJson(string method)
+        protected override string getSpecificJson(HttpMethod method)
         {
             string result = null;
-            if(method.Equals("POST")) {
+            if(method.Equals(HttpMethod.POST)) {
                 result = "{\"name\":\"" + _name + "\",\"code\":\"" + _code + "\"}";
             }
 

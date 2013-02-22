@@ -7,16 +7,16 @@ namespace OARestClientLib.NounObject
 {
     public class FieldObject : OARestNounObject
     {
-        public long Id { get; set; }
+        public long Id { get; protected set; }
         public string Name { get; set; }
         public bool Alive { get; set; }
-        public int Cardinality { get; set; }
-        public string Code { get; set; }
+        public int Cardinality { get; protected set; }
+        public string Code { get; protected set; }
         public string Description { get; set; }
         public int DisplayOrder { get; set; }
-        public string FieldDisplayType { get; set; }
-        public string FieldType { get; set; }
-        public bool Protected { get; set; }
+        public string FieldDisplayType { get; protected set; }
+        public string FieldType { get; protected set; }
+        public bool Protected { get; protected set; }
 
         internal FieldObject() { }
 

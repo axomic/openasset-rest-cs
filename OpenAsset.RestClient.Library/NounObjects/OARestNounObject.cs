@@ -235,7 +235,7 @@ namespace OARestClientLib.NounObject
         }
 
         // this function can be improved: TODO
-        public string ToJson(string method)
+        public string ToJson(HttpMethod method)
         {
 
             string specificJson = getSpecificJson(method);
@@ -300,7 +300,7 @@ namespace OARestClientLib.NounObject
             return sw.ToString();
         }
 
-        protected virtual string getSpecificJson(string method)
+        protected virtual string getSpecificJson(HttpMethod method)
         {
             return null;
         }

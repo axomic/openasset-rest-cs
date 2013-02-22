@@ -7,27 +7,27 @@ namespace OARestClientLib.NounObject
 {
     public class SizeObject : OARestNounObject
     {
-        public bool Alive { get; set; }
-        public bool AlwaysCreate { get; set; }
-        public string Colourspace { get; set; }
-        public bool CropToFit { get; set; }
+        public bool Alive { get; protected set; }
+        public bool AlwaysCreate { get; protected set; }
+        public string Colourspace { get; protected set; }
+        public bool CropToFit { get; protected set; }
         public string Description { get; set; }
         public int DisplayOrder { get; set; }
-        public string FileFormat { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public long Id { get; set; }
+        public string FileFormat { get; protected set; }
+        public int Width { get; protected set; }
+        public int Height { get; protected set; }
+        public long Id { get; protected set; }
         public string Name { get; set; }
-        public bool Original { get; set; }
-        public string Postfix { get; set; }
-        public bool Protected { get; set; }
-        public int Quality { get; set; }
-        public bool SizeProtected { get; set; }
-        public bool UseForContactSheet { get; set; }
-        public bool UseForPowerPoint { get; set; }
-        public bool UseForZip { get; set; }
-        public int XResolution { get; set; }
-        public int YResolution { get; set; }
+        public bool Original { get; protected set; }
+        public string Postfix { get; protected set; }
+        public bool Protected { get; protected set; }
+        public int Quality { get; protected set; }
+        public bool SizeProtected { get; protected set; }
+        public bool UseForContactSheet { get; protected set; }
+        public bool UseForPowerPoint { get; protected set; }
+        public bool UseForZip { get; protected set; }
+        public int XResolution { get; protected set; }
+        public int YResolution { get; protected set; }
 
         protected override void getVariablesFromParent()
         {

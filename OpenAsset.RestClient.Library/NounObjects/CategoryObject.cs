@@ -13,12 +13,12 @@ namespace OARestClientLib.NounObject
         public long Id { get; protected set; }
         public string Name { get; set; }
         public bool Alive { get; set; }
-        public string Code { get; set; }
+        public string Code { get; protected set; }
         public int DefaultAccessLevel { get; set; }
         public int DefaultRank { get; set; }
         public string Description { get; set; }
         public int DisplayOrder { get; set; }
-        public bool ProjectsCategory { get; set; }
+        public bool ProjectsCategory { get; protected set; }
 
         internal CategoryObject(string name, bool isProjectsCategory)
         {

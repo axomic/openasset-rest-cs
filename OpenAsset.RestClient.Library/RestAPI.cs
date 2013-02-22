@@ -61,7 +61,11 @@ namespace OARestClientLib
             {
                 sURL += "?";
             }
-            sURL += "&" + parameterName + "=" + parameterValue;
+            else
+            {
+                sURL += "&";
+            }
+            sURL += parameterName + "=" + parameterValue;
             return sURL;
         }
 

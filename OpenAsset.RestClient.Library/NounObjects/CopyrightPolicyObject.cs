@@ -7,8 +7,8 @@ namespace OARestClientLib.NounObject
 {
     public class CopyrightPolicyObject : OARestNounObject
     {
-        public long Id { get; set; }
-        public string Code { get; set; }
+        public long Id { get; protected set; }
+        public string Code { get; protected set; }
         public string Description { get; set; }
         public string Name { get; set; }
 

@@ -7,9 +7,9 @@ namespace OARestClientLib.NounObject
 {
     public class KeywordObject : OARestNounObject
     {
-        public long Id { get; set; }
+        public long Id { get; protected set; }
         public string Name { get; set; }
-        public long KeywordCategoryId { get; set; }
+        public long KeywordCategoryId { get; protected set; }
 
         internal KeywordObject() { }
 

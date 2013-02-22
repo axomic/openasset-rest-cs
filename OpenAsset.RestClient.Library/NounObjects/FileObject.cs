@@ -7,33 +7,33 @@ namespace OARestClientLib.NounObject
 {
     public class FileObject : OARestNounObject
     {
-        public long Id { get; set; }
+        public long Id { get; protected set; }
         public int AccessLevel { get; set; }
         public string Caption { get; set; }
-        public long CategoryId { get; set; }
-        public long ClickCount { get; set; }
+        public long CategoryId { get; protected set; }
+        public long ClickCount { get; protected set; }
         public long CopyrightHolderId { get; set; }
-        public string Created { get; set; }//needs to be treated has a date
-        public int DownloadCount { get; set; }
-        public double Duration { get; set; }
-        public string Filename { get; set; }
-        public string Md5AtUpload { get; set; }
-        public string Md5AtNow { get; set; }
-        public long OaUserId { get; set; }
+        public string Created { get; protected set; }//needs to be treated has a date
+        public int DownloadCount { get; protected set; }
+        public double Duration { get; protected set; }
+        public string Filename { get; protected set; }
+        public string Md5AtUpload { get; protected set; }
+        public string Md5AtNow { get; protected set; }
+        public long OaUserId { get; protected set; }
         public long PhotographerId { get; set; }
-        public long ProjectId { get; set; }
+        public long ProjectId { get; protected set; }
         public int Rank { get; set; }
-        public int RotationSinceUpload { get; set; }
-        public string Uploaded { get; set; }//needs to be treated has a date
-        public bool ContainsAudio { get; set; }
-        public bool ContainsVideo { get; set; }
+        public int RotationSinceUpload { get; protected set; }
+        public string Uploaded { get; protected set; }//needs to be treated has a date
+        public bool ContainsAudio { get; protected set; }
+        public bool ContainsVideo { get; protected set; }
         public FieldValueObject[] Fields { get; set; }
         public KeywordValueObject[] Keywords { get; set; }
-        public SizeValueObject[] Sizes { get; set; }
+        public SizeValueObject[] Sizes { get; protected set; }
 
         internal FileObject() { }
 
-        internal FileObject(string name, long categoryId, long projectId, long albumId, 
+        internal FileObject(string name, long categoryId, long projectId, long albumId,
             int accessLevel, bool alive, string caption, long copyrightHolderId, string description, long photographerId)
         {
             _name = name;
@@ -75,17 +75,17 @@ namespace OARestClientLib.NounObject
             Sizes = _sizes;
         }
 
-        protected override string getSpecificJson(string method)
+        protected override string getSpecificJson(HttpMethod method)
         {
             string result = null;
-            if (method.Equals("POST"))
+            if (method.Equals(HttpMethod.POST))
             {
                 result = "{\"name\":\"" + _name +
                     "\",\"category_id\":\"" + _categoryId +
                     "\",\"project_id\":\"" + _projectId +
                     "\",\"album_id\":\"" + _albumId +
                     "\",\"access_level\":\"" + _accessLevel +
-                    "\",\"alive\":\"" + _alive +
+                    "\",\"alive\":\"" + (_alive?"1":"0") +
                     "\",\"caption\":\"" + _caption +
                     "\",\"copyright_holder_id\":\"" + _copyrightHolderId +
                     "\",\"description\":\"" + _description +
