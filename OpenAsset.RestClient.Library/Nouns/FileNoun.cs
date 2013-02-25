@@ -54,6 +54,21 @@ namespace OARestClientLib
             return getNounObjectArray(resultURL, forceHTTPRequest);
         }
 
+        public PostResponse createNewObjectNoun(long categoryId, long projectId, int accessLevel, string newFilePath)
+        {
+            // need to make it so that it works with default values of the REST API or sends a Json with only the mandatory fields
+            return createNewObjectNoun(null, categoryId, 0, 0, accessLevel, true, null, 0, null, 0, newFilePath);
+        }
+
+
+        public PostResponse createNewObjectNoun(string filepath, int accessLevel, long categoryId)
+        {
+            FileObject newFileObj = new FileObject( filepath, accessLevel, categoryId);
+            FileObject[] newFileObjArray = { newFileObj };
+            PostResponse[] response = this.postNounObjects(newFileObjArray, filePath: filepath);
+            return response[0];
+        }
+
         public PostResponse createNewObjectNoun(string name, long categoryId, long projectId, long albumId,
     int accessLevel, bool alive, string caption, long copyrightHolderId, string description, long photographerId, string newFilePath)
         {
@@ -64,3 +79,4 @@ namespace OARestClientLib
         }
     }
 }
+;

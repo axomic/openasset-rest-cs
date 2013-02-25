@@ -65,7 +65,19 @@ namespace WindowsFormsApplication1
             FileObject resultObj = _apiMethods.getNounObjectById(id);
             resultObj.Caption = caption;
             int putResponseCode = _apiMethods.putNounObjects(new FileObject[] {resultObj});
+            System.Windows.Forms.MessageBox.Show("Response code : " + putResponseCode);
         }
 
+        public static void newPostData(string filepath, int accessLevel, long categoryId)
+        {
+            PostResponse postResp = _apiMethods.createNewObjectNoun( filepath, accessLevel, categoryId);
+            System.Windows.Forms.MessageBox.Show(postResp.Message + "\nNew Id : " + postResp.NewId);
+        }
+
+
+        public static void delete(long id)
+        {
+            _apiMethods.deleteNounObjectById(id);
+        }
     }
 }

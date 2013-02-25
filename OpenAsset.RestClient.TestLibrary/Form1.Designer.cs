@@ -39,6 +39,17 @@
             this.limitTextBox = new System.Windows.Forms.TextBox();
             this.offsetLabel = new System.Windows.Forms.Label();
             this.offsetTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.categoryIdTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.accessLevelTextBox = new System.Windows.Forms.TextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button3 = new System.Windows.Forms.Button();
+            this.filenameTextBox = new System.Windows.Forms.TextBox();
+            this.postButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.delIdTextBox = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -140,11 +151,113 @@
             this.offsetTextBox.TabIndex = 11;
             this.offsetTextBox.Text = "0";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 127);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "CategoryId";
+            // 
+            // categoryIdTextBox
+            // 
+            this.categoryIdTextBox.Location = new System.Drawing.Point(81, 124);
+            this.categoryIdTextBox.Name = "categoryIdTextBox";
+            this.categoryIdTextBox.Size = new System.Drawing.Size(35, 20);
+            this.categoryIdTextBox.TabIndex = 13;
+            this.categoryIdTextBox.Text = "0";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(122, 127);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "AccessLevel";
+            // 
+            // accessLevelTextBox
+            // 
+            this.accessLevelTextBox.Location = new System.Drawing.Point(196, 124);
+            this.accessLevelTextBox.Name = "accessLevelTextBox";
+            this.accessLevelTextBox.Size = new System.Drawing.Size(35, 20);
+            this.accessLevelTextBox.TabIndex = 15;
+            this.accessLevelTextBox.Text = "0";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(12, 150);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "File";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // filenameTextBox
+            // 
+            this.filenameTextBox.Location = new System.Drawing.Point(93, 152);
+            this.filenameTextBox.Name = "filenameTextBox";
+            this.filenameTextBox.Size = new System.Drawing.Size(193, 20);
+            this.filenameTextBox.TabIndex = 18;
+            // 
+            // postButton
+            // 
+            this.postButton.Location = new System.Drawing.Point(12, 179);
+            this.postButton.Name = "postButton";
+            this.postButton.Size = new System.Drawing.Size(274, 23);
+            this.postButton.TabIndex = 19;
+            this.postButton.Text = "Post new";
+            this.postButton.UseVisualStyleBackColor = true;
+            this.postButton.Click += new System.EventHandler(this.postButton_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 211);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(16, 13);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Id";
+            // 
+            // delIdTextBox
+            // 
+            this.delIdTextBox.Location = new System.Drawing.Point(34, 208);
+            this.delIdTextBox.Name = "delIdTextBox";
+            this.delIdTextBox.Size = new System.Drawing.Size(35, 20);
+            this.delIdTextBox.TabIndex = 20;
+            this.delIdTextBox.Text = "0";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(12, 234);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(274, 23);
+            this.button4.TabIndex = 22;
+            this.button4.Text = "Delete";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 262);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.delIdTextBox);
+            this.Controls.Add(this.postButton);
+            this.Controls.Add(this.filenameTextBox);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.accessLevelTextBox);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.categoryIdTextBox);
             this.Controls.Add(this.offsetLabel);
             this.Controls.Add(this.offsetTextBox);
             this.Controls.Add(this.limitLabel);
@@ -177,6 +290,17 @@
         private System.Windows.Forms.TextBox limitTextBox;
         private System.Windows.Forms.Label offsetLabel;
         private System.Windows.Forms.TextBox offsetTextBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox categoryIdTextBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox accessLevelTextBox;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox filenameTextBox;
+        private System.Windows.Forms.Button postButton;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox delIdTextBox;
+        private System.Windows.Forms.Button button4;
 
 
 

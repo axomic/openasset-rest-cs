@@ -14,10 +14,10 @@ namespace OARestClientLib
     public class PostResponse
     {
         [JsonProperty("new_id", NullValueHandling = NullValueHandling.Ignore)]
-        protected int NewId { get; set; }
+        public int NewId { get; protected set; }
         [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
-        protected string Message { get; set; }
+        public string Message { get; protected set; }
         [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
-        protected int Code { get; set; }
+        public int Code { get; protected set; }
     }
 }

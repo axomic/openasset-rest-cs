@@ -31,7 +31,17 @@ namespace OARestClientLib.NounObject
         public KeywordValueObject[] Keywords { get; set; }
         public SizeValueObject[] Sizes { get; protected set; }
 
+        private bool _postOnlyMandatory = false;
+
         internal FileObject() { }
+
+        internal FileObject(string filepath, int accessLevel, long categoryId)
+        {
+            _filename = Filename = filepath;
+            _accessLevel = AccessLevel = accessLevel;
+            _categoryId = CategoryId = categoryId;
+            _postOnlyMandatory = true;
+        }
 
         internal FileObject(string name, long categoryId, long projectId, long albumId,
             int accessLevel, bool alive, string caption, long copyrightHolderId, string description, long photographerId)
@@ -80,16 +90,17 @@ namespace OARestClientLib.NounObject
             string result = null;
             if (method.Equals(HttpMethod.POST))
             {
-                result = "{\"name\":\"" + _name +
-                    "\",\"category_id\":\"" + _categoryId +
-                    "\",\"project_id\":\"" + _projectId +
-                    "\",\"album_id\":\"" + _albumId +
+                result = "{" +
+                    "\"category_id\":\"" + _categoryId +
+                    (_postOnlyMandatory ? "" : "\",\"name\":\"" + _name) +
+                    (_postOnlyMandatory?"":"\",\"project_id\":\"" + _projectId) +
+                    (_postOnlyMandatory?"":"\",\"album_id\":\"" + _albumId) +
                     "\",\"access_level\":\"" + _accessLevel +
-                    "\",\"alive\":\"" + (_alive?"1":"0") +
-                    "\",\"caption\":\"" + _caption +
-                    "\",\"copyright_holder_id\":\"" + _copyrightHolderId +
-                    "\",\"description\":\"" + _description +
-                    "\",\"photographer_id\":\"" + _photographerId +
+                    (_postOnlyMandatory?"":"\",\"alive\":\"" + (_alive?"1":"0")) +
+                    (_postOnlyMandatory?"":"\",\"caption\":\"" + _caption) +
+                    (_postOnlyMandatory?"":"\",\"copyright_holder_id\":\"" + _copyrightHolderId) +
+                    (_postOnlyMandatory?"":"\",\"description\":\"" + _description) +
+                    (_postOnlyMandatory?"":"\",\"photographer_id\":\"" + _photographerId) +
                     "\"}";
             }
             return result;

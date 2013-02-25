@@ -43,5 +43,28 @@ namespace WindowsFormsApplication1
             button2.Text = "Update caption";
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DialogResult diagRes = openFileDialog1.ShowDialog();
+            if (diagRes == DialogResult.OK)
+            {
+                string filename = openFileDialog1.FileName;
+                filenameTextBox.Text = filename;
+            }
+        }
+
+        private void postButton_Click(object sender, EventArgs e)
+        {
+            Program.newPostData(filenameTextBox.Text, int.Parse(accessLevelTextBox.Text), long.Parse(categoryIdTextBox.Text));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Program.delete(long.Parse(delIdTextBox.Text));
+        }
+
+
+
+
     }
 }
