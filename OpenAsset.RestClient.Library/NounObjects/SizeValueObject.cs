@@ -7,17 +7,17 @@ namespace OARestClientLib.NounObject
 {
     public class SizeValueObject : OARestNounObject
     {
-        public long SizeId { get; set; }
-        public string Colourspace { get; set; }
-        public string FileFormat { get; set; }
-        public long Filesize { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public bool Recreate { get; set; }
-        public int ResizeSteps { get; set; }
-        public bool Watermarked { get; set; }
-        public int XResolution { get; set; }
-        public int YResolution { get; set; }
+        public long SizeId { get; protected set; }
+        public string Colourspace { get; protected set; }
+        public string FileFormat { get; protected set; }
+        public long Filesize { get; protected set; }
+        public int Width { get; protected set; }
+        public int Height { get; protected set; }
+        //public bool Recreate { get; protected set; }
+        //public int ResizeSteps { get; protected set; }
+        public bool Watermarked { get; protected set; }
+        public int XResolution { get; protected set; }
+        public int YResolution { get; protected set; }
 
         protected override void getVariablesFromParent()
         {
@@ -27,8 +27,8 @@ namespace OARestClientLib.NounObject
             Filesize = _filesize;
             Width = _width;
             Height = _height;
-            Recreate = _recreate;
-            ResizeSteps = _resizeSteps;
+            //Recreate = _recreate;
+            //ResizeSteps = _resizeSteps;
             Watermarked = _watermarked;
             XResolution = _xResolution;
             YResolution = _yResolution;

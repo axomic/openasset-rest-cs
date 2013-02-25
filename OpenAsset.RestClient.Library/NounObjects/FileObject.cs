@@ -35,11 +35,12 @@ namespace OARestClientLib.NounObject
 
         internal FileObject() { }
 
-        internal FileObject(string filepath, int accessLevel, long categoryId)
+        internal FileObject(string filepath, int accessLevel, long categoryId, long projectId = -1)
         {
             _filename = Filename = filepath;
             _accessLevel = AccessLevel = accessLevel;
             _categoryId = CategoryId = categoryId;
+            _projectId = ProjectId = projectId;
             _postOnlyMandatory = true;
         }
 
@@ -93,7 +94,7 @@ namespace OARestClientLib.NounObject
                 result = "{" +
                     "\"category_id\":\"" + _categoryId +
                     (_postOnlyMandatory ? "" : "\",\"name\":\"" + _name) +
-                    (_postOnlyMandatory?"":"\",\"project_id\":\"" + _projectId) +
+                    (_projectId == -1? "" : "\",\"project_id\":\"" + _projectId) +
                     (_postOnlyMandatory?"":"\",\"album_id\":\"" + _albumId) +
                     "\",\"access_level\":\"" + _accessLevel +
                     (_postOnlyMandatory?"":"\",\"alive\":\"" + (_alive?"1":"0")) +
