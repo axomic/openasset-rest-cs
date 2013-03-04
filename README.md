@@ -9,13 +9,7 @@ In 2013 Axomic will release a REST API for OpenAsset.
 
 To accompany this, a set of client libraries are freely available to downloaded and use. The REST API is still under development and will innevitibly change during 2013 before a final release is announced, the features frozen and back compatibility guaranteed.
 
-### REST API Endpoint Docs
-
-The documentation for the REST API endpoints used by this library can be found at:
-
-http://help.axomic.com/07_Technical_Stuff/APIs/REST
-
-### Usage example
+### Usage
 
 ```csharp
 // Example for noun in http://localhost/REST/File
@@ -39,6 +33,12 @@ FileObject resultObj = fileNoun.getNounObjectById(fileId);
 resultObj.Caption = caption;
 int putResponseCode = fileNoun.putNounObjects(new FileObject[] {resultObj});
 ```
+
+### REST API Endpoint Docs
+
+The documentation for the REST API endpoints used by this library can be found at:
+
+http://help.axomic.com/07_Technical_Stuff/APIs/REST
 
 ### Find out more
 
