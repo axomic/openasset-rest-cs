@@ -15,6 +15,31 @@ The documentation can be found at:
 
 http://help.axomic.com/07_Technical_Stuff/APIs/REST
 
+### Usage example
+
+```csharp
+// Example for noun in http://localhost/REST/File
+string baseURL = "http://localhost";
+string password = "password";
+string username = "username";
+
+// create the object with the File noun methods
+FileNoun fileNoun = new FileNoun(baseURL, username, password);
+
+// Get an array with a set of Files            
+int limit  = 10; // amount limit for the results
+int offset = 0; // offset of results for pagination
+bool forceHTTPRequest = true; // should make a new request or use the cached result?
+FileObject[] resultArray = fileNoun.getNounObjects( limit, offset, forceHTTPRequest);
+
+// Update caption of a single File object        
+int fileId = 123;
+string caption = "New caption";   
+FileObject resultObj = fileNoun.getNounObjectById(fileId);
+resultObj.Caption = caption;
+int putResponseCode = fileNoun.putNounObjects(new FileObject[] {resultObj});
+```
+
 ### Find out more
 
 Please get in contact if you're interested in knowing more
