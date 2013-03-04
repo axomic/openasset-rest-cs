@@ -9,7 +9,7 @@ In 2013 Axomic will release a REST API for OpenAsset.
 
 To accompany this, a set of client libraries are freely available to downloaded and use. The REST API is still under development and will innevitibly change during 2013 before a final release is announced, the features frozen and back compatibility guaranteed.
 
-### Docs
+### REST API Endpoint Docs
 
 The documentation for the REST API endpoints used by this library can be found at:
 
