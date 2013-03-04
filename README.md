@@ -11,7 +11,7 @@ To accompany this, a set of client libraries are freely available to downloaded 
 
 ### Docs
 
-The documentation can be found at:
+The documentation for the REST API endpoints used by this library can be found at:
 
 http://help.axomic.com/07_Technical_Stuff/APIs/REST
 
