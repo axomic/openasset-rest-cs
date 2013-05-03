@@ -8,7 +8,7 @@ namespace OARestClientLib
 {
     public abstract class RestAPI<T> : RequestMethods
     {
-        protected const string REST_ENDPOINT                        = "/REST/";
+        protected const string REST_ENDPOINT                        = "/REST/1/";
         protected const string CATEGORIES_ENDPOINT                  = "Categories";
         protected const string COPYRIGHT_HOLDERS_ENDPOINT           = "CopyrightHolders";
         protected const string COPYRIGHT_POLICIES_ENDPOINT          = "CopyrightPolicies";
