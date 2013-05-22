@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblySharedInfo.cs">
+      <Link>Properties\AssemblySharedInfo.cs</Link>
+    </Compile>
     <Compile Include="Nouns\CategoryNoun.cs" />
     <Compile Include="NounObjects\CategoryObject.cs" />
     <Compile Include="NounObjects\CopyrightHolderObject.cs" />
