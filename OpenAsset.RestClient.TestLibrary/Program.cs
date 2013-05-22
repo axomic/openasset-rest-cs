@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using OpenAsset.RestClient.Library;
 using OpenAsset.RestClient.Library.NounObject;
 
-namespace WindowsFormsApplication1
+namespace OpenAsset.RestClient.TestLibrary
 {
     static class Program
     {

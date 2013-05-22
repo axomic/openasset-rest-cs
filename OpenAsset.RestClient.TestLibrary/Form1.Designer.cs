@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace OpenAsset.RestClient.TestLibrary
 {
     partial class Form1
     {

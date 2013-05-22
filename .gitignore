@@ -4,6 +4,7 @@
 *.swo
 *~
 *.suo
+*.csproj.user
 
 # Compiled source #
 ###################

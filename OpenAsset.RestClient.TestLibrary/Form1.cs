@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication1
+namespace OpenAsset.RestClient.TestLibrary
 {
     public partial class Form1 : Form
     {
