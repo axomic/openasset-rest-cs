@@ -8,7 +8,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
 
-namespace OARestClientLib
+namespace OpenAsset.RestClient.Library
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class PostResponse

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OARestClientLib.NounObject
+namespace OpenAsset.RestClient.Library.NounObject
 {
     public class ProjectObject : OARestNounObject
     {

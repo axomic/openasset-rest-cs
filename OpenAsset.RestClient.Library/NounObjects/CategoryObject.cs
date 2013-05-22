@@ -5,7 +5,7 @@ using System.Text;
 
 using Newtonsoft.Json;
 
-namespace OARestClientLib.NounObject
+namespace OpenAsset.RestClient.Library.NounObject
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class CategoryObject : OARestNounObject

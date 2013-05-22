@@ -8,7 +8,7 @@
     <ProjectGuid>{1E56E79F-E20C-4AD5-BC93-D974792990CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OARestClientLib</RootNamespace>
+    <RootNamespace>OpenAsset.RestClient.Library</RootNamespace>
     <AssemblyName>OpenAsset.RestClient.Library</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

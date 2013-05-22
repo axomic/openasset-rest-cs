@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OARestClientLib.NounObject;
+using OpenAsset.RestClient.Library.NounObject;
 
-namespace OARestClientLib
+namespace OpenAsset.RestClient.Library
 {
     public class CopyrightPolicyNoun : RestAPI<CopyrightPolicyObject>
     {

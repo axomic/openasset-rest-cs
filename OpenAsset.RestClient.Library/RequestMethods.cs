@@ -8,9 +8,9 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-using OARestClientLib.NounObject;
+using OpenAsset.RestClient.Library.NounObject;
 
-namespace OARestClientLib
+namespace OpenAsset.RestClient.Library
 {
     public enum HttpMethod
     {

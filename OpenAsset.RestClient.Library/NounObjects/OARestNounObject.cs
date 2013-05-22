@@ -11,7 +11,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
 
-namespace OARestClientLib.NounObject
+namespace OpenAsset.RestClient.Library.NounObject
 {
 
     // generic OARestNounObject

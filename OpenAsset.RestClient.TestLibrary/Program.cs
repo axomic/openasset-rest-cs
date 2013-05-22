@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using OARestClientLib;
-using OARestClientLib.NounObject;
+using OpenAsset.RestClient.Library;
+using OpenAsset.RestClient.Library.NounObject;
 
 namespace WindowsFormsApplication1
 {
