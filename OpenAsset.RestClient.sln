@@ -6,9 +6,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAsset.RestClient.TestLibrary", "OpenAsset.RestClient.TestLibrary\OpenAsset.RestClient.TestLibrary.csproj", "{164341E9-FAD3-4C3F-93CB-554AF322C381}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{765F849E-67BE-447D-B333-8FEC1CEAF6E4}"
-	ProjectSection(SolutionItems) = preProject
-		AssemblySharedInfo.cs = AssemblySharedInfo.cs
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
