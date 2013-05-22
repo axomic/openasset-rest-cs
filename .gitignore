@@ -3,6 +3,7 @@
 *.swp
 *.swo
 *~
+*.suo
 
 # Compiled source #
 ###################
@@ -12,6 +13,10 @@
 *.exe
 *.o
 *.so
+obj
+bin
+Release
+Debug
 
 # Packages #
 ############
