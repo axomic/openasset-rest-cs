@@ -34,6 +34,7 @@ namespace OpenAsset.RestClient.TestLibrary
                 options.SetSearchParameter("sizes","all");
 
                 Size size = connectionHelper.GetObject<Size>(1, options);
+                List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", options);
                 File file = connectionHelper.GetObject<File>(957, options);
                 //List<File> size = connectionHelper.GetObjects<File>(new RESTOptions());
             }
