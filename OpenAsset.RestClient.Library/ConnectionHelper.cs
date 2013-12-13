@@ -293,8 +293,8 @@ namespace OpenAsset.RestClient.Library
             {
                 request.Headers.Add("X-SessionKey", _sessionKey);
             }
-            //if (_anonymous)
-            //{
+            if (!_anonymous)
+            {
                 if (retry)
                 {
                     request.Headers.Add("Authorization", AuthHeaderString(_username, _password));
@@ -303,7 +303,7 @@ namespace OpenAsset.RestClient.Library
                 {
                     request.Credentials = StandardCredentials(url);
                 }
-            //}
+            }
             try
             {
                 if (output != null && output.Length > 0)

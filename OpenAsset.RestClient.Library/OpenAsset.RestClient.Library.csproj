@@ -56,7 +56,7 @@
     <Compile Include="Noun\CopyrightHolder.cs" />
     <Compile Include="Noun\Field.cs" />
     <Compile Include="Noun\FieldLookupString.cs" />
-    <Compile Include="Noun\File..cs" />
+    <Compile Include="Noun\File.cs" />
     <Compile Include="Noun\Keyword.cs" />
     <Compile Include="Noun\KeywordCategory.cs" />
     <Compile Include="Noun\Project.cs" />

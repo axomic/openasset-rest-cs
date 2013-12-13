@@ -30,8 +30,12 @@ namespace OpenAsset.RestClient.TestLibrary
             try
             {
                 bool validUser = connectionHelper.ValidateCredentials();
-                //File size = connectionHelper.GetObject<File>(957, new RESTOptions());
-                List<File> size = connectionHelper.GetObjects<File>(new RESTOptions());
+                RESTOptions options = new RESTOptions();
+                options.SetSearchParameter("sizes","all");
+
+                Size size = connectionHelper.GetObject<Size>(1, options);
+                File file = connectionHelper.GetObject<File>(957, options);
+                //List<File> size = connectionHelper.GetObjects<File>(new RESTOptions());
             }
             catch (RESTAPIException e)
             {

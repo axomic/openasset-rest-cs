@@ -29,8 +29,8 @@ namespace OpenAsset.RestClient.Library.Noun
         public int rotation_since_upload;
         public string uploaded;
         public int user_id;
-        //public List<Field> fields;
-        //public List<Size> sizes;
-        //public List<Keyword> keywords;
+        public List<Field> fields;
+        public List<Size> sizes;
+        public List<Keyword> keywords;
     }
 }

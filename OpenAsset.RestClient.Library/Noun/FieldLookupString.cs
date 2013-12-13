@@ -10,6 +10,6 @@ namespace OpenAsset.RestClient.Library.Noun
         public string value;
         public string description;
         public int display_order;
-        //public Field field;
+        public Field field;
     }
 }
