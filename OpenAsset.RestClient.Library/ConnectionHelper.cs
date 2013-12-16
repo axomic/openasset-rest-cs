@@ -12,27 +12,51 @@ namespace OpenAsset.RestClient.Library
     public class ConnectionHelper
     {
         private string _serverURL = null;
-        private string _username  = null;
-        private string _password  = null;
+        private string _username = null;
+        private string _password = null;
         private bool _anonymous = false;
         private string _sessionKey = null;
         private Error _lastError = null;
+        private static Dictionary<string, ConnectionHelper> _connectionHelpers;
+
+        public static ConnectionHelper getConnectionHelper(string serverURL, string username = null, string password = null)
+        {
+            ConnectionHelper connectionHelper = null;
+            if (_connectionHelpers == null)
+            {
+                _connectionHelpers = new Dictionary<string, ConnectionHelper>();
+            }
+            if(_connectionHelpers.ContainsKey(serverURL))
+            {
+                connectionHelper = _connectionHelpers[serverURL];
+            }
+            else
+            {
+                if (username == null && password == null)
+                {
+                    connectionHelper = new ConnectionHelper(serverURL);
+                    connectionHelper._anonymous = true;
+                }
+                else
+                {
+                    connectionHelper = new ConnectionHelper(serverURL,username,password);
+                }
+                _connectionHelpers.Add(serverURL,connectionHelper);
+            }
+            return connectionHelper;
+        }
 
         #region Constructors
-        private ConnectionHelper()
-        {
-        }
-
-        public ConnectionHelper(string serverURL)
+        private ConnectionHelper(string serverURL)
         {
             _serverURL = serverURL;
-            _anonymous = true;
         }
 
-        public ConnectionHelper( string serverURL, string username, string password){
+        private ConnectionHelper(string serverURL, string username, string password)
+            : this(serverURL)
+        {
             _username = username;
             _password = password;
-            _serverURL = serverURL;
         }
         #endregion
 
@@ -342,6 +366,7 @@ namespace OpenAsset.RestClient.Library
         }
         #endregion
 
+        #region Get/Set objects
         public T GetObject<T>(int id, RESTOptions options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
@@ -374,7 +399,7 @@ namespace OpenAsset.RestClient.Library
             HttpWebResponse response = null;
             try
             {
-                string restUrl =_serverURL + Constant.REST_BASE_PATH;
+                string restUrl = _serverURL + Constant.REST_BASE_PATH;
                 if (!String.IsNullOrEmpty(parentNoun))
                     restUrl += "/" + parentNoun;
                 else
@@ -421,7 +446,7 @@ namespace OpenAsset.RestClient.Library
                 string jsonOut = JsonConvert.SerializeObject(sendingObject);
                 ASCIIEncoding encoding = new ASCIIEncoding();
                 byte[] output = encoding.GetBytes(jsonOut);
- 
+
                 response = GetRESTResponse(restUrl, method, output, true);
                 T value = null;
                 // get response data
@@ -430,7 +455,7 @@ namespace OpenAsset.RestClient.Library
                 tr.Close();
                 tr.Dispose();
                 if (createNew)
-                {  
+                {
                     NewItem newItem = JsonConvert.DeserializeObject<NewItem>(responseText);
                     value = new T();
                     value.id = newItem.new_id;
@@ -438,7 +463,7 @@ namespace OpenAsset.RestClient.Library
                 else
                 {
                     value = JsonConvert.DeserializeObject<T>(responseText);
-               } 
+                }
                 return value;
             }
             finally
@@ -447,5 +472,6 @@ namespace OpenAsset.RestClient.Library
                     response.Close();
             }
         }
+        #endregion
     }
 }

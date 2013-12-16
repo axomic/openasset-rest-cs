@@ -68,7 +68,6 @@
     <Compile Include="Noun\Size.cs" />
     <Compile Include="Noun\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ConnectionFactory.cs" />
     <Compile Include="RESTAPIException.cs" />
     <Compile Include="RESTOptions.cs" />
   </ItemGroup>

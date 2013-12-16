@@ -14,7 +14,7 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         [JsonProperty]
         public string code;
-        [JsonProperty("protected")]
+        [JsonProperty("operator")]
         public string _operator;
         [JsonProperty]
         public int exclude;

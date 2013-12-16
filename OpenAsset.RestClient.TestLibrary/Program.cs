@@ -24,9 +24,8 @@ namespace OpenAsset.RestClient.TestLibrary
             Application.SetCompatibleTextRenderingDefault(false);
 
             System.Console.WriteLine("TEST RUNNING!");
-            ConnectionFactory.Instance.testMethod();
 
-            ConnectionHelper connectionHelper = ConnectionFactory.Instance.getConnectionHelper(oaURL, username, password);
+            ConnectionHelper connectionHelper = ConnectionHelper.getConnectionHelper(oaURL, username, password);
             try
             {
                 bool validUser = connectionHelper.ValidateCredentials();
