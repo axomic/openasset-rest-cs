@@ -412,11 +412,11 @@ namespace OpenAsset.RestClient.Library
             {
                 string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
                 string method = "POST";
-                //if (!createNew)
-                //{
-                //    method = "PUT";
-                //    restUrl += "/" + sendingObject.id;
-                //}
+                if (!createNew)
+                {
+                    method = "PUT";
+                    restUrl += "/" + sendingObject.id;
+                }
 
                 string jsonOut = JsonConvert.SerializeObject(sendingObject);
                 ASCIIEncoding encoding = new ASCIIEncoding();
@@ -424,21 +424,21 @@ namespace OpenAsset.RestClient.Library
  
                 response = GetRESTResponse(restUrl, method, output, true);
                 T value = null;
+                // get response data
+                TextReader tr = new StreamReader(response.GetResponseStream());
+                string responseText = tr.ReadToEnd();
+                tr.Close();
+                tr.Dispose();
                 if (createNew)
                 {  
-                    TextReader tr = new StreamReader(response.GetResponseStream());
-                    string responseText = tr.ReadToEnd();
-                    tr.Close();
-                    tr.Dispose();
                     NewItem newItem = JsonConvert.DeserializeObject<NewItem>(responseText);
                     value = new T();
                     value.id = newItem.new_id;
                 }
-                //else
-                //{
-                //    DataContractJsonSerializer jsonReader = new DataContractJsonSerializer(typeof(T));
-                //    value = (T)jsonReader.ReadObject(GetResponseStreamUTF8(response));
-                //}
+                else
+                {
+                    value = JsonConvert.DeserializeObject<T>(responseText);
+               } 
                 return value;
             }
             finally

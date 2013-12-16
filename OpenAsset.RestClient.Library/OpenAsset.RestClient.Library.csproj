@@ -63,6 +63,8 @@
     <Compile Include="Noun\Project.cs" />
     <Compile Include="Noun\ProjectKeyword.cs" />
     <Compile Include="Noun\ProjectKeywordCategory.cs" />
+    <Compile Include="Noun\Search.cs" />
+    <Compile Include="Noun\SearchItem.cs" />
     <Compile Include="Noun\Size.cs" />
     <Compile Include="Noun\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

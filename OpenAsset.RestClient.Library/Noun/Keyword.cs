@@ -12,8 +12,9 @@ namespace OpenAsset.RestClient.Library.Noun
 {
     public class Keyword : Base.BaseNoun
     {
-        int id;
+        [JsonProperty]
         int keyword_category_id;
+        [JsonProperty]
         string name;
 
         // sets the id of the object (when deserialization is made from an expanded field)
@@ -27,6 +28,17 @@ namespace OpenAsset.RestClient.Library.Noun
             {
                 id = keyword_id.Value;
             }
+        }
+
+        public override int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            Keyword otherKeyword = obj as Keyword;
+            if (otherKeyword != null)
+                return this.name.CompareTo(otherKeyword.name);
+            else
+                throw new ArgumentException("Object is not a Keyword");
         }
     }
 }

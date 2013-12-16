@@ -8,7 +8,7 @@ namespace OpenAsset.RestClient.Library
     public class RESTAPIException: System.Exception
     {
         private Error _error = null;
-        private string url = null;
+        private string _url = null;
 
         public Error ErrorObj
         {
@@ -26,12 +26,13 @@ namespace OpenAsset.RestClient.Library
         public RESTAPIException(string url, Exception e)
             : base(url, e)
         {
-
+            _url = url;
         }
 
         public RESTAPIException(string url, Error error, Exception e)
             : base(url, e)
         {
+            _url = url;
             _error = error;
         }
     }
