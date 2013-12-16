@@ -36,6 +36,9 @@ namespace OpenAsset.RestClient.TestLibrary
                 Size size = connectionHelper.GetObject<Size>(1, options);
                 List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", options);
                 File file = connectionHelper.GetObject<File>(957, options);
+                Category category = connectionHelper.GetObject<Category>(5, options);
+                category.name = "restAPI_test";
+                connectionHelper.SendObject<Category>(category,true);
                 //List<File> size = connectionHelper.GetObjects<File>(new RESTOptions());
             }
             catch (RESTAPIException e)

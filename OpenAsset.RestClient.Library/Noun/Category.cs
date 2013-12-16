@@ -16,5 +16,7 @@ namespace OpenAsset.RestClient.Library.Noun
         public int display_order;
         public int projects_category;
         public int alive;
+        //used in post
+        public int is_projects_category;
     }
 }

@@ -342,7 +342,7 @@ namespace OpenAsset.RestClient.Library
         }
         #endregion
 
-        public T GetObject<T>(int id, RESTOptions options)
+        public T GetObject<T>(int id, RESTOptions options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
             try
@@ -364,12 +364,12 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public List<T> GetObjects<T>(RESTOptions options)
+        public List<T> GetObjects<T>(RESTOptions options) where T : Noun.Base.BaseNoun, new()
         {
             return GetObjects<T>(0, null, options);
         }
 
-        public List<T> GetObjects<T>(int id, string parentNoun, RESTOptions options)
+        public List<T> GetObjects<T>(int id, string parentNoun, RESTOptions options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
             try
@@ -397,6 +397,49 @@ namespace OpenAsset.RestClient.Library
 
                 //DataContractJsonSerializer jsonReader = new DataContractJsonSerializer(typeof(List<T>));
                 //return jsonReader.ReadObject(GetResponseStreamUTF8(response)) as List<T>;
+            }
+            finally
+            {
+                if (response != null)
+                    response.Close();
+            }
+        }
+
+        public T SendObject<T>(T sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        {
+            HttpWebResponse response = null;
+            try
+            {
+                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
+                string method = "POST";
+                //if (!createNew)
+                //{
+                //    method = "PUT";
+                //    restUrl += "/" + sendingObject.id;
+                //}
+
+                string jsonOut = JsonConvert.SerializeObject(sendingObject);
+                ASCIIEncoding encoding = new ASCIIEncoding();
+                byte[] output = encoding.GetBytes(jsonOut);
+ 
+                response = GetRESTResponse(restUrl, method, output, true);
+                T value = null;
+                if (createNew)
+                {  
+                    TextReader tr = new StreamReader(response.GetResponseStream());
+                    string responseText = tr.ReadToEnd();
+                    tr.Close();
+                    tr.Dispose();
+                    NewItem newItem = JsonConvert.DeserializeObject<NewItem>(responseText);
+                    value = new T();
+                    value.id = newItem.new_id;
+                }
+                //else
+                //{
+                //    DataContractJsonSerializer jsonReader = new DataContractJsonSerializer(typeof(T));
+                //    value = (T)jsonReader.ReadObject(GetResponseStreamUTF8(response));
+                //}
+                return value;
             }
             finally
             {

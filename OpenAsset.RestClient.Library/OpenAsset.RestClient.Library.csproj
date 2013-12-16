@@ -48,6 +48,7 @@
     <Compile Include="ConnectionHelper.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="Error.cs" />
+    <Compile Include="NewItem.cs" />
     <Compile Include="NotValidUserException.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
     <Compile Include="Noun\Album.cs" />
