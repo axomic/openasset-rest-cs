@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 
 namespace OpenAsset.RestClient.Library.Noun
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Category : Base.BaseNoun
     {
         [JsonProperty]

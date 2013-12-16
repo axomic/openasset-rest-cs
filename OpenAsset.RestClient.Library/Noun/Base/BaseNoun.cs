@@ -12,6 +12,7 @@ using System.Runtime.Serialization;
 
 namespace OpenAsset.RestClient.Library.Noun.Base
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class BaseNoun : IComparable
     {
         [JsonProperty]
