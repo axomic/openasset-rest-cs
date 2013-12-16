@@ -13,16 +13,50 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class SearchItem : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string code;
+        private string code;
         [JsonProperty("operator")]
         public string _operator;
         [JsonProperty]
-        public int exclude;
+        private int exclude;
         [JsonProperty]
-        public List<int> ids;
+        private List<int> ids;
         [JsonProperty]
-        public List<string> values;
+        private List<string> values;
+        #endregion
+
+        #region Accessors
+        public string Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public string Operator
+        {
+            get { return _operator; }
+            set { _operator = value; }
+        }
+
+        public int Exclude
+        {
+            get { return exclude; }
+            set { exclude = value; }
+        }
+
+        public List<int> Ids
+        {
+            get { return ids; }
+            set { ids = value; }
+        }
+
+        public List<string> Values
+        {
+            get { return values; }
+            set { values = value; }
+        }
+        #endregion
 
         public SearchItem()
         {

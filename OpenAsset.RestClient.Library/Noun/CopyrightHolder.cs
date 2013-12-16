@@ -13,10 +13,26 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class CopyrightHolder : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string name;
+        private string name;
         [JsonProperty]
-        public int copyright_policy_id;
+        private int copyright_policy_id;
+        #endregion
+
+        #region Accessors
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public int CopyrightPolicyId
+        {
+            get { return copyright_policy_id; }
+            set { copyright_policy_id = value; }
+        }
+        #endregion
 
         public override int CompareTo(object obj)
         {

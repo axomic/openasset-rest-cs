@@ -13,11 +13,33 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class User : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string username;
+        private string username;
         [JsonProperty]
-        public string full_name;
+        private string full_name;
         [JsonProperty]
-        public int alive;
+        private int alive;
+        #endregion
+
+        #region Accessors
+        public string UserName
+        {
+            get { return username; }
+            set { username = value; }
+        }
+
+        public string FullName
+        {
+            get { return full_name; }
+            set { full_name = value; }
+        }
+
+        public bool Alive
+        {
+            get { return alive != 0 ? true : false; }
+            set { alive = value ? 1 : 0; }
+        }
+        #endregion
     }
 }

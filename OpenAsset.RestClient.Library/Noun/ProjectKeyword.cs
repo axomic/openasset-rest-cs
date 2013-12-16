@@ -13,10 +13,26 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class ProjectKeyword : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string name;
+        private string name;
         [JsonProperty]
-        public int project_keyword_category_id;
+        private int project_keyword_category_id;
+        #endregion
+
+        #region Accessors
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public int ProjectKeywordCategoryId
+        {
+            get { return project_keyword_category_id; }
+            set { project_keyword_category_id = value; }
+        }
+        #endregion
 
         public override int CompareTo(object obj)
         {

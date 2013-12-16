@@ -16,7 +16,13 @@ namespace OpenAsset.RestClient.Library.Noun.Base
     public class BaseNoun : IComparable
     {
         [JsonProperty]
-        public int id;
+        protected int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         public virtual string UniqueCode
         {
@@ -60,6 +66,18 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         public override string ToString()
         {
             return SearchCode + ":" + UniqueCodeField + ":" + UniqueCode;
+        }
+
+        protected DateTime dbString2DateTime(string dateTimeStr)
+        {
+            IFormatProvider theCultureInfo = new System.Globalization.CultureInfo("en-GB", true);
+            DateTime theDateTime = DateTime.ParseExact(dateTimeStr, Constant.DB_DATE_FORMAT, theCultureInfo);
+            return theDateTime;
+        }
+
+        protected string dateTime2DbString(DateTime dateTime)
+        {
+            return dateTime.ToString(Constant.DB_DATE_FORMAT);
         }
 
         // Goes through all properties/fields with DataMember attributes and tries to copy them from passed object

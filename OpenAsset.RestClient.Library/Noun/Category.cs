@@ -13,27 +13,85 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class Category : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string name;
+        private string name;
         [JsonProperty]
-        public string code;
+        private string code;
         [JsonProperty]
-        public string description;
+        private string description;
         [JsonProperty]
-        public int default_access_level;
+        private int default_access_level;
         [JsonProperty]
-        public int default_rank;
+        private int default_rank;
         [JsonProperty]
-        public int maximum_rank;
+        private int maximum_rank;
         [JsonProperty]
-        public int display_order;
+        private int display_order;
         [JsonProperty]
-        public int projects_category;
+        private int projects_category;
         [JsonProperty]
-        public int alive;
+        private int alive;
         //used in post
-        [JsonProperty]
-        public int is_projects_category;
+        //[JsonProperty]
+        //private int is_projects_category;
+        #endregion
+
+        #region Accessors
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        public int DefaultAccessLevel
+        {
+            get { return default_access_level; }
+            set { default_access_level = value; }
+        }
+
+        public int DefaultRank
+        {
+            get { return default_rank; }
+            set { default_rank = value; }
+        }
+
+        public int MaximumRank
+        {
+            get { return maximum_rank; }
+            set { maximum_rank = value; }
+        }
+
+        public int DisplayOrder
+        {
+            get { return display_order; }
+            set { display_order = value; }
+        }
+
+        public int ProjectsCategory
+        {
+            get { return projects_category; }
+            set { projects_category = value; }
+        }
+
+        public bool Alive
+        {
+            get { return alive != 0 ? true : false; }
+            set { alive = value ? 1 : 0; }
+        }
+        #endregion
 
         public override string UniqueCode
         {

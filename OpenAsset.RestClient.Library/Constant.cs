@@ -20,6 +20,7 @@ namespace OpenAsset.RestClient.Library
         public const string REST_MIN_VERSION = "7.1.22";
         
         // text
+        public const string DB_DATE_FORMAT = "yyyyMMddHHmmss";
 
         // Numbers
         public const int REST_REQUEST_TIMEOUT = 90000;

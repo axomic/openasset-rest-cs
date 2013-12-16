@@ -13,10 +13,26 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class Keyword : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        int keyword_category_id;
+        private int keyword_category_id;
         [JsonProperty]
-        string name;
+        private string name;
+        #endregion
+
+        #region Accessors
+        public int KeywordCategoryId
+        {
+            get { return keyword_category_id; }
+            set { keyword_category_id = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        #endregion
 
         // sets the id of the object (when deserialization is made from an expanded field)
         [JsonProperty("keyword_id")]

@@ -13,32 +13,114 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class Search : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string name;
+        private string name;
         [JsonProperty]
-        public int all_users_can_modify;
+        private int all_users_can_modify;
         [JsonProperty]
-        public int approved_company_saved_search;
+        private int approved_company_saved_search;
         [JsonProperty]
-        public int can_modify;
+        private int can_modify;
         [JsonProperty]
-        public string code;
+        private string code;
         [JsonProperty]
-        public int company_saved_search;
+        private int company_saved_search;
         [JsonProperty]
-        public string created;
+        private string created;
         [JsonProperty]
-        public int locked;
+        private int locked;
         [JsonProperty]
-        public int saved;
+        private int saved;
         [JsonProperty]
-        public int share_with_all_users;
+        private int share_with_all_users;
         [JsonProperty]
-        public string updated;
+        private string updated;
         [JsonProperty]
-        public int user_id;
+        private int user_id;
         [JsonProperty]
-        public List<SearchItem> search_items;
+        private List<SearchItem> search_items;
+        #endregion
+
+        #region Accessors
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public int AllUsersCanModify
+        {
+            get { return all_users_can_modify; }
+            set { all_users_can_modify = value; }
+        }
+
+        public bool ApprovedCompanySavedSearch
+        {
+            get { return approved_company_saved_search != 0 ? true : false; }
+            set { approved_company_saved_search = value ? 1 : 0; }
+        }
+
+        public bool CanModify
+        {
+            get { return can_modify != 0 ? true : false; }
+            set { can_modify = value ? 1 : 0; }
+        }
+
+        public string Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public bool CompanySavedSearch
+        {
+            get { return company_saved_search != 0 ? true : false; }
+            set { company_saved_search = value ? 1 : 0; }
+        }
+
+        public DateTime Created
+        {
+            get { return dbString2DateTime(created); }
+            set { created = dateTime2DbString(value); }
+        }
+
+        public bool Locked
+        {
+            get { return locked != 0 ? true : false; }
+            set { locked = value ? 1 : 0; }
+        }
+
+        public bool Saved
+        {
+            get { return saved != 0 ? true : false; }
+            set { saved = value ? 1 : 0; }
+        }
+
+        public bool ShareWithAllUsers
+        {
+            get { return share_with_all_users != 0 ? true : false; }
+            set { share_with_all_users = value ? 1 : 0; }
+        }
+
+        public DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
+        }
+
+        public int UserId
+        {
+            get { return user_id; }
+            set { user_id = value; }
+        }
+
+        public List<SearchItem> SearchItems
+        {
+            get { return search_items; }
+            set { search_items = value; }
+        }
+        #endregion
 
         public override string UniqueCode
         {

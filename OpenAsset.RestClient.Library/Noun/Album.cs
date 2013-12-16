@@ -13,38 +13,138 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class Album : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string name;
+        private string name;
         [JsonProperty]
-        public string code;
+        private string code;
         [JsonProperty]
-        public string description;
+        private string description;
         [JsonProperty]
-        public int user_id;
+        private int user_id;
         [JsonProperty]
-        public int all_users_can_modify;
+        private int all_users_can_modify;
         [JsonProperty]
-        public int can_modify;
+        private int can_modify;
         [JsonProperty]
-        public int my_album;
+        private int my_album;
         [JsonProperty]
-        public int shared_album;
+        private int shared_album;
         [JsonProperty]
-        public int company_album;
+        private int company_album;
         [JsonProperty]
-        public int share_with_all_users;
+        private int share_with_all_users;
         [JsonProperty]
-        public int locked;
+        private int locked;
         [JsonProperty]
-        public string private_image_count;
+        private string private_image_count;
         [JsonProperty]
-        public string public_image_count;
+        private string public_image_count;
         [JsonProperty]
-        public string unapproved_image_count;
+        private string unapproved_image_count;
         [JsonProperty]
-        public string updated;
+        private string updated;
         [JsonProperty]
-        public string created;
+        private string created;
+        #endregion
+
+        #region Accessors
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        public int UserId
+        {
+            get { return user_id; }
+            set { user_id = value; }
+        }
+
+        public bool AllUsersCanModify
+        {
+            get { return all_users_can_modify != 0 ? true : false; }
+            set { all_users_can_modify = value ? 1 : 0; }
+        }
+
+        public bool CanModify
+        {
+            get { return can_modify != 0 ? true : false; }
+            set { can_modify = value ? 1 : 0; }
+        }
+
+        public bool MyAlbum
+        {
+            get { return my_album != 0 ? true : false; }
+            set { my_album = value ? 1 : 0; }
+        }
+
+        public bool SharedAlbum
+        {
+            get { return shared_album != 0 ? true : false; }
+            set { shared_album = value ? 1 : 0; }
+        }
+
+        public bool CompanyAlbum
+        {
+            get { return company_album != 0 ? true : false; }
+            set { company_album = value ? 1 : 0; }
+        }
+
+        public bool ShareWithAllUsers
+        {
+            get { return share_with_all_users != 0 ? true : false; }
+            set { share_with_all_users = value ? 1 : 0; }
+        }
+
+        public bool Locked
+        {
+            get { return locked != 0 ? true : false; }
+            set { locked = value ? 1 : 0; }
+        }
+
+        public string PrivateImageCount
+        {
+            get { return private_image_count; }
+            set { private_image_count = value; }
+        }
+
+        public string PublicImageCount
+        {
+            get { return public_image_count; }
+            set { public_image_count = value; }
+        }
+
+        public string UnapprovedImageCount
+        {
+            get { return unapproved_image_count; }
+            set { unapproved_image_count = value; }
+        }
+
+        public DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
+        }
+
+        public DateTime Created
+        {
+            get { return dbString2DateTime(created); }
+            set { created = dateTime2DbString(value); }
+        }
+        #endregion
 
         public override int CompareTo(object obj)
         {

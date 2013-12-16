@@ -36,7 +36,8 @@ namespace OpenAsset.RestClient.TestLibrary
                 List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", options);
                 File file = connectionHelper.GetObject<File>(957, options);
                 Category category = connectionHelper.GetObject<Category>(5, options);
-                category.name = "restAPI_test2";
+                Album album = connectionHelper.GetObject<Album>(53,options);
+                DateTime d = album.Updated;
                 //post
                 //connectionHelper.SendObject<Category>(category,true);
                 //put doesn't seem to be implemented

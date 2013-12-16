@@ -13,8 +13,18 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class AccessLevel : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string label;
+        private string label;
+        #endregion
+
+        #region Accessors
+        public string Label
+        {
+            get { return label; }
+            set { label = value; }
+        }
+        #endregion
 
         public override int CompareTo(object obj)
         {

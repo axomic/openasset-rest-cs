@@ -440,7 +440,7 @@ namespace OpenAsset.RestClient.Library
                 if (!createNew)
                 {
                     method = "PUT";
-                    restUrl += "/" + sendingObject.id;
+                    restUrl += "/" + sendingObject.Id;
                 }
 
                 string jsonOut = JsonConvert.SerializeObject(sendingObject);
@@ -458,7 +458,7 @@ namespace OpenAsset.RestClient.Library
                 {
                     NewItem newItem = JsonConvert.DeserializeObject<NewItem>(responseText);
                     value = new T();
-                    value.id = newItem.new_id;
+                    value.Id = newItem.NewId;
                 }
                 else
                 {

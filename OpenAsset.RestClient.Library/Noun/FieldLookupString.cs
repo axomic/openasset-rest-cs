@@ -13,14 +13,42 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class FieldLookupString : Base.BaseNoun
     {
+        #region private serializable properties
+        [JsonProperty("value")]
+        public string _value;
         [JsonProperty]
-        public string value;
+        private string description;
         [JsonProperty]
-        public string description;
+        private int display_order;
         [JsonProperty]
-        public int display_order;
-        [JsonProperty]
-        public Field field;
+        private Field field;
+        #endregion
+
+        #region Accessors
+        public string Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        public int DisplayOrder
+        {
+            get { return display_order; }
+            set { display_order = value; }
+        }
+
+        public Field Field
+        {
+            get { return field; }
+            set { field = value; }
+        }
+        #endregion
 
         public override int CompareTo(object obj)
         {

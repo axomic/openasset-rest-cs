@@ -13,24 +13,82 @@ namespace OpenAsset.RestClient.Library.Noun
     [JsonObject(MemberSerialization.OptIn)]
     public class Project : Base.BaseNoun
     {
+        #region private serializable properties
         [JsonProperty]
-        public string name;
+        private string name;
         [JsonProperty]
-        public string name_alias_1;
+        private string name_alias_1;
         [JsonProperty]
-        public string name_alias_2;
+        private string name_alias_2;
         [JsonProperty]
-        public string code;
+        private string code;
         [JsonProperty]
-        public string code_alias_1;
+        private string code_alias_1;
         [JsonProperty]
-        public string code_alias_2;
+        private string code_alias_2;
         [JsonProperty]
-        public int alive;
+        private int alive;
         [JsonProperty]
-        public List<Field> fields;
+        private List<Field> fields;
         [JsonProperty]
-        public List<ProjectKeyword> projectKeywords;
+        private List<ProjectKeyword> projectKeywords;
+        #endregion
+
+        #region Accessors
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string NameAlias1
+        {
+            get { return name_alias_1; }
+            set { name_alias_1 = value; }
+        }
+
+        public string NameAlias2
+        {
+            get { return name_alias_2; }
+            set { name_alias_2 = value; }
+        }
+
+        public string Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public string CodeAlias1
+        {
+            get { return code_alias_1; }
+            set { code_alias_1 = value; }
+        }
+
+        public string CodeAlias2
+        {
+            get { return code_alias_2; }
+            set { code_alias_2 = value; }
+        }
+
+        public bool Alive
+        {
+            get { return alive != 0 ? true : false; }
+            set { alive = value ? 1 : 0; }
+        }
+
+        public List<ProjectKeyword> ProjectKeywords
+        {
+            get { return projectKeywords; }
+            set { projectKeywords = value; }
+        }
+
+        public List<Field> Fields
+        {
+            get { return fields; }
+            set { fields = value; }
+        }
+        #endregion
 
         public override int CompareTo(object obj)
         {
