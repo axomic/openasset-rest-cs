@@ -29,7 +29,7 @@ namespace OpenAsset.RestClient.TestLibrary
             try
             {
                 bool validUser = connectionHelper.ValidateCredentials();
-                RESTOptions options = new RESTOptions();
+                RESTOptions<File> options = new RESTOptions<File>();
                 options.SetSearchParameter("sizes","all");
 
                 Size size = connectionHelper.GetObject<Size>(1, options);

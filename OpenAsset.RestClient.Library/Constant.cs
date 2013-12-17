@@ -35,5 +35,8 @@ namespace OpenAsset.RestClient.Library
         public const string HEADER_TIMING = "X-Timing";
         public const string HEADER_USER_ID = "X-User-Id";
         public const string HEADER_USERNAME = "X-Username";
+
+        // exception messages
+        public const string EXCEPTION_PROPERTY_NOT_EXISTS = "This property does not exist: ";
     }
 }

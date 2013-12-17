@@ -4,10 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Reflection;
+// serialization stuff
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace OpenAsset.RestClient.Library
 {
-    public class RESTOptions
+    public interface IRestOptions
+    {
+        string GetUrlParameters();
+    }
+
+    public class RESTOptions<T> : IRestOptions where T : Noun.Base.BaseNoun
     {
         // URL parameters
         private int _limit;
@@ -16,6 +25,7 @@ namespace OpenAsset.RestClient.Library
         private string _orderBy;
         private Dictionary<string, string> filters;
 
+        #region Contructors
         public RESTOptions()
         {
             _limit = 0;
@@ -24,7 +34,9 @@ namespace OpenAsset.RestClient.Library
             _orderBy = "";
             filters = new Dictionary<string, string>();
         }
+        #endregion
 
+        #region Accessors
         public int Limit
         {
             get { return _limit; }
@@ -54,7 +66,9 @@ namespace OpenAsset.RestClient.Library
             get { return _displayFields; }
             set
             {
-                _displayFields = Regex.Replace(value, "[^A-Za-z_,]", "_");
+                string parameter = Regex.Replace(value, "[^A-Za-z_,]", "_");
+                validateParameter(parameter);
+                _displayFields = parameter;
             }
         }
 
@@ -63,13 +77,18 @@ namespace OpenAsset.RestClient.Library
             get { return _orderBy; }
             set
             {
-                _orderBy = Regex.Replace(value, "[^A-Za-z_,]", "_");
+                string parameter = Regex.Replace(value, "[^A-Za-z_,]", "_");
+                validateParameter(parameter);
+                _orderBy = parameter;
             }
         }
+        #endregion
 
+        #region Search Parameters
         public void SetSearchParameter(string parameter, string value)
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");
+            validateParameter(parameter);
             filters[parameter] = HttpUtility.UrlEncode(value);
         }
 
@@ -86,6 +105,40 @@ namespace OpenAsset.RestClient.Library
                 return HttpUtility.UrlDecode(filters[parameter]);
             return "";
         }
+        #endregion
+
+        #region Filter Validator
+        private void validateParameter(string parameter)
+        {
+            if (!propertyExists(parameter))
+            {
+                throw new NounNonExistingPropertyException(Constant.EXCEPTION_PROPERTY_NOT_EXISTS + "[" + parameter + "]");
+            }
+        }
+
+        private bool propertyExists(string propertyName)
+        {
+            List<string> result = new List<string>();
+            BindingFlags allFields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            List<PropertyInfo> properties = typeof(T).GetProperties(allFields)
+                .Where(x => Attribute.IsDefined(x, typeof(JsonPropertyAttribute)))
+                .ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                //in case of the property being a reserved word remove the "_" in front of it
+                result.Add(Regex.Replace(property.Name, "^_", ""));
+            }
+            List<FieldInfo> fields = typeof(T).GetFields(allFields)
+                .Where(x => Attribute.IsDefined(x, typeof(JsonPropertyAttribute)))
+                .ToList();
+            foreach (FieldInfo field in fields)
+            {
+                //in case of the property being a reserved word remove the "_" in front of it
+                result.Add(Regex.Replace(field.Name, "^_", ""));
+            }
+            return result.Contains(propertyName);
+        }
+        #endregion
 
         public string GetUrlParameters()
         {

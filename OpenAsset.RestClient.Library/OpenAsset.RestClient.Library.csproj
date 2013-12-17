@@ -50,6 +50,7 @@
     <Compile Include="CustomResponses\Error.cs" />
     <Compile Include="CustomResponses\NewItem.cs" />
     <Compile Include="Exception\NotValidUserException.cs" />
+    <Compile Include="Exception\NounNonExistingPropertyException.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />

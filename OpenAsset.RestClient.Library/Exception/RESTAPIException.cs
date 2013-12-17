@@ -23,6 +23,10 @@ namespace OpenAsset.RestClient.Library
 
         }
 
+        public RESTAPIException(string message) : base(message)
+        {
+        }
+
         public RESTAPIException(string url, Exception e)
             : base(url, e)
         {

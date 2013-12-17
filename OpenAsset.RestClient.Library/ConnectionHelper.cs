@@ -132,7 +132,7 @@ namespace OpenAsset.RestClient.Library
             return ValidateCredentials();
         }
 
-        public bool ValidateCredentials(RESTOptions options = null, int retryIndex = 0)
+        public bool ValidateCredentials(IRestOptions options = null, int retryIndex = 0)
         {
             string username = _username;
             string password = _password;
@@ -432,7 +432,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Get/Set objects
-        public T GetObject<T>(int id, RESTOptions options) where T : Noun.Base.BaseNoun, new()
+        public T GetObject<T>(int id, IRestOptions options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
             try
@@ -454,12 +454,12 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public List<T> GetObjects<T>(RESTOptions options) where T : Noun.Base.BaseNoun, new()
+        public List<T> GetObjects<T>(IRestOptions options) where T : Noun.Base.BaseNoun, new()
         {
             return GetObjects<T>(0, null, options);
         }
 
-        public List<T> GetObjects<T>(int id, string parentNoun, RESTOptions options) where T : Noun.Base.BaseNoun, new()
+        public List<T> GetObjects<T>(int id, string parentNoun, IRestOptions options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
             try
