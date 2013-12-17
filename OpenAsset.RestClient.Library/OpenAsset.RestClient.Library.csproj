@@ -47,9 +47,9 @@
   <ItemGroup>
     <Compile Include="ConnectionHelper.cs" />
     <Compile Include="Constant.cs" />
-    <Compile Include="Error.cs" />
-    <Compile Include="NewItem.cs" />
-    <Compile Include="NotValidUserException.cs" />
+    <Compile Include="CustomResponses\Error.cs" />
+    <Compile Include="CustomResponses\NewItem.cs" />
+    <Compile Include="Exception\NotValidUserException.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="Noun\Size.cs" />
     <Compile Include="Noun\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RESTAPIException.cs" />
+    <Compile Include="Exception\RESTAPIException.cs" />
     <Compile Include="RESTOptions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
