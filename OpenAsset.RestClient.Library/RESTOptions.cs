@@ -18,7 +18,7 @@ namespace OpenAsset.RestClient.Library
         private int _offset;
         private List<string> _displayFields;
         private List<string> _orderBy;
-        private Dictionary<string, string> filters;
+        private Dictionary<string, string> _filters;
 
         #region Contructors
         public RESTOptions()
@@ -27,7 +27,7 @@ namespace OpenAsset.RestClient.Library
             _offset = 0;
             _displayFields = new List<string>();
             _orderBy = new List<string>();
-            filters = new Dictionary<string, string>();
+            _filters = new Dictionary<string, string>();
         }
         #endregion
 
@@ -116,20 +116,20 @@ namespace OpenAsset.RestClient.Library
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");
             validateParameter(parameter);
-            filters[parameter] = HttpUtility.UrlEncode(value);
+            _filters[parameter] = HttpUtility.UrlEncode(value);
         }
 
         public void RemoveSearchParameter(string parameter)
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");
-            filters.Remove(parameter);
+            _filters.Remove(parameter);
         }
 
         public string GetSearchParameter(string parameter)
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");
-            if (filters.ContainsKey(parameter))
-                return HttpUtility.UrlDecode(filters[parameter]);
+            if (_filters.ContainsKey(parameter))
+                return HttpUtility.UrlDecode(_filters[parameter]);
             return "";
         }
         #endregion
@@ -184,7 +184,7 @@ namespace OpenAsset.RestClient.Library
             string orderBy = String.Join(",", _orderBy);
             if (!String.IsNullOrEmpty(orderBy))
                 parameters += "&orderBy=" + orderBy;
-            foreach (KeyValuePair<string, string> kvp in filters)
+            foreach (KeyValuePair<string, string> kvp in _filters)
             {
                 parameters += "&" + kvp.Key + "=" + kvp.Value;
             }
