@@ -75,9 +75,14 @@ namespace OpenAsset.RestClient.Library
             return result;
         }
 
-        public List<string> getOrderBy()
+        public List<string> GetOrderBy()
         {
             return _orderBy;
+        }
+
+        public void ClearOrderBy()
+        {
+            _orderBy.Clear();
         }
         #endregion
 
@@ -95,9 +100,14 @@ namespace OpenAsset.RestClient.Library
             return _displayFields.Remove(field);
         }
 
-        public List<string> getDisplayFields()
+        public List<string> GetDisplayFields()
         {
             return _displayFields;
+        }
+
+        public void ClearDisplayFields()
+        {
+            _displayFields.Clear();
         }
         #endregion
 
