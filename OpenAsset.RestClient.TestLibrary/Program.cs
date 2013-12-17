@@ -29,20 +29,26 @@ namespace OpenAsset.RestClient.TestLibrary
             try
             {
                 bool validUser = connectionHelper.ValidateCredentials();
-                RESTOptions<File> options = new RESTOptions<File>();
-                options.SetSearchParameter("sizes","all");
+                RESTOptions<File> optionsFile = new RESTOptions<File>();
+                optionsFile.SetSearchParameter("sizes", "all");
+                File file = connectionHelper.GetObject<File>(957, optionsFile);
+                file.Replace(file);
 
-                Size size = connectionHelper.GetObject<Size>(1, options);
-                List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", options);
-                File file = connectionHelper.GetObject<File>(957, options);
-                Category category = connectionHelper.GetObject<Category>(5, options);
-                Album album = connectionHelper.GetObject<Album>(53,options);
+                RESTOptions<Size> optionsSize = new RESTOptions<Size>();
+                Size size = connectionHelper.GetObject<Size>(1, optionsSize);
+                List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", optionsSize);
+
+                RESTOptions<Category> optionsCategory = new RESTOptions<Category>();
+                Category category = connectionHelper.GetObject<Category>(5, optionsCategory);
+
+                RESTOptions<Album> optionsAlbum = new RESTOptions<Album>();
+                Album album = connectionHelper.GetObject<Album>(53, optionsAlbum);
                 DateTime d = album.Updated;
+
                 //post
                 //connectionHelper.SendObject<Category>(category,true);
                 //put doesn't seem to be implemented
                 //connectionHelper.SendObject<Category>(category, false);
-                file.Replace(file);
             }
             catch (RESTAPIException e)
             {
