@@ -12,12 +12,27 @@ namespace OpenAsset.RestClient.Library
     public class ConnectionHelper
     {
         private string _serverURL = null;
-        private string _username = null;
+        private string _username = null; // username 
         private string _password = null;
         private bool _anonymous = false;
-        private string _sessionKey = null;
+        private string _sessionKey = null; //current session key
         private Error _lastError = null;
         private static Dictionary<string, ConnectionHelper> _connectionHelpers;
+
+        //values from the last request made
+        // if the last request didn't had the value it is empty
+        public struct ResponseHeaders
+        {
+            public int? DisplayResultsCount;
+            public int? FullResultsCount;
+            public string OpenAssetVersion;
+            public int? Offset;
+            public string SessionKey; // last response session key (shouldn't be different from the current)
+            //public int Timing; // only in development
+            public int? UserId;
+            public string Username;
+        } 
+        public ResponseHeaders LastResponseHeaders;
 
         public static ConnectionHelper getConnectionHelper(string serverURL, string username = null, string password = null)
         {
@@ -50,6 +65,7 @@ namespace OpenAsset.RestClient.Library
         private ConnectionHelper(string serverURL)
         {
             _serverURL = serverURL;
+            LastResponseHeaders = new ResponseHeaders();
         }
 
         private ConnectionHelper(string serverURL, string username, string password)
@@ -94,7 +110,7 @@ namespace OpenAsset.RestClient.Library
             request.Method = "HEAD";
             try
             {
-                response = GetResponse(request);
+                response = getResponse(request);
             }
             catch (Exception)
             {
@@ -144,10 +160,13 @@ namespace OpenAsset.RestClient.Library
 
             try
             {
-                response = GetResponse(request);
-                string validUser = response.Headers[Constant.HEADER_USERNAME];
-                if (options != null)
-                    options.OA_Version = response.Headers[Constant.HEADER_OPENASSET_VERSION];
+                response = getResponse(request);
+                //string validUser = response.Headers[Constant.HEADER_USERNAME];
+                string validUser = LastResponseHeaders.Username;
+                string lastSessionKey = LastResponseHeaders.SessionKey;
+
+                //if (options != null)
+                    //options.OA_Version = response.Headers[Constant.HEADER_OPENASSET_VERSION];
 
                 if (username == null || password == null)
                 {
@@ -170,8 +189,10 @@ namespace OpenAsset.RestClient.Library
                 if (validUser != null && validUser.Equals(username))
                 {
                     // if it is a valid user keep the session
-                    if (!String.IsNullOrEmpty(response.Headers[Constant.HEADER_SESSIONKEY]))
-                        _sessionKey = response.Headers[Constant.HEADER_SESSIONKEY];
+                    if (!String.IsNullOrEmpty(lastSessionKey))
+                        _sessionKey = lastSessionKey;
+                    //if (!String.IsNullOrEmpty(response.Headers[Constant.HEADER_SESSIONKEY]))
+                        //_sessionKey = response.Headers[Constant.HEADER_SESSIONKEY];
                     return true;
                 }
                 else
@@ -185,10 +206,10 @@ namespace OpenAsset.RestClient.Library
                 {
                     return ValidateCredentials(options, ++retryIndex);
                 }
-                if (options != null && e.Response != null)
+                /*if (options != null && e.Response != null)
                 {
                     options.OA_Version = e.Response.Headers[Constant.HEADER_OPENASSET_VERSION];
-                }
+                }*/
                 MarshallError(validationUrl, e);
             }
             catch (Exception e)
@@ -285,10 +306,11 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Response
-        private HttpWebResponse GetResponse(HttpWebRequest request, bool ignoreUsername = false)
+        private HttpWebResponse getResponse(HttpWebRequest request, bool ignoreUsername = false)
         {
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string validUser = response.Headers[Constant.HEADER_USERNAME];
+            WebHeaderCollection responseHeader = response.Headers;
+            string validUser = responseHeader[Constant.HEADER_USERNAME];
             if (!ignoreUsername)
             {
                 if (!validUser.Equals(_username))
@@ -299,7 +321,48 @@ namespace OpenAsset.RestClient.Library
                         new Exception(message));
                 }
             }
+            setLastResponseHeaders(responseHeader);
             return response;
+        }
+
+        private void setLastResponseHeaders(WebHeaderCollection headerCollection)
+        {
+            LastResponseHeaders.OpenAssetVersion = headerCollection[Constant.HEADER_OPENASSET_VERSION];
+            LastResponseHeaders.Username = headerCollection[Constant.HEADER_USERNAME];
+            LastResponseHeaders.SessionKey = headerCollection[Constant.HEADER_SESSIONKEY];
+            //LastRequestHeaders.Timing = Convert.ToInt32(headerCollection[Constant.HEADER_TIMING]);//development
+            if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_DISPLAY_RESULTS_COUNT]))
+            {
+                LastResponseHeaders.DisplayResultsCount = null;
+            }
+            else
+            {
+                LastResponseHeaders.DisplayResultsCount = Convert.ToInt32(headerCollection[Constant.HEADER_DISPLAY_RESULTS_COUNT]);
+            }
+            if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_FULL_RESULTS_COUNT]))
+            {
+                LastResponseHeaders.FullResultsCount = null;
+            }
+            else
+            {
+                LastResponseHeaders.FullResultsCount = Convert.ToInt32(headerCollection[Constant.HEADER_FULL_RESULTS_COUNT]);
+            }
+            if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_OFFSET]))
+            {
+                LastResponseHeaders.Offset = null;
+            }
+            else
+            {
+                LastResponseHeaders.Offset = Convert.ToInt32(headerCollection[Constant.HEADER_OFFSET]);
+            }
+            if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_USER_ID]))
+            {
+                LastResponseHeaders.UserId = null;
+            }
+            else
+            {
+                LastResponseHeaders.UserId = Convert.ToInt32(headerCollection[Constant.HEADER_USER_ID]);
+            }
         }
 
         private HttpWebResponse GetRESTResponse(string url, string method, byte[] output = null, bool retry = false)
@@ -339,10 +402,10 @@ namespace OpenAsset.RestClient.Library
                     requestStream.Flush();
                     requestStream.Close();
                 }
-                response = GetResponse(request, retry);
-                if (!String.IsNullOrEmpty(response.Headers[Constant.HEADER_SESSIONKEY]))
+                response = getResponse(request, retry);
+                if (!String.IsNullOrEmpty(LastResponseHeaders.SessionKey))
                 {
-                    _sessionKey = response.Headers[Constant.HEADER_SESSIONKEY];
+                    _sessionKey = LastResponseHeaders.SessionKey;
                 }
                 //CurrentUsername = response.Headers[Constant.HEADER_USERNAME];
             }
@@ -410,8 +473,9 @@ namespace OpenAsset.RestClient.Library
                     restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
                 restUrl += "?" + options.GetUrlParameters();
                 response = GetRESTResponse(restUrl, "GET");
-                options.DisplayedResults = Convert.ToInt32(response.Headers[Constant.HEADER_DISPLAY_RESULTS_COUNT]);
-                options.TotalResults = Convert.ToInt32(response.Headers[Constant.HEADER_FULL_RESULTS_COUNT]);
+
+                //options.DisplayedResults = Convert.ToInt32(response.Headers[Constant.HEADER_DISPLAY_RESULTS_COUNT]);
+                //options.TotalResults = Convert.ToInt32(response.Headers[Constant.HEADER_FULL_RESULTS_COUNT]);
 
                 TextReader tr = new StreamReader(response.GetResponseStream());
                 string responseText = tr.ReadToEnd();
