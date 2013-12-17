@@ -49,7 +49,12 @@ namespace OpenAsset.RestClient.Library.Noun.Base
 
             BaseNoun noun = obj as BaseNoun;
             if (noun != null)
-                return this.UniqueCodeField.CompareTo(noun.UniqueCodeField);
+            {
+                if (noun.UniqueCodeField.Equals("id"))
+                    return this.Id.CompareTo(noun.Id);
+                else
+                    return this.UniqueCode.CompareTo(noun.UniqueCode);
+            }
             else
                 throw new ArgumentException("Object is not a Noun");
         }
@@ -80,6 +85,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             return dateTime.ToString(Constant.DB_DATE_FORMAT);
         }
 
+        // needs to be tested for reflection speed
         // Goes through all properties/fields with DataMember attributes and tries to copy them from passed object
         public virtual void Replace(BaseNoun obj)
         {

@@ -34,14 +34,10 @@ namespace OpenAsset.RestClient.Library
         public ResponseHeaders LastResponseHeaders;
 
         #region ConnectionHelper Factory
-        private static Dictionary<string, ConnectionHelper> _connectionHelpers;
+        private static Dictionary<string, ConnectionHelper> _connectionHelpers = new Dictionary<string, ConnectionHelper>();
         public static ConnectionHelper GetConnectionHelper(string serverURL, string username = null, string password = null)
         {
             ConnectionHelper connectionHelper = null;
-            if (_connectionHelpers == null)
-            {
-                _connectionHelpers = new Dictionary<string, ConnectionHelper>();
-            }
             if (_connectionHelpers.ContainsKey(serverURL))
             {
                 connectionHelper = _connectionHelpers[serverURL];
@@ -58,6 +54,11 @@ namespace OpenAsset.RestClient.Library
                     connectionHelper = new ConnectionHelper(serverURL, username, password);
                 }
                 _connectionHelpers.Add(serverURL, connectionHelper);
+            }
+            //if URL exists but username and password different start a new session
+            if (!connectionHelper._password.Equals(password) || !connectionHelper._username.Equals(username))
+            {
+                connectionHelper.NewSession(username, password);
             }
             return connectionHelper;
         }
@@ -274,6 +275,7 @@ namespace OpenAsset.RestClient.Library
             if (e is WebException && (e as WebException).Status == WebExceptionStatus.ProtocolError)
             {
                 HttpWebResponse errorResponse = (HttpWebResponse)(e as WebException).Response;
+                setLastResponseHeaders(errorResponse.Headers);
                 TextReader tr = new StreamReader(errorResponse.GetResponseStream());
                 string responseText = tr.ReadToEnd();
                 tr.Close();

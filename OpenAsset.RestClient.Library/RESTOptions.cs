@@ -16,8 +16,8 @@ namespace OpenAsset.RestClient.Library
         // URL parameters
         private int _limit;
         private int _offset;
-        private string _displayFields;
-        private string _orderBy;
+        private List<string> _displayFields;
+        private List<string> _orderBy;
         private Dictionary<string, string> filters;
 
         #region Contructors
@@ -25,8 +25,8 @@ namespace OpenAsset.RestClient.Library
         {
             _limit = 0;
             _offset = 0;
-            _displayFields = "";
-            _orderBy = "";
+            _displayFields = new List<string>();
+            _orderBy = new List<string>();
             filters = new Dictionary<string, string>();
         }
         #endregion
@@ -55,27 +55,49 @@ namespace OpenAsset.RestClient.Library
                     _offset = value;
             }
         }
+        #endregion
 
-        public string DisplayFields
+        #region OrderBy
+        public void AddOrderBy(string field, bool ascending = true)
         {
-            get { return _displayFields; }
-            set
-            {
-                string parameter = Regex.Replace(value, "[^A-Za-z_,]", "_");
-                validateParameter(parameter);
-                _displayFields = parameter;
-            }
+            string postfix = ascending ? "Asc" : "Desc";
+            field = Regex.Replace(field, "[^A-Za-z_,]", "_");
+            validateParameter(field);
+            //used Insert just to make it clear to add to the end of the list
+            _orderBy.Insert(_orderBy.Count,field + postfix);
         }
 
-        public string OrderBy
+        public bool RemoveOrderByd(string field)
         {
-            get { return _orderBy; }
-            set
-            {
-                string parameter = Regex.Replace(value, "[^A-Za-z_,]", "_");
-                validateParameter(parameter);
-                _orderBy = parameter;
-            }
+            field = Regex.Replace(field, "[^A-Za-z_,]", "_");
+            bool result = _orderBy.Remove(field + "Asc");
+            result = result || _orderBy.Remove(field + "Desc");
+            return result;
+        }
+
+        public List<string> getOrderBy()
+        {
+            return _orderBy;
+        }
+        #endregion
+
+        #region DisplayFields
+        public void AddDisplayField(string field)
+        {
+            field = Regex.Replace(field, "[^A-Za-z_,]", "_");
+            validateParameter(field);
+            _displayFields.Add(field);
+        }
+
+        public bool RemoveDisplayField(string field)
+        {
+            field = Regex.Replace(field, "[^A-Za-z_,]", "_");
+            return _displayFields.Remove(field);
+        }
+
+        public List<string> getDisplayFields()
+        {
+            return _displayFields;
         }
         #endregion
 
@@ -111,6 +133,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
+        // needs to be tested for reflection speed
         private bool propertyExists(string propertyName)
         {
             List<string> result = new List<string>();
@@ -120,16 +143,22 @@ namespace OpenAsset.RestClient.Library
                 .ToList();
             foreach (PropertyInfo property in properties)
             {
+                string name = (Attribute.GetCustomAttribute(property, typeof(JsonPropertyAttribute)) as JsonPropertyAttribute).PropertyName;
+                if (name == null)
+                    name = property.Name;
                 //in case of the property being a reserved word remove the "_" in front of it
-                result.Add(Regex.Replace(property.Name, "^_", ""));
+                result.Add(name);
             }
             List<FieldInfo> fields = typeof(T).GetFields(allFields)
                 .Where(x => Attribute.IsDefined(x, typeof(JsonPropertyAttribute)))
                 .ToList();
             foreach (FieldInfo field in fields)
             {
+                string name = (Attribute.GetCustomAttribute(field, typeof(JsonPropertyAttribute)) as JsonPropertyAttribute).PropertyName;
+                if (name == null)
+                    name = field.Name;
                 //in case of the property being a reserved word remove the "_" in front of it
-                result.Add(Regex.Replace(field.Name, "^_", ""));
+                result.Add(name);
             }
             return result.Contains(propertyName);
         }
@@ -139,10 +168,12 @@ namespace OpenAsset.RestClient.Library
         {
             string parameters = "limit=" + Limit;
             parameters += "&offset=" + Offset;
-            if (!String.IsNullOrEmpty(DisplayFields))
-                parameters += "&displayFields=" + DisplayFields;
-            if (!String.IsNullOrEmpty(OrderBy))
-                parameters += "&orderBy=" + OrderBy;
+            string displayFields = String.Join(",", _displayFields);
+            if (!String.IsNullOrEmpty(displayFields))
+                parameters += "&displayFields=" + displayFields;
+            string orderBy = String.Join(",", _orderBy);
+            if (!String.IsNullOrEmpty(orderBy))
+                parameters += "&orderBy=" + orderBy;
             foreach (KeyValuePair<string, string> kvp in filters)
             {
                 parameters += "&" + kvp.Key + "=" + kvp.Value;

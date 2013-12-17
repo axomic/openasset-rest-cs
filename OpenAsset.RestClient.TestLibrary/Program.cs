@@ -31,6 +31,11 @@ namespace OpenAsset.RestClient.TestLibrary
                 bool validUser = connectionHelper.ValidateCredentials();
                 RESTOptions<File> optionsFile = new RESTOptions<File>();
                 optionsFile.SetSearchParameter("sizes", "all");
+                optionsFile.AddDisplayField("access_level");
+                optionsFile.AddDisplayField("caption");
+                optionsFile.AddDisplayField("category_id");
+                optionsFile.AddOrderBy("id");
+                bool result = optionsFile.RemoveDisplayField("category_id");
                 File file = connectionHelper.GetObject<File>(957, optionsFile);
                 file.Replace(file);
 
