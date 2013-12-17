@@ -16,11 +16,6 @@ namespace OpenAsset.RestClient.Library
         private string _orderBy;
         private Dictionary<string, string> filters;
 
-        // Returned headers
-        /*private int _displayedResults;
-        private int _totalResults;
-        private string _oaVersion;*/
-
         public RESTOptions()
         {
             _limit = 0;
@@ -71,43 +66,7 @@ namespace OpenAsset.RestClient.Library
                 _orderBy = Regex.Replace(value, "[^A-Za-z_,]", "_");
             }
         }
-        /*
-        public int DisplayedResults
-        {
-            get { return _displayedResults; }
-            set
-            {
-                if (value < 0)
-                    _displayedResults = 0;
-                else
-                    _displayedResults = value;
-            }
-        }
 
-        public int TotalResults
-        {
-            get { return _totalResults; }
-            set
-            {
-                if (value < 0)
-                    _totalResults = 0;
-                else
-                    _totalResults = value;
-            }
-        }
-
-        public string OA_Version
-        {
-            get
-            {
-                return _oaVersion;
-            }
-            set
-            {
-                _oaVersion = value;
-            }
-        }
-        */
         public void SetSearchParameter(string parameter, string value)
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");

@@ -17,7 +17,6 @@ namespace OpenAsset.RestClient.Library
         private bool _anonymous = false;
         private string _sessionKey = null; //current session key
         private Error _lastError = null;
-        private static Dictionary<string, ConnectionHelper> _connectionHelpers;
 
         //values from the last request made
         // if the last request didn't had the value it is empty
@@ -31,10 +30,12 @@ namespace OpenAsset.RestClient.Library
             //public int Timing; // only in development
             public int? UserId;
             public string Username;
-        } 
+        }
         public ResponseHeaders LastResponseHeaders;
 
-        public static ConnectionHelper getConnectionHelper(string serverURL, string username = null, string password = null)
+        #region ConnectionHelper Factory
+        private static Dictionary<string, ConnectionHelper> _connectionHelpers;
+        public static ConnectionHelper GetConnectionHelper(string serverURL, string username = null, string password = null)
         {
             ConnectionHelper connectionHelper = null;
             if (_connectionHelpers == null)
@@ -60,6 +61,7 @@ namespace OpenAsset.RestClient.Library
             }
             return connectionHelper;
         }
+        #endregion
 
         #region Constructors
         private ConnectionHelper(string serverURL)
@@ -77,12 +79,12 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Authorization
-        private string AuthHeaderString(string username, string password)
+        private string authHeaderString(string username, string password)
         {
             return "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(username + ":" + password));
         }
 
-        private CredentialCache StandardCredentials(string url)
+        private CredentialCache standardCredentials(string url)
         {
             CredentialCache cc = new CredentialCache();
             if (_anonymous)
@@ -144,11 +146,11 @@ namespace OpenAsset.RestClient.Library
             request = (HttpWebRequest)WebRequest.Create(validationUrl);
             if (username == null || password == null)
             {
-                request.Credentials = StandardCredentials(validationUrl);
+                request.Credentials = standardCredentials(validationUrl);
             }
             else if (!Constant.REST_ANONYMOUS_USERNAME.Equals(username))
             {
-                request.Headers.Add("Authorization", AuthHeaderString(username, password));
+                request.Headers.Add("Authorization", authHeaderString(username, password));
             }
             if (!String.IsNullOrEmpty(sessionKey))
             {
@@ -166,7 +168,7 @@ namespace OpenAsset.RestClient.Library
                 string lastSessionKey = LastResponseHeaders.SessionKey;
 
                 //if (options != null)
-                    //options.OA_Version = response.Headers[Constant.HEADER_OPENASSET_VERSION];
+                //options.OA_Version = response.Headers[Constant.HEADER_OPENASSET_VERSION];
 
                 if (username == null || password == null)
                 {
@@ -192,7 +194,7 @@ namespace OpenAsset.RestClient.Library
                     if (!String.IsNullOrEmpty(lastSessionKey))
                         _sessionKey = lastSessionKey;
                     //if (!String.IsNullOrEmpty(response.Headers[Constant.HEADER_SESSIONKEY]))
-                        //_sessionKey = response.Headers[Constant.HEADER_SESSIONKEY];
+                    //_sessionKey = response.Headers[Constant.HEADER_SESSIONKEY];
                     return true;
                 }
                 else
@@ -202,7 +204,7 @@ namespace OpenAsset.RestClient.Library
             }
             catch (WebException e)
             {
-                if (HttpRetryValid(request, e) || retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
+                if (httpRetryValid(request, e) || retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
                 {
                     return ValidateCredentials(options, ++retryIndex);
                 }
@@ -210,11 +212,11 @@ namespace OpenAsset.RestClient.Library
                 {
                     options.OA_Version = e.Response.Headers[Constant.HEADER_OPENASSET_VERSION];
                 }*/
-                MarshallError(validationUrl, e);
+                marshallError(validationUrl, e);
             }
             catch (Exception e)
             {
-                MarshallError(validationUrl, e);
+                marshallError(validationUrl, e);
             }
             finally
             {
@@ -227,7 +229,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Error handling
-        private bool HttpRetryValid(HttpWebRequest request, WebException we)
+        private bool httpRetryValid(HttpWebRequest request, WebException we)
         {
             HttpWebResponse errorResponse = we.Response as HttpWebResponse;
             if (errorResponse == null)
@@ -267,7 +269,7 @@ namespace OpenAsset.RestClient.Library
             return false;
         }
 
-        private void MarshallError(string openAssetUrl, Exception e)
+        private void marshallError(string openAssetUrl, Exception e)
         {
             if (e is WebException && (e as WebException).Status == WebExceptionStatus.ProtocolError)
             {
@@ -365,7 +367,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        private HttpWebResponse GetRESTResponse(string url, string method, byte[] output = null, bool retry = false)
+        private HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false)
         {
             HttpWebResponse response = null;
 
@@ -384,11 +386,11 @@ namespace OpenAsset.RestClient.Library
             {
                 if (retry)
                 {
-                    request.Headers.Add("Authorization", AuthHeaderString(_username, _password));
+                    request.Headers.Add("Authorization", authHeaderString(_username, _password));
                 }
                 else
                 {
-                    request.Credentials = StandardCredentials(url);
+                    request.Credentials = standardCredentials(url);
                 }
             }
             try
@@ -411,16 +413,16 @@ namespace OpenAsset.RestClient.Library
             }
             catch (WebException e)
             {
-                if (HttpRetryValid(request, e))
+                if (httpRetryValid(request, e))
                 {
-                    return GetRESTResponse(url, method, output, true);
+                    return getRESTResponse(url, method, output, true);
                 }
-                MarshallError(url, e);
+                marshallError(url, e);
                 throw;
             }
             catch (Exception e)
             {
-                MarshallError(url, e);
+                marshallError(url, e);
                 throw;
             }
 
@@ -436,7 +438,7 @@ namespace OpenAsset.RestClient.Library
             try
             {
                 string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id + "?" + options.GetUrlParameters();
-                response = GetRESTResponse(restUrl, "GET");
+                response = getRESTResponse(restUrl, "GET");
                 TextReader tr = new StreamReader(response.GetResponseStream());
                 string responseText = tr.ReadToEnd();
                 tr.Close();
@@ -472,7 +474,7 @@ namespace OpenAsset.RestClient.Library
                 if (!String.IsNullOrEmpty(parentNoun))
                     restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
                 restUrl += "?" + options.GetUrlParameters();
-                response = GetRESTResponse(restUrl, "GET");
+                response = getRESTResponse(restUrl, "GET");
 
                 //options.DisplayedResults = Convert.ToInt32(response.Headers[Constant.HEADER_DISPLAY_RESULTS_COUNT]);
                 //options.TotalResults = Convert.ToInt32(response.Headers[Constant.HEADER_FULL_RESULTS_COUNT]);
@@ -507,7 +509,7 @@ namespace OpenAsset.RestClient.Library
                 ASCIIEncoding encoding = new ASCIIEncoding();
                 byte[] output = encoding.GetBytes(jsonOut);
 
-                response = GetRESTResponse(restUrl, method, output, true);
+                response = getRESTResponse(restUrl, method, output, true);
                 T value = null;
                 // get response data
                 TextReader tr = new StreamReader(response.GetResponseStream());

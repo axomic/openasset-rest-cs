@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenAsset.RestClient.Library
 {
-    public class RESTAPIException: System.Exception
+    public class RESTAPIException : System.Exception
     {
         private Error _error = null;
         private string _url = null;
@@ -30,9 +30,8 @@ namespace OpenAsset.RestClient.Library
         }
 
         public RESTAPIException(string url, Error error, Exception e)
-            : base(url, e)
+            : this(url, e)
         {
-            _url = url;
             _error = error;
         }
     }
