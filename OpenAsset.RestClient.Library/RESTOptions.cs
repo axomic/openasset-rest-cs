@@ -11,12 +11,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace OpenAsset.RestClient.Library
 {
-    public interface IRestOptions
-    {
-        string GetUrlParameters();
-    }
-
-    public class RESTOptions<T> : IRestOptions where T : Noun.Base.BaseNoun
+    public class RESTOptions<T> where T : Noun.Base.BaseNoun
     {
         // URL parameters
         private int _limit;
