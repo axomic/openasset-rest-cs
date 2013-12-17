@@ -25,5 +25,15 @@ namespace OpenAsset.RestClient.Library
         // Numbers
         public const int REST_REQUEST_TIMEOUT = 90000;
         public const int REST_AUTHENTICATE_TIMEOUT = 3000;
+
+        // headers
+        public const string HEADER_FULL_RESULTS_COUNT = "X-Full-Results-Count";
+        public const string HEADER_DISPLAY_RESULTS_COUNT = "X-Display-Results-Count";
+        public const string HEADER_OFFSET = "X-Offset";
+        public const string HEADER_OPENASSET_VERSION = "X-OpenAsset-Version";
+        public const string HEADER_SESSIONKEY = "X-SessionKey";
+        public const string HEADER_TIMING = "X-Timing";
+        public const string HEADER_USER_ID = "X-User-Id";
+        public const string HEADER_USERNAME = "X-Username";
     }
 }
