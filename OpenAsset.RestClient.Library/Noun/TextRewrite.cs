@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace OpenAsset.RestClient.Library.Noun
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class TextRewrite : Base.BaseNoun
+    public class TextRewrite : Base.BaseNoun
     {
         #region private serializable properties
         [JsonProperty]

@@ -35,7 +35,7 @@ namespace OpenAsset.RestClient.TestLibrary
                 optionsFile.AddDisplayField("caption");
                 optionsFile.AddDisplayField("category_id");
                 optionsFile.AddOrderBy("id");
-                bool result = optionsFile.RemoveDisplayField("category_id");
+                bool removedDisplayField = optionsFile.RemoveDisplayField("category_id");
                 File file = connectionHelper.GetObject<File>(957, optionsFile);
                 file.Replace(file);
 
@@ -50,10 +50,43 @@ namespace OpenAsset.RestClient.TestLibrary
                 Album album = connectionHelper.GetObject<Album>(53, optionsAlbum);
                 DateTime d = album.Updated;
 
+                RESTOptions<Search> optionsSearch = new RESTOptions<Search>();
+                List<Search> searchList = connectionHelper.GetObjects<Search>(optionsSearch);
+                Search search0 = searchList.ElementAt<Search>(0);
+                Search search1 = searchList.ElementAt<Search>(1);
+
                 //post
-                //connectionHelper.SendObject<Category>(category,true);
-                //put doesn't seem to be implemented
-                //connectionHelper.SendObject<Category>(category, false);
+                Search postSearch = new Search();
+                postSearch.Name = "POSTTESTNAME";
+                SearchItem searchItem = new SearchItem();
+                searchItem.Code = "popularFields";
+                searchItem.Values = new List<string>();
+                searchItem.Values.Add("test1");
+                searchItem.Values.Add("test2");
+                searchItem.Values.Add("test3");
+                postSearch.SearchItems = new List<SearchItem>();
+                postSearch.SearchItems.Add(searchItem);
+                Search newSearch = connectionHelper.SendObject<Search>(postSearch, true); // only returns a Search object with only an Id
+                newSearch = connectionHelper.GetObject<Search>(newSearch.Id, optionsSearch); // get new search data
+
+                //put
+                Search putSearch = new Search();
+                putSearch.Name = "PUTTTESTNAME";
+                SearchItem putSearchItem = new SearchItem();
+                putSearchItem.Code = "popularFields";
+                putSearchItem.Values = new List<string>();
+                putSearchItem.Values.Add("puttest1");
+                putSearchItem.Values.Add("puttest2");
+                putSearchItem.Values.Add("puttest2");
+                putSearch.SearchItems = new List<SearchItem>();
+                putSearch.SearchItems.Add(putSearchItem);
+                putSearch.Id = newSearch.Id;
+                Search modifiedSearch = connectionHelper.SendObject<Search>(putSearch, false);
+
+                // nested example
+                RESTOptions<Result> optionsResult = new RESTOptions<Result>();
+                List<Result> resultList = connectionHelper.GetObjects<Result>(search0.Id, "Searches", optionsResult);
+                Result result0 = resultList.ElementAt<Result>(0);
             }
             catch (RESTAPIException e)
             {
