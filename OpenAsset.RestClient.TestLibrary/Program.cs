@@ -25,7 +25,7 @@ namespace OpenAsset.RestClient.TestLibrary
 
             System.Console.WriteLine("TEST RUNNING!");
 
-            ConnectionHelper connectionHelper = ConnectionHelper.GetConnectionHelper(oaURL, username, password);
+            ConnectionHelper connectionHelper = ConnectionHelper.GetConnectionHelper(oaURL, username, password);// get a connection helper from the "pool"
             try
             {
                 bool validUser = connectionHelper.ValidateCredentials();
