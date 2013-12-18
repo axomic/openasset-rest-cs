@@ -369,7 +369,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        private HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, bool isMultipart = false, string contentType = null)
+        private HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, bool isMultipart = false, string contentType = "application/json")
         {
             HttpWebResponse response = null;
 
@@ -379,6 +379,7 @@ namespace OpenAsset.RestClient.Library
             request.UserAgent = Constant.REST_USER_AGENT;
             request.Timeout = Constant.REST_REQUEST_TIMEOUT;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            request.ContentType = contentType;
 
             if (!String.IsNullOrEmpty(_sessionKey))
             {
@@ -402,7 +403,6 @@ namespace OpenAsset.RestClient.Library
                     if (!isMultipart)
                     {
                         request.ContentLength = output.Length;
-                        request.ContentType = "application/json";
                         Stream requestStream = request.GetRequestStream();
                         requestStream.Write(output, 0, output.Length);
                         requestStream.Flush();
@@ -410,7 +410,6 @@ namespace OpenAsset.RestClient.Library
                     }
                     else
                     {
-                        request.ContentType = contentType;
                         request.ContentLength = output.Length;
                         // Send the form data to the request.
                         using (Stream requestStream = request.GetRequestStream())
@@ -520,6 +519,7 @@ namespace OpenAsset.RestClient.Library
             return formData;
         }
         
+        // any base noun can be used but only the FileNoun accepts this type of POST
         public T SendObject<T>(T sendingObject, string filepath) where T : Noun.Base.BaseNoun, new()
         {
             // read file
@@ -570,7 +570,7 @@ namespace OpenAsset.RestClient.Library
         }
         #endregion
 
-        #region Get/Set objects
+        #region Get/Send objects
         public T GetObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
@@ -633,6 +633,11 @@ namespace OpenAsset.RestClient.Library
 
         public T SendObject<T>(T sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
+            // serialize sending object
+            string jsonOut = JsonConvert.SerializeObject(sendingObject);
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] output = encoding.GetBytes(jsonOut);
+            // send post/put request
             HttpWebResponse response = null;
             try
             {
@@ -644,17 +649,14 @@ namespace OpenAsset.RestClient.Library
                     restUrl += "/" + sendingObject.Id;
                 }
 
-                string jsonOut = JsonConvert.SerializeObject(sendingObject);
-                ASCIIEncoding encoding = new ASCIIEncoding();
-                byte[] output = encoding.GetBytes(jsonOut);
-
                 response = getRESTResponse(restUrl, method, output, true, false);
-                T value = null;
                 // get response data
                 TextReader tr = new StreamReader(response.GetResponseStream());
                 string responseText = tr.ReadToEnd();
                 tr.Close();
                 tr.Dispose();
+                // fill value
+                T value = null;
                 if (createNew)
                 {
                     NewItem newItem = JsonConvert.DeserializeObject<NewItem>(responseText);
@@ -666,6 +668,54 @@ namespace OpenAsset.RestClient.Library
                     value = JsonConvert.DeserializeObject<T>(responseText);
                 }
                 return value;
+            }
+            finally
+            {
+                if (response != null)
+                    response.Close();
+            }
+        }
+
+        public List<T> SendObjects<T>(T sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        {
+            // serialize sending object
+            string jsonOut = JsonConvert.SerializeObject(sendingObject);
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] output = encoding.GetBytes(jsonOut);
+            // send post/put request
+            HttpWebResponse response = null;
+            try
+            {
+                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
+                string method = "POST";
+                if (!createNew)
+                {
+                    method = "PUT";
+                }
+                response = getRESTResponse(restUrl, method, output, true, false);
+                // get response data
+                TextReader tr = new StreamReader(response.GetResponseStream());
+                string responseText = tr.ReadToEnd();
+                tr.Close();
+                tr.Dispose();
+                // fill values list
+                List<T> values = null;
+                if (createNew)
+                {
+                    List<NewItem> newItemList = JsonConvert.DeserializeObject<List<NewItem>>(responseText);
+                    values = new List<T>();
+                    foreach (NewItem newItem in newItemList)
+                    {
+                        T value = new T();
+                        value.Id = newItem.NewId;
+                        values.Add(value);
+                    }
+                }
+                else
+                {
+                    values = JsonConvert.DeserializeObject<List<T>>(responseText);
+                }
+                return values;
             }
             finally
             {

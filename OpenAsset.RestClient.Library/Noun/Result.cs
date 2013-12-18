@@ -25,5 +25,16 @@ namespace OpenAsset.RestClient.Library.Noun
             set { file_id = value; }
         }
         #endregion
+
+        public override string UniqueCode
+        {
+            get { return FileId.ToString(); }
+            set { FileId = Convert.ToInt32(value); }
+        }
+
+        public override string UniqueCodeField
+        {
+            get { return "file_id"; }
+        }
     }
 }
