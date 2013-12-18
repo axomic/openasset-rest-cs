@@ -14,15 +14,15 @@ namespace OpenAsset.RestClient.Library.Noun
     public class SearchItem : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code;
-        [JsonProperty("operator")]
+        [JsonProperty("operator",NullValueHandling = NullValueHandling.Ignore)]
         public string _operator;
-        [JsonProperty]
-        private int exclude;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? exclude;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<int> ids;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<string> values;
         #endregion
 
@@ -39,10 +39,10 @@ namespace OpenAsset.RestClient.Library.Noun
             set { _operator = value; }
         }
 
-        public int Exclude
+        public bool Exclude
         {
-            get { return exclude; }
-            set { exclude = value; }
+            get { return (exclude ?? default(int)) != 0; }
+            set { exclude = value ? 1 : 0; }
         }
 
         public List<int> Ids

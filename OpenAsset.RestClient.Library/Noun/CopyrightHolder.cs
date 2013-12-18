@@ -14,10 +14,10 @@ namespace OpenAsset.RestClient.Library.Noun
     public class CopyrightHolder : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
-        private int copyright_policy_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? copyright_policy_id;
         #endregion
 
         #region Accessors
@@ -29,7 +29,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int CopyrightPolicyId
         {
-            get { return copyright_policy_id; }
+            get { return copyright_policy_id ?? default(int); }
             set { copyright_policy_id = value; }
         }
         #endregion

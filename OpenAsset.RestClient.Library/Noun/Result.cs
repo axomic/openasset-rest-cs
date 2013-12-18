@@ -14,14 +14,14 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Result : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
-        private int file_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? file_id;
         #endregion
 
         #region Accessors
         public int FileId
         {
-            get { return file_id; }
+            get { return file_id ?? default(int); }
             set { file_id = value; }
         }
         #endregion

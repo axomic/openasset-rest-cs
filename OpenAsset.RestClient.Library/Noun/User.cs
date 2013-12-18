@@ -14,12 +14,12 @@ namespace OpenAsset.RestClient.Library.Noun
     public class User : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string username;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string full_name;
-        [JsonProperty]
-        private int alive;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? alive;
         #endregion
 
         #region Accessors
@@ -37,7 +37,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool Alive
         {
-            get { return alive != 0 ? true : false; }
+            get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
         #endregion

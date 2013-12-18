@@ -15,7 +15,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
     [JsonObject(MemberSerialization.OptIn)]
     public class BaseNoun : IComparable
     {
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected int id;
 
         public int Id

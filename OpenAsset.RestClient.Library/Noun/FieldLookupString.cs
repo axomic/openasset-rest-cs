@@ -14,13 +14,13 @@ namespace OpenAsset.RestClient.Library.Noun
     public class FieldLookupString : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty("value")]
+        [JsonProperty("value",NullValueHandling = NullValueHandling.Ignore)]
         public string _value;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string description;
-        [JsonProperty]
-        private int display_order;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? display_order;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private Field field;
         #endregion
 
@@ -39,7 +39,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int DisplayOrder
         {
-            get { return display_order; }
+            get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 

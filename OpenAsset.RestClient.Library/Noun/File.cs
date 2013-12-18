@@ -14,55 +14,55 @@ namespace OpenAsset.RestClient.Library.Noun
     public class File : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string filename;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string original_filename;
-        [JsonProperty]
-        private int access_level;
-        [JsonProperty]
-        private int alternate_store_id;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? access_level;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? alternate_store_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string caption;
-        [JsonProperty]
-        private int category_id;
-        [JsonProperty]
-        private int click_count;
-        [JsonProperty]
-        private int contains_audio;
-        [JsonProperty]
-        private int contains_video;
-        [JsonProperty]
-        private int copyright_holder_id;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? category_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? click_count;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? contains_audio;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? contains_video;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? copyright_holder_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string created;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string description;
-        [JsonProperty]
-        private int download_count;
-        [JsonProperty]
-        private int duration;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? download_count;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? duration;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string md5_at_upload;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string md5_now;
-        [JsonProperty]
-        private int photographer_id;
-        [JsonProperty]
-        private int project_id;
-        [JsonProperty]
-        private int rank;
-        [JsonProperty]
-        private int rotation_since_upload;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? photographer_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? project_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? rank;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? rotation_since_upload;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string uploaded;
-        [JsonProperty]
-        private int user_id;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? user_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<Field> fields;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<Size> sizes;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<Keyword> keywords;
         #endregion
 
@@ -81,13 +81,13 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int AccessLevel
         {
-            get { return access_level; }
+            get { return access_level ?? default(int); }
             set { access_level = value; }
         }
 
         public int AlternateStoreId
         {
-            get { return alternate_store_id; }
+            get { return alternate_store_id ?? default(int); }
             set { alternate_store_id = value; }
         }
 
@@ -99,13 +99,13 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int CategoryId
         {
-            get { return category_id; }
+            get { return category_id ?? default(int); }
             set { category_id = value; }
         }
 
         public int ClickCount
         {
-            get { return click_count; }
+            get { return click_count ?? default(int); }
             set { click_count = value; }
         }
 
@@ -123,7 +123,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int CopyrightHolderId
         {
-            get { return copyright_holder_id; }
+            get { return copyright_holder_id ?? default(int); }
             set { copyright_holder_id = value; }
         }
 
@@ -141,13 +141,13 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int DownloadCount
         {
-            get { return download_count; }
+            get { return download_count ?? default(int); }
             set { download_count = value; }
         }
 
         public int Duration
         {
-            get { return duration; }
+            get { return duration ?? default(int); }
             set { duration = value; }
         }
 
@@ -165,25 +165,25 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int PhotographerId
         {
-            get { return photographer_id; }
+            get { return photographer_id ?? default(int); }
             set { photographer_id = value; }
         }
 
         public int ProjectId
         {
-            get { return project_id; }
+            get { return project_id ?? default(int); }
             set { project_id = value; }
         }
 
         public int Rank
         {
-            get { return rank; }
+            get { return rank ?? default(int); }
             set { rank = value; }
         }
 
         public int RotationSinceUpload
         {
-            get { return rotation_since_upload; }
+            get { return rotation_since_upload ?? default(int); }
             set { rotation_since_upload = value; }
         }
 
@@ -195,7 +195,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int UserId
         {
-            get { return user_id; }
+            get { return user_id ?? default(int); }
             set { user_id = value; }
         }
 

@@ -14,14 +14,14 @@ namespace OpenAsset.RestClient.Library.Noun
     public class TextRewrite : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string text_match;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string text_replace;
-        [JsonProperty]
-        private int case_sensitive;
-        [JsonProperty]
-        private int preserve_first_letter_case;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? case_sensitive;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? preserve_first_letter_case;
         #endregion
 
         #region Accessors
@@ -39,13 +39,13 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool CaseSensitive
         {
-            get { return case_sensitive != 0; }
+            get { return (case_sensitive ?? default(int)) != 0; }
             set { case_sensitive = value ? 1 : 0; }
         }
 
         public bool PreserveFirstLetterCase
         {
-            get { return preserve_first_letter_case != 0; }
+            get { return (preserve_first_letter_case ?? default(int)) != 0; }
             set { preserve_first_letter_case = value ? 1 : 0; }
         }
         #endregion

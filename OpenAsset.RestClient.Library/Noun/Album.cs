@@ -14,37 +14,37 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Album : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string description;
-        [JsonProperty]
-        private int user_id;
-        [JsonProperty]
-        private int all_users_can_modify;
-        [JsonProperty]
-        private int can_modify;
-        [JsonProperty]
-        private int my_album;
-        [JsonProperty]
-        private int shared_album;
-        [JsonProperty]
-        private int company_album;
-        [JsonProperty]
-        private int share_with_all_users;
-        [JsonProperty]
-        private int locked;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? user_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? all_users_can_modify;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? can_modify;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? my_album;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? shared_album;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? company_album;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? share_with_all_users;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? locked;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string private_image_count;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string public_image_count;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string unapproved_image_count;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string updated;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string created;
         #endregion
 
@@ -69,49 +69,49 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int UserId
         {
-            get { return user_id; }
+            get { return user_id ?? default(int); }
             set { user_id = value; }
         }
 
         public bool AllUsersCanModify
         {
-            get { return all_users_can_modify != 0 ? true : false; }
+            get { return (all_users_can_modify ?? default(int)) != 0 ? true : false; }
             set { all_users_can_modify = value ? 1 : 0; }
         }
 
         public bool CanModify
         {
-            get { return can_modify != 0 ? true : false; }
+            get { return (can_modify ?? default(int)) != 0 ? true : false; }
             set { can_modify = value ? 1 : 0; }
         }
 
         public bool MyAlbum
         {
-            get { return my_album != 0 ? true : false; }
+            get { return (my_album ?? default(int)) != 0 ? true : false; }
             set { my_album = value ? 1 : 0; }
         }
 
         public bool SharedAlbum
         {
-            get { return shared_album != 0 ? true : false; }
+            get { return (shared_album ?? default(int)) != 0 ? true : false; }
             set { shared_album = value ? 1 : 0; }
         }
 
         public bool CompanyAlbum
         {
-            get { return company_album != 0 ? true : false; }
+            get { return (company_album ?? default(int)) != 0 ? true : false; }
             set { company_album = value ? 1 : 0; }
         }
 
         public bool ShareWithAllUsers
         {
-            get { return share_with_all_users != 0 ? true : false; }
+            get { return (share_with_all_users ?? default(int)) != 0 ? true : false; }
             set { share_with_all_users = value ? 1 : 0; }
         }
 
         public bool Locked
         {
-            get { return locked != 0 ? true : false; }
+            get { return (locked ?? default(int)) != 0 ? true : false; }
             set { locked = value ? 1 : 0; }
         }
 

@@ -14,26 +14,26 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Category : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string description;
-        [JsonProperty]
-        private int default_access_level;
-        [JsonProperty]
-        private int default_rank;
-        [JsonProperty]
-        private int maximum_rank;
-        [JsonProperty]
-        private int display_order;
-        [JsonProperty]
-        private int projects_category;
-        [JsonProperty]
-        private int alive;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? default_access_level;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? default_rank;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? maximum_rank;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? display_order;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? projects_category;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? alive;
         //used in post
-        //[JsonProperty]
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         //private int is_projects_category;
         #endregion
 
@@ -58,37 +58,37 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int DefaultAccessLevel
         {
-            get { return default_access_level; }
+            get { return default_access_level ?? default(int); }
             set { default_access_level = value; }
         }
 
         public int DefaultRank
         {
-            get { return default_rank; }
+            get { return default_rank ?? default(int); }
             set { default_rank = value; }
         }
 
         public int MaximumRank
         {
-            get { return maximum_rank; }
+            get { return maximum_rank ?? default(int); }
             set { maximum_rank = value; }
         }
 
         public int DisplayOrder
         {
-            get { return display_order; }
+            get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 
         public int ProjectsCategory
         {
-            get { return projects_category; }
+            get { return projects_category ?? default(int); }
             set { projects_category = value; }
         }
 
         public bool Alive
         {
-            get { return alive != 0 ? true : false; }
+            get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
         #endregion

@@ -14,31 +14,31 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Search : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
-        private int all_users_can_modify;
-        [JsonProperty]
-        private int approved_company_saved_search;
-        [JsonProperty]
-        private int can_modify;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? all_users_can_modify;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? approved_company_saved_search;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? can_modify;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code;
-        [JsonProperty]
-        private int company_saved_search;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? company_saved_search;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string created;
-        [JsonProperty]
-        private int locked;
-        [JsonProperty]
-        private int saved;
-        [JsonProperty]
-        private int share_with_all_users;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? locked;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? saved;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? share_with_all_users;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string updated;
-        [JsonProperty]
-        private int user_id;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? user_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<SearchItem> search_items;
         #endregion
 
@@ -51,19 +51,19 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int AllUsersCanModify
         {
-            get { return all_users_can_modify; }
+            get { return all_users_can_modify ?? default(int); }
             set { all_users_can_modify = value; }
         }
 
         public bool ApprovedCompanySavedSearch
         {
-            get { return approved_company_saved_search != 0 ? true : false; }
+            get { return (approved_company_saved_search ?? default(int)) != 0 ? true : false; }
             set { approved_company_saved_search = value ? 1 : 0; }
         }
 
         public bool CanModify
         {
-            get { return can_modify != 0 ? true : false; }
+            get { return (can_modify ?? default(int)) != 0 ? true : false; }
             set { can_modify = value ? 1 : 0; }
         }
 
@@ -75,7 +75,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool CompanySavedSearch
         {
-            get { return company_saved_search != 0 ? true : false; }
+            get { return (company_saved_search ?? default(int)) != 0 ? true : false; }
             set { company_saved_search = value ? 1 : 0; }
         }
 
@@ -87,19 +87,19 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool Locked
         {
-            get { return locked != 0 ? true : false; }
+            get { return (locked ?? default(int)) != 0 ? true : false; }
             set { locked = value ? 1 : 0; }
         }
 
         public bool Saved
         {
-            get { return saved != 0 ? true : false; }
+            get { return (saved ?? default(int)) != 0 ? true : false; }
             set { saved = value ? 1 : 0; }
         }
 
         public bool ShareWithAllUsers
         {
-            get { return share_with_all_users != 0 ? true : false; }
+            get { return (share_with_all_users ?? default(int)) != 0 ? true : false; }
             set { share_with_all_users = value ? 1 : 0; }
         }
 
@@ -111,7 +111,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int UserId
         {
-            get { return user_id; }
+            get { return user_id ?? default(int); }
             set { user_id = value; }
         }
 

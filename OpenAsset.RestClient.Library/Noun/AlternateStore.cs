@@ -14,9 +14,9 @@ namespace OpenAsset.RestClient.Library.Noun
     public class AlternateStore : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string storage_name;
         #endregion
 

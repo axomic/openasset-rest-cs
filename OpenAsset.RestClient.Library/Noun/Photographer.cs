@@ -14,7 +14,7 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Photographer : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
         #endregion
 

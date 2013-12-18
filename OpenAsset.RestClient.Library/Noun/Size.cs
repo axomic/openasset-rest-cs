@@ -14,48 +14,48 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Size : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
-        private int original;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? original;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string postfix;
-        [JsonProperty]
-        private int alive;
-        [JsonProperty]
-        private int always_create;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? alive;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? always_create;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string colourspace;
-        [JsonProperty]
-        private int crop_to_fit;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? crop_to_fit;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string description;
-        [JsonProperty]
-        private int display_order;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? display_order;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string file_format;
-        [JsonProperty]
-        private int height;
-        [JsonProperty]
-        private int quality;
-        [JsonProperty]
-        private int size_protected;
-        [JsonProperty]
-        private int use_for_contact_sheet;
-        [JsonProperty]
-        private int use_for_power_point;
-        [JsonProperty]
-        private int use_for_zip;
-        [JsonProperty]
-        private int width;
-        [JsonProperty]
-        private int x_resolution;
-        [JsonProperty]
-        private int y_resolution;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? height;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? quality;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? size_protected;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? use_for_contact_sheet;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? use_for_power_point;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? use_for_zip;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? width;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? x_resolution;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? y_resolution;
         #endregion
 
         // sets the id of the object (when deserialization is made from an expanded field)
-        [JsonProperty("size_id")]
+        [JsonProperty("size_id",NullValueHandling = NullValueHandling.Ignore)]
         protected int? size_id;
 
         #region Accessors
@@ -79,13 +79,13 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool Alive
         {
-            get { return alive != 0 ? true : false; }
+            get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
 
         public bool AlwaysCreate
         {
-            get { return always_create != 0 ? true : false; }
+            get { return (always_create ?? default(int)) != 0 ? true : false; }
             set { always_create = value ? 1 : 0; }
         }
 
@@ -97,7 +97,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool CropToFit
         {
-            get { return crop_to_fit != 0 ? true : false; }
+            get { return (crop_to_fit ?? default(int)) != 0 ? true : false; }
             set { crop_to_fit = value ? 1 : 0; }
         }
 
@@ -109,7 +109,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int DisplayOrder
         {
-            get { return display_order; }
+            get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 
@@ -121,13 +121,13 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int Height
         {
-            get { return height; }
+            get { return height ?? default(int); }
             set { height = value; }
         }
 
         public int Quality
         {
-            get { return quality; }
+            get { return quality ?? default(int); }
             set { quality = value; }
         }
 
@@ -157,19 +157,19 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int Width
         {
-            get { return width; }
+            get { return width ?? default(int); }
             set { width = value; }
         }
 
         public int XResolution
         {
-            get { return x_resolution; }
+            get { return x_resolution ?? default(int); }
             set { x_resolution = value; }
         }
 
         public int YResolution
         {
-            get { return y_resolution; }
+            get { return y_resolution ?? default(int); }
             set { y_resolution = value; }
         }
         #endregion

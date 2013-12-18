@@ -14,16 +14,16 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Keyword : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
-        private int keyword_category_id;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? keyword_category_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
         #endregion
 
         #region Accessors
         public int KeywordCategoryId
         {
-            get { return keyword_category_id; }
+            get { return keyword_category_id ?? default(int); }
             set { keyword_category_id = value; }
         }
 
@@ -35,7 +35,7 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         // sets the id of the object (when deserialization is made from an expanded field)
-        [JsonProperty("keyword_id")]
+        [JsonProperty("keyword_id",NullValueHandling = NullValueHandling.Ignore)]
         protected int? keyword_id;
 
         [OnDeserialized]

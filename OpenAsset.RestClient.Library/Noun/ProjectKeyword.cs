@@ -14,10 +14,10 @@ namespace OpenAsset.RestClient.Library.Noun
     public class ProjectKeyword : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
-        private int project_keyword_category_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? project_keyword_category_id;
         #endregion
 
         #region Accessors
@@ -29,7 +29,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int ProjectKeywordCategoryId
         {
-            get { return project_keyword_category_id; }
+            get { return project_keyword_category_id ?? default(int); }
             set { project_keyword_category_id = value; }
         }
         #endregion

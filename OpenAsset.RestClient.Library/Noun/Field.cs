@@ -14,27 +14,27 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Field : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
-        private int alive;
-        [JsonProperty]
-        private int cardinality;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? alive;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? cardinality;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string description;
-        [JsonProperty]
-        private int display_order;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? display_order;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string field_display_type;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string field_type;
-        [JsonProperty("protected")]
-        public int _protected;
+        [JsonProperty("protected",NullValueHandling = NullValueHandling.Ignore)]
+        public int? _protected;
 
         // sets the id of the object (when deserialization is made from an expanded field)
-        [JsonProperty("field_id")]
+        [JsonProperty("field_id",NullValueHandling = NullValueHandling.Ignore)]
         protected int? field_id;
         #endregion
 
@@ -65,7 +65,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool Protected
         {
-            get { return _protected != 0 ? true : false; }
+            get { return (_protected ?? default(int)) != 0 ? true : false; }
             set { _protected = value ? 1 : 0; }
         }
 
@@ -77,19 +77,19 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int DisplayOrder
         {
-            get { return display_order; }
+            get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 
         public int Cardinality
         {
-            get { return cardinality; }
+            get { return cardinality ?? default(int); }
             set { cardinality = value; }
         }
 
         public bool Alive
         {
-            get { return alive != 0 ? true : false; }
+            get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
         #endregion

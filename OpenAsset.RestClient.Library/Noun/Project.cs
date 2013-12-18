@@ -14,23 +14,23 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Project : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name_alias_1;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name_alias_2;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code_alias_1;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code_alias_2;
-        [JsonProperty]
-        private int alive;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? alive;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<Field> fields;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private List<ProjectKeyword> projectKeywords;
         #endregion
 
@@ -73,7 +73,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool Alive
         {
-            get { return alive != 0 ? true : false; }
+            get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
 

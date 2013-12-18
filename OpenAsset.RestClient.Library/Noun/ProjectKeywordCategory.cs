@@ -14,12 +14,12 @@ namespace OpenAsset.RestClient.Library.Noun
     public class ProjectKeywordCategory : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string name;
-        [JsonProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         private string code;
-        [JsonProperty]
-        private int display_order;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private int? display_order;
         #endregion
 
         #region Accessors
@@ -37,7 +37,7 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public int DisplayOrder
         {
-            get { return display_order; }
+            get { return display_order ?? default(int); }
             set { display_order = value; }
         }
         #endregion

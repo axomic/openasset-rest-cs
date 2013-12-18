@@ -28,7 +28,11 @@ namespace OpenAsset.RestClient.TestLibrary
             ConnectionHelper connectionHelper = ConnectionHelper.GetConnectionHelper(oaURL, username, password);// get a connection helper from the "pool"
             try
             {
+                /*
+                //check if user is valid
                 bool validUser = connectionHelper.ValidateCredentials();
+                 
+                // get
                 RESTOptions<File> optionsFile = new RESTOptions<File>();
                 optionsFile.SetSearchParameter("sizes", "all");
                 optionsFile.AddDisplayField("access_level");
@@ -87,6 +91,17 @@ namespace OpenAsset.RestClient.TestLibrary
                 RESTOptions<Result> optionsResult = new RESTOptions<Result>();
                 List<Result> resultList = connectionHelper.GetObjects<Result>(search0.Id, "Searches", optionsResult);
                 Result result0 = resultList.ElementAt<Result>(0);
+                */
+
+                // file upload
+                string filename = "C:\\Users\\duarte.aragao\\Downloads\\";
+                filename += "test.jpg";
+                RESTOptions<File> optionsFileUpload = new RESTOptions<File>();
+                File fileUpload = new File();
+                fileUpload.CategoryId = 5;
+                fileUpload.AccessLevel = 1;
+                fileUpload.Rank = 1;
+                File newFile = connectionHelper.SendObject<File>(fileUpload, filename);
             }
             catch (RESTAPIException e)
             {
