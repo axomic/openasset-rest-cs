@@ -178,10 +178,10 @@ namespace OpenAsset.RestClient.Library
         {
             string parameters = "limit=" + Limit;
             parameters += "&offset=" + Offset;
-            string displayFields = String.Join(",", _displayFields);
+            string displayFields = String.Join(",", _displayFields.ToArray());
             if (!String.IsNullOrEmpty(displayFields))
                 parameters += "&displayFields=" + displayFields;
-            string orderBy = String.Join(",", _orderBy);
+            string orderBy = String.Join(",", _orderBy.ToArray());
             if (!String.IsNullOrEmpty(orderBy))
                 parameters += "&orderBy=" + orderBy;
             foreach (KeyValuePair<string, string> kvp in _filters)
