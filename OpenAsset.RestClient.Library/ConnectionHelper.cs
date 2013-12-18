@@ -676,7 +676,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public List<T> SendObjects<T>(T sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        public List<T> SendObjects<T>(List<T> sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
             // serialize sending object
             string jsonOut = JsonConvert.SerializeObject(sendingObject);
@@ -706,9 +706,17 @@ namespace OpenAsset.RestClient.Library
                     values = new List<T>();
                     foreach (NewItem newItem in newItemList)
                     {
-                        T value = new T();
-                        value.Id = newItem.NewId;
-                        values.Add(value);
+                        if (newItem.NewId != 0)
+                        {
+                            T value = new T();
+                            value.Id = newItem.NewId;
+                            values.Add(value);
+                        }
+                        else
+                        {
+                            // it probably failed the creation of the object!!!!
+                            // throw exception? do what?
+                        }
                     }
                 }
                 else

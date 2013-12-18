@@ -103,6 +103,20 @@ namespace OpenAsset.RestClient.TestLibrary
                 fileUpload.Rank = 1;
                 File newFile = connectionHelper.SendObject<File>(fileUpload, filename);
 
+                // send multiple objects
+                Photographer photographer1 = new Photographer();
+                photographer1.Name = "a";
+                Photographer photographer2 = new Photographer();
+                photographer2.Name = "ab";
+                Photographer photographer3 = new Photographer();
+                photographer3.Name = "abc";
+                List<Photographer> photographerList = new List<Photographer>() 
+                { 
+                    photographer1,
+                    photographer2,
+                    photographer3,
+                };
+                List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
 
             }
             catch (RESTAPIException e)
