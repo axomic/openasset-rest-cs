@@ -288,21 +288,21 @@ namespace OpenAsset.RestClient.Library
                 catch (JsonException)
                 {
                     _lastError = new Error();
-                    _lastError.http_status_code = (int)((e as WebException).Response as HttpWebResponse).StatusCode;
-                    _lastError.error_message = responseText;
+                    _lastError.HttpStatusCode = (int)((e as WebException).Response as HttpWebResponse).StatusCode;
+                    _lastError.ErrorMessage = responseText;
                 }
             }
             else if (e is WebException)
             {
                 _lastError = new Error();
-                _lastError.http_status_code = (int)(e as WebException).Status;
-                _lastError.error_message = e.Message;
+                _lastError.HttpStatusCode = (int)(e as WebException).Status;
+                _lastError.ErrorMessage = e.Message;
             }
             else
             {
                 _lastError = new Error();
-                _lastError.http_status_code = -1;
-                _lastError.error_message = e.Message;
+                _lastError.HttpStatusCode = -1;
+                _lastError.ErrorMessage = e.Message;
             }
 
             throw new RESTAPIException(openAssetUrl, _lastError, e);
@@ -369,7 +369,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        private HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, bool isMultipart = false, string contentType = "application/json")
+        private HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json")
         {
             HttpWebResponse response = null;
 
@@ -400,25 +400,11 @@ namespace OpenAsset.RestClient.Library
             {
                 if (output != null && output.Length > 0)
                 {
-                    if (!isMultipart)
-                    {
-                        request.ContentLength = output.Length;
-                        Stream requestStream = request.GetRequestStream();
-                        requestStream.Write(output, 0, output.Length);
-                        requestStream.Flush();
-                        requestStream.Close();
-                    }
-                    else
-                    {
-                        request.ContentLength = output.Length;
-                        // Send the form data to the request.
-                        using (Stream requestStream = request.GetRequestStream())
-                        {
-                            requestStream.Write(output, 0, output.Length);
-                            requestStream.Close();
-                        }
-
-                    }
+                    request.ContentLength = output.Length;
+                    Stream requestStream = request.GetRequestStream();
+                    requestStream.Write(output, 0, output.Length);
+                    requestStream.Flush();
+                    requestStream.Close();
                 }
                 response = getResponse(request, retry);
                 if (!String.IsNullOrEmpty(LastResponseHeaders.SessionKey))
@@ -431,7 +417,7 @@ namespace OpenAsset.RestClient.Library
             {
                 if (httpRetryValid(request, e))
                 {
-                    return getRESTResponse(url, method, output, true, isMultipart, contentType);
+                    return getRESTResponse(url, method, output, true, contentType);
                 }
                 marshallError(url, e);
                 throw;
@@ -518,59 +504,10 @@ namespace OpenAsset.RestClient.Library
 
             return formData;
         }
-        
-        // any base noun can be used but only the FileNoun accepts this type of POST
-        public T SendObject<T>(T sendingObject, string filepath) where T : Noun.Base.BaseNoun, new()
-        {
-            // read file
-            string filename = Path.GetFileName(filepath);
-            string fileExtension = Path.GetExtension(filename).Remove(0,1);
-            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
-            byte[] data = new byte[fs.Length];
-            fs.Read(data, 0, data.Length);
-            fs.Close();
-            // serialize sending object
-            string jsonOut = JsonConvert.SerializeObject(sendingObject);//
-            // generate post object
-            Dictionary<string, object> postParameters = new Dictionary<string, object>();
-            postParameters.Add("file", new FileParameter(data, filename, "image/" + fileExtension));
-            postParameters.Add("_jsonBody", jsonOut);
-            
-            // form data
-            string formDataBoundary = String.Format("----------{0:N}", Guid.NewGuid());
-            string contentType = "multipart/form-data; boundary=" + formDataBoundary;
-            byte[] formData = GetMultipartFormData(postParameters, formDataBoundary);
-
-            HttpWebResponse response = null;
-            try
-            {
-                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-                string method = "POST";
-
-                //response = getRESTResponse(restUrl, method, output, true);
-                response = getRESTResponse(restUrl, method, formData, true, true, contentType);
-                T value = null;
-                // get response data
-                TextReader tr = new StreamReader(response.GetResponseStream());
-                string responseText = tr.ReadToEnd();
-                tr.Close();
-                tr.Dispose();
-
-                NewItem newItem = JsonConvert.DeserializeObject<NewItem>(responseText);
-                value = new T();
-                value.Id = newItem.NewId;
-
-                return value;
-            }
-            finally
-            {
-                if (response != null)
-                    response.Close();
-            }
-        }
         #endregion
 
         #region Get/Send objects
+        #region GET Objects
         public T GetObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
@@ -630,6 +567,48 @@ namespace OpenAsset.RestClient.Library
                     response.Close();
             }
         }
+        #endregion
+
+        #region SEND Objects
+        private string sendObjectStringResponse(byte[] output, bool createNew, string urlNoun, string contentType)
+        {
+            string responseText;
+            HttpWebResponse response = null;
+            try
+            {
+                string restUrl = _serverURL + Constant.REST_BASE_PATH + urlNoun;
+                string method = createNew ? "POST" : "PUT";
+
+                response = getRESTResponse(restUrl, method, output, true, contentType);
+                // get response data
+                TextReader tr = new StreamReader(response.GetResponseStream());
+                responseText = tr.ReadToEnd();
+                tr.Close();
+                tr.Dispose();
+            }
+            finally
+            {
+                if (response != null)
+                    response.Close();
+            }
+            return responseText;
+        }
+
+        private T deserealizeResponse<T>(string response, bool createNew) where T : Noun.Base.BaseNoun, new()
+        {
+            T value = null;
+            if (createNew)
+            {
+                NewItem newItem = JsonConvert.DeserializeObject<NewItem>(response);
+                value = new T();
+                value.Id = newItem.NewId;
+            }
+            else
+            {
+                value = JsonConvert.DeserializeObject<T>(response);
+            }
+            return value;
+        }
 
         public T SendObject<T>(T sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
@@ -638,42 +617,44 @@ namespace OpenAsset.RestClient.Library
             ASCIIEncoding encoding = new ASCIIEncoding();
             byte[] output = encoding.GetBytes(jsonOut);
             // send post/put request
-            HttpWebResponse response = null;
-            try
-            {
-                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-                string method = "POST";
-                if (!createNew)
-                {
-                    method = "PUT";
-                    restUrl += "/" + sendingObject.Id;
-                }
+            string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
+            urlNoun += createNew ? "" : "/" + sendingObject.Id;
+            string contentType = "application/json";
+            string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType);
+            // deserealize object
+            T value = deserealizeResponse<T>(responseText, createNew);
+            return value;
+        }
 
-                response = getRESTResponse(restUrl, method, output, true, false);
-                // get response data
-                TextReader tr = new StreamReader(response.GetResponseStream());
-                string responseText = tr.ReadToEnd();
-                tr.Close();
-                tr.Dispose();
-                // fill value
-                T value = null;
-                if (createNew)
-                {
-                    NewItem newItem = JsonConvert.DeserializeObject<NewItem>(responseText);
-                    value = new T();
-                    value.Id = newItem.NewId;
-                }
-                else
-                {
-                    value = JsonConvert.DeserializeObject<T>(responseText);
-                }
-                return value;
-            }
-            finally
-            {
-                if (response != null)
-                    response.Close();
-            }
+
+        // any base noun can be used but only the FileNoun accepts this type of POST
+        public T SendObject<T>(T sendingObject, string filepath) where T : Noun.Base.BaseNoun, new()
+        {
+            // read file
+            string filename = Path.GetFileName(filepath);
+            string fileExtension = Path.GetExtension(filename).Remove(0, 1);
+            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+            byte[] data = new byte[fs.Length];
+            fs.Read(data, 0, data.Length);
+            fs.Close();
+            // serialize sending object
+            string jsonOut = JsonConvert.SerializeObject(sendingObject);//
+            // generate post object
+            Dictionary<string, object> postParameters = new Dictionary<string, object>();
+            postParameters.Add("file", new FileParameter(data, filename, "image/" + fileExtension));
+            postParameters.Add("_jsonBody", jsonOut);
+
+            // form data
+            string formDataBoundary = String.Format("----------{0:N}", Guid.NewGuid());
+            string contentType = "multipart/form-data; boundary=" + formDataBoundary;
+            byte[] formData = GetMultipartFormData(postParameters, formDataBoundary);
+
+            // send post/put request
+            string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
+            string responseText = sendObjectStringResponse(formData, true, urlNoun, contentType);
+            // deserealize object
+            T value = deserealizeResponse<T>(responseText, true);
+            return value;
         }
 
         public List<T> SendObjects<T>(List<T> sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
@@ -683,54 +664,38 @@ namespace OpenAsset.RestClient.Library
             ASCIIEncoding encoding = new ASCIIEncoding();
             byte[] output = encoding.GetBytes(jsonOut);
             // send post/put request
-            HttpWebResponse response = null;
-            try
+            string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
+            string contentType = "application/json";
+            string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType);
+
+            // fill values list
+            List<T> values = null;
+            if (createNew)
             {
-                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-                string method = "POST";
-                if (!createNew)
+                List<NewItem> newItemList = JsonConvert.DeserializeObject<List<NewItem>>(responseText);
+                values = new List<T>();
+                foreach (NewItem newItem in newItemList)
                 {
-                    method = "PUT";
-                }
-                response = getRESTResponse(restUrl, method, output, true, false);
-                // get response data
-                TextReader tr = new StreamReader(response.GetResponseStream());
-                string responseText = tr.ReadToEnd();
-                tr.Close();
-                tr.Dispose();
-                // fill values list
-                List<T> values = null;
-                if (createNew)
-                {
-                    List<NewItem> newItemList = JsonConvert.DeserializeObject<List<NewItem>>(responseText);
-                    values = new List<T>();
-                    foreach (NewItem newItem in newItemList)
+                    if (newItem.NewId != 0)
                     {
-                        if (newItem.NewId != 0)
-                        {
-                            T value = new T();
-                            value.Id = newItem.NewId;
-                            values.Add(value);
-                        }
-                        else
-                        {
-                            // it probably failed the creation of the object!!!!
-                            // throw exception? do what?
-                        }
+                        T value = new T();
+                        value.Id = newItem.NewId;
+                        values.Add(value);
+                    }
+                    else
+                    {
+                        // it probably failed the creation of the object!!!!
+                        // throw exception? do what?
                     }
                 }
-                else
-                {
-                    values = JsonConvert.DeserializeObject<List<T>>(responseText);
-                }
-                return values;
             }
-            finally
+            else
             {
-                if (response != null)
-                    response.Close();
+                values = JsonConvert.DeserializeObject<List<T>>(responseText);
             }
+            return values;
         }
+        #endregion
         #endregion
     }
 }

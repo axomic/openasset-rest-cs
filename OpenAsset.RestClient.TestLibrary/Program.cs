@@ -76,7 +76,7 @@ namespace OpenAsset.RestClient.TestLibrary
 
                 ////put
                 //Search putSearch = new Search();
-                //putSearch.Name = "PUTTTESTNAME";
+                //putSearch.Name = "PUTTT2ESTNAME";
                 //SearchItem putSearchItem = new SearchItem();
                 //putSearchItem.Code = "popularFields";
                 //putSearchItem.Values = new List<string>();
@@ -85,6 +85,7 @@ namespace OpenAsset.RestClient.TestLibrary
                 //putSearchItem.Values.Add("puttest2");
                 //putSearch.SearchItems = new List<SearchItem>();
                 //putSearch.SearchItems.Add(putSearchItem);
+                //putSearch.CompanySavedSearch = true;
                 //putSearch.Id = newSearch.Id;
                 //Search modifiedSearch = connectionHelper.SendObject<Search>(putSearch, false);
 
@@ -93,30 +94,37 @@ namespace OpenAsset.RestClient.TestLibrary
                 //List<Result> resultList = connectionHelper.GetObjects<Result>(search0.Id, "Searches", optionsResult);
                 //Result result0 = resultList.ElementAt<Result>(0);
 
-                // file upload
-                string filename = "C:\\Users\\duarte.aragao\\Downloads\\";
-                filename += "test.jpg";
-                RESTOptions<File> optionsFileUpload = new RESTOptions<File>();
-                File fileUpload = new File();
-                fileUpload.CategoryId = 5;
-                fileUpload.AccessLevel = 1;
-                fileUpload.Rank = 1;
-                File newFile = connectionHelper.SendObject<File>(fileUpload, filename);
+                //// file upload
+                //string filename = "C:\\Users\\duarte.aragao\\Downloads\\";
+                //filename += "test.jpg";
+                //RESTOptions<File> optionsFileUpload = new RESTOptions<File>();
+                //File fileUpload = new File();
+                //fileUpload.CategoryId = 5;
+                //fileUpload.AccessLevel = 1;
+                //fileUpload.Rank = 1;
+                //File newFile = connectionHelper.SendObject<File>(fileUpload, filename);
 
-                // send multiple objects
-                Photographer photographer1 = new Photographer();
-                photographer1.Name = "a";
-                Photographer photographer2 = new Photographer();
-                photographer2.Name = "ab";
-                Photographer photographer3 = new Photographer();
-                photographer3.Name = "abc";
-                List<Photographer> photographerList = new List<Photographer>() 
-                { 
-                    photographer1,
-                    photographer2,
-                    photographer3,
-                };
-                List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
+                //// post multiple objects
+                //Photographer photographer1 = new Photographer();
+                //photographer1.Name = "a1";
+                //Photographer photographer2 = new Photographer();
+                //photographer2.Name = "ab1";
+                //Photographer photographer3 = new Photographer();
+                //photographer3.Name = "abc1";
+                //List<Photographer> photographerList = new List<Photographer>() 
+                //{ 
+                //    photographer1,
+                //    photographer2,
+                //    photographer3,
+                //};
+                //List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
+
+                //// put multiple objects
+                //// NOT WORKING YET
+                //photographerList[0].Name = "cba";
+                //photographerList[1].Name = "cba1";
+                //photographerList[2].Name = "cba2";
+                //List<Photographer> modifiedPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, false);
 
             }
             catch (RESTAPIException e)

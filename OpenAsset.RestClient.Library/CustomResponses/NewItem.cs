@@ -10,8 +10,7 @@ using System.Runtime.Serialization;
 
 namespace OpenAsset.RestClient.Library
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    class NewItem
+    class NewItem : CustomResponses.Base.BaseCustomResponse
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
