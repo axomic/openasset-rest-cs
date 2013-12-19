@@ -34,6 +34,14 @@ namespace OpenAsset.RestClient.Library.Noun
         }
         #endregion
 
+        public override string SearchCode
+        {
+            get
+            {
+                return base.SearchCode + "." + this.project_keyword_category_id.ToString();
+            }
+        }
+
         public override int CompareTo(object obj)
         {
             if (obj == null) return 1;

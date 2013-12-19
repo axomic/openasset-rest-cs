@@ -50,6 +50,25 @@ namespace OpenAsset.RestClient.Library.Noun
         }
         #endregion
 
+        public override string UniqueCode
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public override string UniqueCodeField
+        {
+            get { return "code"; }
+        }
+
+        public override string SearchCode
+        {
+            get
+            {
+                return base.SearchCode.Replace("Category", "") + "." + this.id.ToString();
+            }
+        }
+
         public override int CompareTo(object obj)
         {
             if (obj == null) return 1;

@@ -60,5 +60,13 @@ namespace OpenAsset.RestClient.Library.Noun
             else
                 throw new ArgumentException("Object is not a FieldLookupString");
         }
+
+        public override string SearchCode
+        {
+            get
+            {
+                return base.SearchCode.Substring(0, 5) + "." + field.Id;
+            }
+        }
     }
 }

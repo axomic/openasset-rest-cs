@@ -217,5 +217,16 @@ namespace OpenAsset.RestClient.Library.Noun
             set { keywords = value; }
         }
         #endregion
+
+        public override string UniqueCode
+        {
+            get { return filename; }
+            set { filename = value; }
+        }
+
+        public override string UniqueCodeField
+        {
+            get { return "filename"; }
+        }
     }
 }

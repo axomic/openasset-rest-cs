@@ -174,13 +174,23 @@ namespace OpenAsset.RestClient.Library.Noun
         }
         #endregion
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+        protected override void OnDeserialized(StreamingContext context)
         {
             if (size_id.HasValue)
             {
                 id = size_id.Value;
             }
+        }
+
+        public override string UniqueCode
+        {
+            get { return postfix; }
+            set { postfix = value; }
+        }
+
+        public override string UniqueCodeField
+        {
+            get { return "postfix"; }
         }
     }
 }

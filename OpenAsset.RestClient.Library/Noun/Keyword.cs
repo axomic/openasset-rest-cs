@@ -38,8 +38,7 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty("keyword_id",NullValueHandling = NullValueHandling.Ignore)]
         protected int? keyword_id;
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+        protected override void OnDeserialized(StreamingContext context)
         {
             if (keyword_id.HasValue)
             {
@@ -56,6 +55,14 @@ namespace OpenAsset.RestClient.Library.Noun
                 return this.name.CompareTo(otherKeyword.name);
             else
                 throw new ArgumentException("Object is not a Keyword");
+        }
+
+        public override string SearchCode
+        {
+            get
+            {
+                return base.SearchCode + "." + this.keyword_category_id.ToString();
+            }
         }
     }
 }

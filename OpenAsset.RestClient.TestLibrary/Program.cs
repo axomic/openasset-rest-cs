@@ -29,8 +29,8 @@ namespace OpenAsset.RestClient.TestLibrary
             try
             {
 
-                ////check if user is valid
-                //bool validUser = connectionHelper.ValidateCredentials();
+                //check if user is valid
+                bool validUser = connectionHelper.ValidateCredentials();
 
                 //// get
                 //RESTOptions<File> optionsFile = new RESTOptions<File>();
@@ -44,9 +44,9 @@ namespace OpenAsset.RestClient.TestLibrary
                 //File file = connectionHelper.GetObject<File>(957, optionsFile);
                 //file.Replace(file);
 
-                //RESTOptions<Size> optionsSize = new RESTOptions<Size>();
-                //Size size = connectionHelper.GetObject<Size>(1, optionsSize);
-                //List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", optionsSize);
+                RESTOptions<Size> optionsSize = new RESTOptions<Size>();
+                Size size = connectionHelper.GetObject<Size>(1, optionsSize);
+                List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", optionsSize);
 
                 //RESTOptions<Category> optionsCategory = new RESTOptions<Category>();
                 //Category category = connectionHelper.GetObject<Category>(5, optionsCategory);
@@ -104,20 +104,20 @@ namespace OpenAsset.RestClient.TestLibrary
                 //fileUpload.Rank = 1;
                 //File newFile = connectionHelper.SendObject<File>(fileUpload, filename);
 
-                //// post multiple objects
-                //Photographer photographer1 = new Photographer();
-                //photographer1.Name = "a1";
-                //Photographer photographer2 = new Photographer();
-                //photographer2.Name = "ab1";
-                //Photographer photographer3 = new Photographer();
-                //photographer3.Name = "abc1";
-                //List<Photographer> photographerList = new List<Photographer>() 
-                //{ 
-                //    photographer1,
-                //    photographer2,
-                //    photographer3,
-                //};
-                //List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
+                // post multiple objects
+                Photographer photographer1 = new Photographer();
+                photographer1.Name = "a1";
+                Photographer photographer2 = new Photographer();
+                photographer2.Name = "ab1";
+                Photographer photographer3 = new Photographer();
+                photographer3.Name = "abc1";
+                List<Photographer> photographerList = new List<Photographer>() 
+                { 
+                    photographer1,
+                    photographer2,
+                    photographer3,
+                };
+                List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
 
                 //// put multiple objects
                 //// NOT WORKING YET

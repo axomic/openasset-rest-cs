@@ -94,8 +94,27 @@ namespace OpenAsset.RestClient.Library.Noun
         }
         #endregion
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+
+        public override string UniqueCode
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public override string UniqueCodeField
+        {
+            get { return "code"; }
+        }
+
+        public override string SearchCode
+        {
+            get
+            {
+                return base.SearchCode + "." + id.ToString();
+            }
+        }
+
+        protected override void OnDeserialized(StreamingContext context)
         {
             if (field_id.HasValue)
             {

@@ -41,5 +41,24 @@ namespace OpenAsset.RestClient.Library.Noun
             set { display_order = value; }
         }
         #endregion
+
+        public override string UniqueCode
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+        public override string UniqueCodeField
+        {
+            get { return "code"; }
+        }
+
+        public override string SearchCode
+        {
+            get
+            {
+                return base.SearchCode.Replace("Category", "") + "." + this.id.ToString();
+            }
+        }
     }
 }

@@ -13,9 +13,9 @@ namespace OpenAsset.RestClient.Library
     public class Error : CustomResponses.Base.BaseCustomResponse
     {
         #region private serializable properties
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, Required = Required.Always)]
         private int http_status_code;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, Required = Required.Always)]
         private string error_message;
         #endregion
 

@@ -672,6 +672,10 @@ namespace OpenAsset.RestClient.Library
             List<T> values = null;
             if (createNew)
             {
+                // developing a converter to the correct types
+                //List<CustomResponses.Base.BaseCustomResponse> newItemListTEST = JsonConvert.DeserializeObject<List<CustomResponses.Base.BaseCustomResponse>>(responseText, new CustomResponseConverter());
+
+
                 List<NewItem> newItemList = JsonConvert.DeserializeObject<List<NewItem>>(responseText);
                 values = new List<T>();
                 foreach (NewItem newItem in newItemList)

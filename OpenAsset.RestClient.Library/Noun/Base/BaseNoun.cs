@@ -43,6 +43,40 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             return noun + "s";
         }
 
+        #region Serialization callbacks
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context)
+        {
+            OnSerializing(context);
+        }
+
+        protected virtual void OnSerializing(StreamingContext context) { }
+
+        [OnSerialized]
+        internal void OnSerializedMethod(StreamingContext context)
+        {
+            OnSerialized(context);
+        }
+
+        protected virtual void OnSerialized(StreamingContext context) { }
+
+        [OnDeserializing]
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
+            OnDeserializing(context);
+        }
+
+        protected virtual void OnDeserializing(StreamingContext context) { }
+
+        [OnDeserialized]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            OnDeserialized(context);
+        }
+
+        protected virtual void OnDeserialized(StreamingContext context) { }
+        #endregion
+
         public virtual int CompareTo(object obj)
         {
             if (obj == null) return 1;
@@ -68,6 +102,22 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            BaseNoun otherObj = obj as BaseNoun;
+            if (otherObj == null)
+                return false;
+            return otherObj.id == this.id && obj.GetType().Equals(this.GetType());
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 0;
+            hashCode ^= id.GetHashCode();
+            hashCode ^= this.GetType().GetHashCode();
+            return hashCode;
+        }
+
         public override string ToString()
         {
             return SearchCode + ":" + UniqueCodeField + ":" + UniqueCode;
@@ -83,6 +133,16 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         protected string dateTime2DbString(DateTime dateTime)
         {
             return dateTime.ToString(Constant.DB_DATE_FORMAT);
+        }
+
+        public virtual string ForeignIdField
+        {
+            get
+            {
+                string typeName = this.GetType().Name;
+                typeName = Regex.Replace(typeName, @"\B[A-Z]", m => "_" + m.ToString().ToLowerInvariant());
+                return Char.ToLowerInvariant(typeName[0]) + typeName.Substring(1) + "_id";
+            }
         }
 
         // needs to be tested for reflection speed
@@ -107,6 +167,49 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             {
                 field.SetValue(this, field.GetValue(obj));
             }
+        }
+
+        // Used keys from conditions to check values of object to match up
+        public virtual bool DynamicMatch(Dictionary<string, string> conditions)
+        {
+            BindingFlags allFields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            List<PropertyInfo> properties = this.GetType().GetProperties(allFields)
+                .Where(x => Attribute.IsDefined(x, typeof(JsonPropertyAttribute)))
+                .ToList();
+            int matches = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                string name = (Attribute.GetCustomAttribute(property, typeof(JsonPropertyAttribute)) as JsonPropertyAttribute).PropertyName;
+                if (name == null)
+                    name = property.Name;
+                if (!conditions.ContainsKey(name))
+                    continue;
+                string value = property.GetValue(this, null).ToString();
+                if (conditions[name].Equals(value))
+                    matches++;
+            }
+            List<FieldInfo> fields = this.GetType().GetFields(allFields)
+                .Where(x => Attribute.IsDefined(x, typeof(JsonPropertyAttribute)))
+                .ToList();
+            foreach (FieldInfo field in fields)
+            {
+                string name = (Attribute.GetCustomAttribute(field, typeof(JsonPropertyAttribute)) as JsonPropertyAttribute).PropertyName;
+                if (name == null)
+                    name = field.Name;
+                if (!conditions.ContainsKey(name))
+                    continue;
+                string value = field.GetValue(this).ToString();
+                if (conditions[name].Equals(value))
+                    matches++;
+            }
+
+            return matches == conditions.Count;
+        }
+
+        public virtual RESTOptions<T> GetOptions<T>() where T : Noun.Base.BaseNoun
+        {
+            RESTOptions<T> options = new RESTOptions<T>();
+            return options;
         }
     }
 }
