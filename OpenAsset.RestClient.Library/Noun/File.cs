@@ -15,55 +15,55 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string filename;
+        protected string filename;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string original_filename;
+        protected string original_filename;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? access_level;
+        protected int? access_level;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? alternate_store_id;
+        protected int? alternate_store_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string caption;
+        protected string caption;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? category_id;
+        protected int? category_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? click_count;
+        protected int? click_count;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? contains_audio;
+        protected int? contains_audio;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? contains_video;
+        protected int? contains_video;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? copyright_holder_id;
+        protected int? copyright_holder_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string created;
+        protected string created;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string description;
+        protected string description;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? download_count;
+        protected int? download_count;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? duration;
+        protected int? duration;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string md5_at_upload;
+        protected string md5_at_upload;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string md5_now;
+        protected string md5_now;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? photographer_id;
+        protected int? photographer_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? project_id;
+        protected int? project_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? rank;
+        protected int? rank;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? rotation_since_upload;
+        protected int? rotation_since_upload;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string uploaded;
+        protected string uploaded;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? user_id;
+        protected int? user_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private List<Field> fields;
+        protected List<Field> fields;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private List<Size> sizes;
+        protected List<Size> sizes;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private List<Keyword> keywords;
+        protected List<Keyword> keywords;
         #endregion
 
         #region Accessors

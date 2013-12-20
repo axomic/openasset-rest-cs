@@ -115,7 +115,7 @@ namespace OpenAsset.RestClient.Library
         public void SetSearchParameter(string parameter, string value)
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");
-            validateParameter(parameter);
+            //validateParameter(parameter);
             _filters[parameter] = HttpUtility.UrlEncode(value);
         }
 

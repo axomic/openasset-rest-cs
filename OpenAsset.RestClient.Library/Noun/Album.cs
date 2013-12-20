@@ -15,37 +15,37 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string name;
+        protected string name;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string code;
+        protected string code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string description;
+        protected string description;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? user_id;
+        protected int? user_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? all_users_can_modify;
+        protected int? all_users_can_modify;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? can_modify;
+        protected int? can_modify;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? my_album;
+        protected int? my_album;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? shared_album;
+        protected int? shared_album;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? company_album;
+        protected int? company_album;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? share_with_all_users;
+        protected int? share_with_all_users;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? locked;
+        protected int? locked;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string private_image_count;
+        protected string private_image_count;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string public_image_count;
+        protected string public_image_count;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string unapproved_image_count;
+        protected string unapproved_image_count;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string updated;
+        protected string updated;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string created;
+        protected string created;
         #endregion
 
         #region Accessors

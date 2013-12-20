@@ -15,31 +15,31 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string name;
+        protected string name;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? all_users_can_modify;
+        protected int? all_users_can_modify;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? approved_company_saved_search;
+        protected int? approved_company_saved_search;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? can_modify;
+        protected int? can_modify;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string code;
+        protected string code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? company_saved_search;
+        protected int? company_saved_search;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string created;
+        protected string created;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? locked;
+        protected int? locked;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? saved;
+        protected int? saved;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? share_with_all_users;
+        protected int? share_with_all_users;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string updated;
+        protected string updated;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? user_id;
+        protected int? user_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private List<SearchItem> search_items;
+        protected List<SearchItem> search_items;
         #endregion
 
         #region Accessors
@@ -135,15 +135,15 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public bool MatchingSearchItems(List<SearchItem> searchItems)
         {
-            if (search_items == null)
+            if (SearchItems == null)
                 return searchItems == null;
             if (searchItems == null)
                 return false;
-            if (search_items.Count != searchItems.Count)
+            if (SearchItems.Count != searchItems.Count)
                 return false;
             for (int i = 0; i < searchItems.Count; i++)
             {
-                if (!searchItems[i].Equals(search_items[i]))
+                if (!searchItems[i].Equals(SearchItems[i]))
                     return false;
             }
             return true;

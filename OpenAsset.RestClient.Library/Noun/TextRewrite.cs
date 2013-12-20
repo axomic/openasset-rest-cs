@@ -15,13 +15,13 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string text_match;
+        protected string text_match;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string text_replace;
+        protected string text_replace;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? case_sensitive;
+        protected int? case_sensitive;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? preserve_first_letter_case;
+        protected int? preserve_first_letter_case;
         #endregion
 
         #region Accessors

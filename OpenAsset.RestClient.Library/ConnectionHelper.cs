@@ -11,11 +11,11 @@ namespace OpenAsset.RestClient.Library
 {
     public class ConnectionHelper
     {
-        private string _serverURL = null;
-        private string _username = null; // username 
-        private string _password = null;
-        private bool _anonymous = false;
-        private string _sessionKey = null; //current session key
+        protected string _serverURL = null;
+        protected string _username = null; // username 
+        protected string _password = null;
+        protected bool _anonymous = false;
+        protected string _sessionKey = null; //current session key
         private Error _lastError = null;
 
         //values from the last request made
@@ -33,6 +33,23 @@ namespace OpenAsset.RestClient.Library
         }
         public ResponseHeaders LastResponseHeaders;
 
+        #region Accessors
+        public string Username
+        {
+            get { return _username; }
+        }
+
+        public string Password
+        {
+            get { return _password; }
+        }
+
+        public string SessionKey
+        {
+            get { return _sessionKey; }
+        }
+        #endregion
+
         #region ConnectionHelper Factory
         private static Dictionary<string, ConnectionHelper> _connectionHelpers = new Dictionary<string, ConnectionHelper>();
         public static ConnectionHelper GetConnectionHelper(string serverURL, string username = null, string password = null)
@@ -47,7 +64,6 @@ namespace OpenAsset.RestClient.Library
                 if (username == null && password == null)
                 {
                     connectionHelper = new ConnectionHelper(serverURL);
-                    connectionHelper._anonymous = true;
                 }
                 else
                 {
@@ -65,13 +81,15 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Constructors
-        private ConnectionHelper(string serverURL)
+        protected ConnectionHelper(string serverURL)
         {
+            _anonymous = true;
+            _username = Constant.REST_ANONYMOUS_USERNAME;
             _serverURL = serverURL;
             LastResponseHeaders = new ResponseHeaders();
         }
 
-        private ConnectionHelper(string serverURL, string username, string password)
+        protected ConnectionHelper(string serverURL, string username, string password)
             : this(serverURL)
         {
             _username = username;
@@ -100,6 +118,8 @@ namespace OpenAsset.RestClient.Library
 
         public void LogoutCurrentSession()
         {
+            _anonymous = true;
+            _username = Constant.REST_ANONYMOUS_USERNAME;
             if (String.IsNullOrEmpty(_sessionKey))
                 return;
             string validationUrl = _serverURL;
@@ -130,6 +150,7 @@ namespace OpenAsset.RestClient.Library
         {
             _password = password;
             _username = username;
+            _anonymous = false;
             return ValidateCredentials();
         }
 
@@ -213,11 +234,11 @@ namespace OpenAsset.RestClient.Library
                 {
                     options.OA_Version = e.Response.Headers[Constant.HEADER_OPENASSET_VERSION];
                 }*/
-                marshallError(validationUrl, e);
+                MarshallError(validationUrl, e);
             }
             catch (Exception e)
             {
-                marshallError(validationUrl, e);
+                MarshallError(validationUrl, e);
             }
             finally
             {
@@ -270,7 +291,7 @@ namespace OpenAsset.RestClient.Library
             return false;
         }
 
-        private void marshallError(string openAssetUrl, Exception e)
+        protected void MarshallError(string openAssetUrl, Exception e)
         {
             if (e is WebException && (e as WebException).Status == WebExceptionStatus.ProtocolError)
             {
@@ -419,12 +440,12 @@ namespace OpenAsset.RestClient.Library
                 {
                     return getRESTResponse(url, method, output, true, contentType);
                 }
-                marshallError(url, e);
+                MarshallError(url, e);
                 throw;
             }
             catch (Exception e)
             {
-                marshallError(url, e);
+                MarshallError(url, e);
                 throw;
             }
 
@@ -503,6 +524,37 @@ namespace OpenAsset.RestClient.Library
             formDataStream.Close();
 
             return formData;
+        }
+        #endregion
+
+        #region Helpers
+        public Error RetrieveLastError()
+        {
+            return _lastError;
+        }
+
+        public bool MeetsRESTRequirement(string oaVersion = null)
+        {
+            if (!String.IsNullOrEmpty(oaVersion))
+            {
+                oaVersion = oaVersion.Replace("h", "");
+                string[] curVersion = oaVersion.Split('.');
+                string[] minVersion = Constant.REST_MIN_VERSION.Split('.');
+                if (minVersion.Length != curVersion.Length)
+                    return false;
+                for (int i = 0; i < minVersion.Length && i < curVersion.Length; i++)
+                {
+                    int min = Convert.ToInt32(minVersion[i]);
+                    int cur = Convert.ToInt32(curVersion[i]);
+                    if (min > cur)
+                        return false;
+                    if (cur > min)
+                        return true;
+                }
+                return true;
+            }
+
+            return false;
         }
         #endregion
 

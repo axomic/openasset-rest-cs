@@ -15,43 +15,54 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string name;
+        protected string name;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? original;
+        protected int? original;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string postfix;
+        protected string postfix;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? alive;
+        protected int? alive;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? always_create;
+        protected int? always_create;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string colourspace;
+        protected string colourspace;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? crop_to_fit;
+        protected int? crop_to_fit;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string description;
+        protected string description;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? display_order;
+        protected int? display_order;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string file_format;
+        protected string file_format;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? height;
+        protected int? height;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? quality;
+        protected int? quality;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? size_protected;
+        protected int? size_protected;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? use_for_contact_sheet;
+        protected int? use_for_contact_sheet;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? use_for_power_point;
+        protected int? use_for_power_point;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? use_for_zip;
+        protected int? use_for_zip;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? width;
+        protected int? width;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? x_resolution;
+        protected int? x_resolution;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? y_resolution;
+        protected int? y_resolution;
+        // size value extra fields
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected int? filesize;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected string http_root;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected string relative_path;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected string unc_root;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected int? watermarked;
         #endregion
 
         // sets the id of the object (when deserialization is made from an expanded field)
@@ -59,6 +70,36 @@ namespace OpenAsset.RestClient.Library.Noun
         protected int? size_id;
 
         #region Accessors
+        public int Filesize
+        {
+            get { return filesize ?? default(int); }
+            set { filesize = value; }
+        }
+
+        public bool Watermarked
+        {
+            get { return watermarked != 0; }
+            set { watermarked = value ? 1 : 0; }
+        }
+
+        public string HttpRoot
+        {
+            get { return http_root; }
+            set { http_root = value; }
+        }
+
+        public string RelativePath
+        {
+            get { return relative_path; }
+            set { relative_path = value; }
+        }
+
+        public string UncRoot
+        {
+            get { return unc_root; }
+            set { unc_root = value; }
+        }
+
         public string Name
         {
             get { return name; }

@@ -14,9 +14,9 @@ namespace OpenAsset.RestClient.Library
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, Required = Required.Always)]
-        private int new_id;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, Required = Required.Always)]
-        private string message;
+        protected int new_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected string message;
         #endregion
 
         #region Accessors

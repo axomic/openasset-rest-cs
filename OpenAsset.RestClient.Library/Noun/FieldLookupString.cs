@@ -17,11 +17,11 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty("value",NullValueHandling = NullValueHandling.Ignore)]
         public string _value;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string description;
+        protected string description;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? display_order;
+        protected int? display_order;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private Field field;
+        protected Field field;
         #endregion
 
         #region Accessors
@@ -65,7 +65,7 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get
             {
-                return base.SearchCode.Substring(0, 5) + "." + field.Id;
+                return base.SearchCode.Substring(0, 5) + "." + Field.Id;
             }
         }
     }

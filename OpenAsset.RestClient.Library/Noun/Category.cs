@@ -15,23 +15,23 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string name;
+        protected string name;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string code;
+        protected string code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string description;
+        protected string description;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? default_access_level;
+        protected int? default_access_level;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? default_rank;
+        protected int? default_rank;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? maximum_rank;
+        protected int? maximum_rank;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? display_order;
+        protected int? display_order;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? projects_category;
+        protected int? projects_category;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? alive;
+        protected int? alive;
         //used in post
         //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         //private int is_projects_category;

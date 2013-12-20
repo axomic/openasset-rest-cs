@@ -15,23 +15,27 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string name;
+        protected string name;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? alive;
+        protected int? alive;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? cardinality;
+        protected int? cardinality;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string code;
+        protected string code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string description;
+        protected string description;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? display_order;
+        protected int? display_order;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string field_display_type;
+        protected string field_display_type;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string field_type;
+        protected string field_type;
         [JsonProperty("protected",NullValueHandling = NullValueHandling.Ignore)]
-        public int? _protected;
+        protected int? _protected;
+
+        //
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected List<string> values;
 
         // sets the id of the object (when deserialization is made from an expanded field)
         [JsonProperty("field_id",NullValueHandling = NullValueHandling.Ignore)]
@@ -91,6 +95,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
+        }
+
+        public List<string> Values
+        {
+            get { return values; }
+            set { values = value; }
         }
         #endregion
 

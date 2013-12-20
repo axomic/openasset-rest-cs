@@ -15,11 +15,11 @@ namespace OpenAsset.RestClient.Library.Noun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string username;
+        protected string username;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private string full_name;
+        protected string full_name;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        private int? alive;
+        protected int? alive;
         #endregion
 
         #region Accessors
