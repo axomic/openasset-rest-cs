@@ -125,8 +125,15 @@ namespace OpenAsset.RestClient.Library.Noun.Base
 
         protected DateTime dbString2DateTime(string dateTimeStr)
         {
-            IFormatProvider theCultureInfo = new System.Globalization.CultureInfo("en-GB", true);
-            DateTime theDateTime = DateTime.ParseExact(dateTimeStr, Constant.DB_DATE_FORMAT, theCultureInfo);
+            DateTime theDateTime = new DateTime();
+            try
+            {
+                IFormatProvider theCultureInfo = new System.Globalization.CultureInfo("en-GB", true);
+                theDateTime = DateTime.ParseExact(dateTimeStr, Constant.DB_DATE_FORMAT, theCultureInfo);
+                return theDateTime;
+            }catch(Exception e){
+                //ignore date parsing exceptions
+            }
             return theDateTime;
         }
 
@@ -149,7 +156,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         // Goes through all properties/fields with DataMember attributes and tries to copy them from passed object
         public virtual void Replace(BaseNoun obj)
         {
-            if (!this.GetType().Equals(obj.GetType()))
+            if (!(this.GetType().Equals(obj.GetType()) || this.GetType().IsSubclassOf(obj.GetType())))
                 return;
 
             BindingFlags allFields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;

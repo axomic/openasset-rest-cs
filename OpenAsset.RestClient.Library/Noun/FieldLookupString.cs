@@ -21,7 +21,7 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected int? display_order;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        protected Field field;
+        protected int? field_id;
         #endregion
 
         #region Accessors
@@ -43,10 +43,10 @@ namespace OpenAsset.RestClient.Library.Noun
             set { display_order = value; }
         }
 
-        public Field Field
+        public int FieldId
         {
-            get { return field; }
-            set { field = value; }
+            get { return field_id ?? default(int); }
+            set { field_id = value; }
         }
         #endregion
 
@@ -59,14 +59,6 @@ namespace OpenAsset.RestClient.Library.Noun
                 return this.ToString().CompareTo(otherFieldLookupString.ToString());
             else
                 throw new ArgumentException("Object is not a FieldLookupString");
-        }
-
-        public override string SearchCode
-        {
-            get
-            {
-                return base.SearchCode.Substring(0, 5) + "." + Field.Id;
-            }
         }
     }
 }

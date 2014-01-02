@@ -44,9 +44,9 @@ namespace OpenAsset.RestClient.TestLibrary
                 //File file = connectionHelper.GetObject<File>(957, optionsFile);
                 //file.Replace(file);
 
-                RESTOptions<Size> optionsSize = new RESTOptions<Size>();
-                Size size = connectionHelper.GetObject<Size>(1, optionsSize);
-                List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", optionsSize);
+                //RESTOptions<Size> optionsSize = new RESTOptions<Size>();
+                //Size size = connectionHelper.GetObject<Size>(1, optionsSize);
+                //List<Size> sizeList = connectionHelper.GetObjects<Size>(957, "Files", optionsSize);
 
                 //RESTOptions<Category> optionsCategory = new RESTOptions<Category>();
                 //Category category = connectionHelper.GetObject<Category>(5, optionsCategory);
@@ -55,8 +55,8 @@ namespace OpenAsset.RestClient.TestLibrary
                 //Album album = connectionHelper.GetObject<Album>(53, optionsAlbum);
                 //DateTime d = album.Updated;
 
-                //RESTOptions<Search> optionsSearch = new RESTOptions<Search>();
-                //List<Search> searchList = connectionHelper.GetObjects<Search>(optionsSearch);
+                RESTOptions<Search> optionsSearch = new RESTOptions<Search>();
+                List<Search> searchList = connectionHelper.GetObjects<Search>(optionsSearch);
                 //Search search0 = searchList.ElementAt<Search>(0);
                 //Search search1 = searchList.ElementAt<Search>(1);
 
@@ -105,19 +105,28 @@ namespace OpenAsset.RestClient.TestLibrary
                 //File newFile = connectionHelper.SendObject<File>(fileUpload, filename);
 
                 // post multiple objects
-                Photographer photographer1 = new Photographer();
-                photographer1.Name = "a1";
-                Photographer photographer2 = new Photographer();
-                photographer2.Name = "ab1";
-                Photographer photographer3 = new Photographer();
-                photographer3.Name = "abc1";
-                List<Photographer> photographerList = new List<Photographer>() 
-                { 
-                    photographer1,
-                    photographer2,
-                    photographer3,
-                };
-                List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
+                //Photographer photographer1 = new Photographer();
+                //photographer1.Name = "a1";
+                //Photographer photographer2 = new Photographer();
+                //photographer2.Name = "ab1";
+                //Photographer photographer3 = new Photographer();
+                //photographer3.Name = "abc1";
+                //List<Photographer> photographerList = new List<Photographer>() 
+                //{ 
+                //    photographer1,
+                //    photographer2,
+                //    photographer3,
+                //};
+                //List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
+
+                // get Fields/FieldLookupString
+                OpenAsset.RestClient.Library.RESTOptions<FieldLookupString> optionsFieldLookupString = new OpenAsset.RestClient.Library.RESTOptions<FieldLookupString>();
+                optionsFieldLookupString.AddDisplayField("id");
+                optionsFieldLookupString.AddDisplayField("value");
+                optionsFieldLookupString.AddDisplayField("description");
+                optionsFieldLookupString.AddDisplayField("field_id");
+                //optionsFieldLookupString.SetSearchParameter("id", "15,16,20");
+                List<FieldLookupString> nestedFieldLookupString = connectionHelper.GetObjects<FieldLookupString>(15, "Fields", optionsFieldLookupString);
 
                 //// put multiple objects
                 //// NOT WORKING YET

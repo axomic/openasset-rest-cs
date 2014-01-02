@@ -57,85 +57,8 @@ namespace OpenAsset.RestClient.Library.Noun
             set { values = value; }
         }
         #endregion
-
-        public SearchItem()
-        {
-            exclude = 0;
-        }
-
-        public override bool Equals(object obj)
-        {
-            SearchItem otherObj = obj as SearchItem;
-
-            if (otherObj == null)
-                return false;
-            // Code
-            if (!this.code.Equals(otherObj.code))
-                return false;
-            // Exclude
-            if (this.exclude != otherObj.exclude)
-                return false;
-            // _operator
-            if (String.IsNullOrEmpty(this._operator) || this._operator.Equals("OR"))
-            {
-                // This is because empty/null is considered OR by REST APIs
-                if (!String.IsNullOrEmpty(otherObj._operator) && !otherObj._operator.Equals("OR"))
-                    return false;
-            }
-            else
-            {
-                if (!this._operator.Equals(otherObj._operator))
-                    return false;
-            }
-            // ids
-            if (this.ids != null)
-            {
-                if (otherObj.ids == null)
-                    return false;
-                if (!this.ids.SequenceEqual(otherObj.ids))
-                    return false;
-            }
-            else if (otherObj.ids != null)
-            {
-                return false;
-            }
-            // values
-            if (this.values != null)
-            {
-                if (otherObj.values == null)
-                    return false;
-                if (!this.values.SequenceEqual(otherObj.values))
-                    return false;
-            }
-            else if (otherObj.values != null)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 0;
-
-            hashCode ^= code.GetHashCode();
-            hashCode ^= exclude.GetHashCode();
-            if (String.IsNullOrEmpty(this._operator))
-                hashCode ^= "OR".GetHashCode();
-            else
-                hashCode ^= _operator.GetHashCode();
-            if (ids != null)
-            {
-                foreach (int id in ids)
-                    hashCode ^= id.GetHashCode();
-            }
-            if (values != null)
-            {
-                foreach (string value in values)
-                    hashCode ^= value.GetHashCode();
-            }
-            return hashCode;
-        }
+        
+      
         /*
         public override string ToString()
         {
