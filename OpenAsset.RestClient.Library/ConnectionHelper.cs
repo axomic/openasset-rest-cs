@@ -72,8 +72,11 @@ namespace OpenAsset.RestClient.Library
                 _connectionHelpers.Add(serverURL, connectionHelper);
             }
             //if URL exists but username and password different start a new session
-            if (!connectionHelper._password.Equals(password) || !connectionHelper._username.Equals(username))
+            if (!connectionHelper._password.Equals(password) ||
+                !connectionHelper._username.Equals(username) ||
+                !connectionHelper._serverURL.Equals(serverURL))
             {
+                connectionHelper.LogoutCurrentSession();
                 connectionHelper.NewSession(username, password);
             }
             return connectionHelper;
@@ -94,6 +97,7 @@ namespace OpenAsset.RestClient.Library
         {
             _username = username;
             _password = password;
+            _anonymous = false;
         }
         #endregion
 
@@ -152,6 +156,12 @@ namespace OpenAsset.RestClient.Library
             _username = username;
             _anonymous = false;
             return ValidateCredentials();
+        }
+
+        public bool IsLoggedIn()
+        {
+            bool result = ValidateCredentials();
+            return !_anonymous && result;
         }
 
         public bool ValidateCredentials(int retryIndex = 0)
@@ -246,6 +256,7 @@ namespace OpenAsset.RestClient.Library
                     response.Close();
             }
 
+            _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(username) ? true : false;
             return false;
         }
         #endregion
