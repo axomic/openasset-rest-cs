@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenAsset.RestClient.Library
 {
-    class NotValidUserException : RESTAPIException
+    public class NotValidUserException : RESTAPIException
     {
         public NotValidUserException(string url, Exception e)
             : base(url, e)

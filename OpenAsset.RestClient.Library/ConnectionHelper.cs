@@ -86,8 +86,8 @@ namespace OpenAsset.RestClient.Library
         #region Constructors
         protected ConnectionHelper(string serverURL)
         {
-            _anonymous = true;
             _username = Constant.REST_ANONYMOUS_USERNAME;
+            isAnonymous();
             _serverURL = serverURL;
             LastResponseHeaders = new ResponseHeaders();
         }
@@ -97,7 +97,7 @@ namespace OpenAsset.RestClient.Library
         {
             _username = username;
             _password = password;
-            _anonymous = false;
+            isAnonymous();
         }
         #endregion
 
@@ -110,7 +110,7 @@ namespace OpenAsset.RestClient.Library
         private CredentialCache standardCredentials(string url)
         {
             CredentialCache cc = new CredentialCache();
-            if (_anonymous)
+            if (isAnonymous())
                 return cc;
             cc.Add(new Uri(url), "NTLM", CredentialCache.DefaultNetworkCredentials);
             if (!String.IsNullOrEmpty(_username) && !String.IsNullOrEmpty(_password))
@@ -122,8 +122,8 @@ namespace OpenAsset.RestClient.Library
 
         public void LogoutCurrentSession()
         {
-            _anonymous = true;
             _username = Constant.REST_ANONYMOUS_USERNAME;
+            isAnonymous();
             if (String.IsNullOrEmpty(_sessionKey))
                 return;
             string validationUrl = _serverURL;
@@ -154,14 +154,20 @@ namespace OpenAsset.RestClient.Library
         {
             _password = password;
             _username = username;
-            _anonymous = false;
+            isAnonymous();
             return ValidateCredentials();
         }
 
         public bool IsLoggedIn()
         {
             bool result = ValidateCredentials();
-            return !_anonymous && result;
+            return !isAnonymous() && result;
+        }
+
+        private bool isAnonymous()
+        {
+            _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username) ? true : false;
+            return _anonymous;
         }
 
         public bool ValidateCredentials(int retryIndex = 0)
@@ -236,7 +242,7 @@ namespace OpenAsset.RestClient.Library
             }
             catch (WebException e)
             {
-                if (httpRetryValid(request, e) || retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
+                if (httpRetryValid(request, e) && retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
                 {
                     return ValidateCredentials(++retryIndex);
                 }
@@ -256,7 +262,7 @@ namespace OpenAsset.RestClient.Library
                     response.Close();
             }
 
-            _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(username) ? true : false;
+            isAnonymous();
             return false;
         }
         #endregion
@@ -267,7 +273,7 @@ namespace OpenAsset.RestClient.Library
             HttpWebResponse errorResponse = we.Response as HttpWebResponse;
             if (errorResponse == null)
                 return false;
-            bool anonLoginEnabled = Convert.ToBoolean(_anonymous);
+            bool anonLoginEnabled = Convert.ToBoolean(isAnonymous());
             string username = null, password = null;
             string authorization = request.Headers["Authorization"];
             if (authorization != null && authorization.StartsWith("Basic "))
@@ -417,7 +423,7 @@ namespace OpenAsset.RestClient.Library
             {
                 request.Headers.Add(Constant.HEADER_SESSIONKEY, _sessionKey);
             }
-            if (!_anonymous)
+            if (!isAnonymous())
             {
                 if (retry)
                 {
