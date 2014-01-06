@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
+using System.Globalization;
 
 namespace OpenAsset.RestClient.Library.Noun.Base
 {
@@ -126,13 +127,15 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         protected DateTime dbString2DateTime(string dateTimeStr)
         {
             DateTime theDateTime = new DateTime();
-            try
+            if (!String.IsNullOrEmpty(dateTimeStr) && !dateTimeStr.Equals("0"))
             {
-                IFormatProvider theCultureInfo = new System.Globalization.CultureInfo("en-GB", true);
+                IFormatProvider theCultureInfo = new System.Globalization.CultureInfo(CultureInfo.InvariantCulture.ToString(), true);
                 theDateTime = DateTime.ParseExact(dateTimeStr, Constant.DB_DATE_FORMAT, theCultureInfo);
                 return theDateTime;
-            }catch(Exception e){
-                //ignore date parsing exceptions
+            }
+            else
+            {
+                theDateTime = DateTime.MinValue;
             }
             return theDateTime;
         }
