@@ -43,61 +43,61 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public string Code
+        public virtual string Code
         {
             get { return code; }
             set { code = value; }
         }
 
-        public string Description
+        public virtual string Description
         {
             get { return description; }
             set { description = value; }
         }
 
-        public string FieldType
+        public virtual string FieldType
         {
             get { return field_type; }
             set { field_type = value; }
         }
 
-        public bool Protected
+        public virtual bool Protected
         {
             get { return (_protected ?? default(int)) != 0 ? true : false; }
             set { _protected = value ? 1 : 0; }
         }
 
-        public string FieldDisplayType
+        public virtual string FieldDisplayType
         {
             get { return field_display_type; }
             set { field_display_type = value; }
         }
 
-        public int DisplayOrder
+        public virtual int DisplayOrder
         {
             get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 
-        public int Cardinality
+        public virtual int Cardinality
         {
             get { return cardinality ?? default(int); }
             set { cardinality = value; }
         }
 
-        public bool Alive
+        public virtual bool Alive
         {
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
 
-        public List<string> Values
+        public virtual List<string> Values
         {
             get { return values; }
             set { values = value; }

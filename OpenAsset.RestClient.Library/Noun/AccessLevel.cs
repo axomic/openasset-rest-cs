@@ -19,7 +19,7 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Label
+        public virtual string Label
         {
             get { return label; }
             set { label = value; }

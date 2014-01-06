@@ -49,97 +49,97 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public string Code
+        public virtual string Code
         {
             get { return code; }
             set { code = value; }
         }
 
-        public string Description
+        public virtual string Description
         {
             get { return description; }
             set { description = value; }
         }
 
-        public int UserId
+        public virtual int UserId
         {
             get { return user_id ?? default(int); }
             set { user_id = value; }
         }
 
-        public bool AllUsersCanModify
+        public virtual bool AllUsersCanModify
         {
             get { return (all_users_can_modify ?? default(int)) != 0 ? true : false; }
             set { all_users_can_modify = value ? 1 : 0; }
         }
 
-        public bool CanModify
+        public virtual bool CanModify
         {
             get { return (can_modify ?? default(int)) != 0 ? true : false; }
             set { can_modify = value ? 1 : 0; }
         }
 
-        public bool MyAlbum
+        public virtual bool MyAlbum
         {
             get { return (my_album ?? default(int)) != 0 ? true : false; }
             set { my_album = value ? 1 : 0; }
         }
 
-        public bool SharedAlbum
+        public virtual bool SharedAlbum
         {
             get { return (shared_album ?? default(int)) != 0 ? true : false; }
             set { shared_album = value ? 1 : 0; }
         }
 
-        public bool CompanyAlbum
+        public virtual bool CompanyAlbum
         {
             get { return (company_album ?? default(int)) != 0 ? true : false; }
             set { company_album = value ? 1 : 0; }
         }
 
-        public bool ShareWithAllUsers
+        public virtual bool ShareWithAllUsers
         {
             get { return (share_with_all_users ?? default(int)) != 0 ? true : false; }
             set { share_with_all_users = value ? 1 : 0; }
         }
 
-        public bool Locked
+        public virtual bool Locked
         {
             get { return (locked ?? default(int)) != 0 ? true : false; }
             set { locked = value ? 1 : 0; }
         }
 
-        public string PrivateImageCount
+        public virtual string PrivateImageCount
         {
             get { return private_image_count; }
             set { private_image_count = value; }
         }
 
-        public string PublicImageCount
+        public virtual string PublicImageCount
         {
             get { return public_image_count; }
             set { public_image_count = value; }
         }
 
-        public string UnapprovedImageCount
+        public virtual string UnapprovedImageCount
         {
             get { return unapproved_image_count; }
             set { unapproved_image_count = value; }
         }
 
-        public DateTime Updated
+        public virtual DateTime Updated
         {
             get { return dbString2DateTime(updated); }
             set { updated = dateTime2DbString(value); }
         }
 
-        public DateTime Created
+        public virtual DateTime Created
         {
             get { return dbString2DateTime(created); }
             set { created = dateTime2DbString(value); }

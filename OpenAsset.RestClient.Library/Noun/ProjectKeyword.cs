@@ -21,13 +21,13 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public int ProjectKeywordCategoryId
+        public virtual int ProjectKeywordCategoryId
         {
             get { return project_keyword_category_id ?? default(int); }
             set { project_keyword_category_id = value; }

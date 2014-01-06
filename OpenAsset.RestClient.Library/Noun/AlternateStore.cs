@@ -21,13 +21,13 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public string StorageName
+        public virtual string StorageName
         {
             get { return storage_name; }
             set { storage_name = value; }

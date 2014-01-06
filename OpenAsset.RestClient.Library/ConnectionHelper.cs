@@ -552,6 +552,21 @@ namespace OpenAsset.RestClient.Library
 
         public bool MeetsRESTRequirement(string oaVersion = null)
         {
+            if (String.IsNullOrEmpty(oaVersion))
+            {
+                oaVersion = LastResponseHeaders.OpenAssetVersion;
+                if (String.IsNullOrEmpty(oaVersion))
+                {
+                    try
+                    {
+                        ValidateCredentials();
+                        oaVersion = LastResponseHeaders.OpenAssetVersion;
+                    } catch (Exception e) 
+                    {
+                        oaVersion = null;
+                    }
+                }
+            }
             if (!String.IsNullOrEmpty(oaVersion))
             {
                 oaVersion = oaVersion.Replace("h", "");

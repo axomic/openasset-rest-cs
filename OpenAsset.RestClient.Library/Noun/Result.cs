@@ -19,7 +19,7 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public int FileId
+        public virtual int FileId
         {
             get { return file_id ?? default(int); }
             set { file_id = value; }

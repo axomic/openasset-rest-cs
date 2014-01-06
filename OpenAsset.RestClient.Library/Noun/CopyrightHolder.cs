@@ -21,13 +21,13 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public int CopyrightPolicyId
+        public virtual int CopyrightPolicyId
         {
             get { return copyright_policy_id ?? default(int); }
             set { copyright_policy_id = value; }

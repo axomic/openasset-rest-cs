@@ -25,25 +25,25 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Value
+        public virtual string Value
         {
             get { return _value; }
             set { _value = value; }
         }
 
-        public string Description
+        public virtual string Description
         {
             get { return description; }
             set { description = value; }
         }
 
-        public int DisplayOrder
+        public virtual int DisplayOrder
         {
             get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 
-        public int FieldId
+        public virtual int FieldId
         {
             get { return field_id ?? default(int); }
             set { field_id = value; }

@@ -23,19 +23,19 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public string Code
+        public virtual string Code
         {
             get { return code; }
             set { code = value; }
         }
 
-        public int DisplayOrder
+        public virtual int DisplayOrder
         {
             get { return display_order ?? default(int); }
             set { display_order = value; }

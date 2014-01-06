@@ -70,145 +70,145 @@ namespace OpenAsset.RestClient.Library.Noun
         protected int? size_id;
 
         #region Accessors
-        public int Filesize
+        public virtual int Filesize
         {
             get { return filesize ?? default(int); }
             set { filesize = value; }
         }
 
-        public bool Watermarked
+        public virtual bool Watermarked
         {
             get { return watermarked != 0; }
             set { watermarked = value ? 1 : 0; }
         }
 
-        public string HttpRoot
+        public virtual string HttpRoot
         {
             get { return http_root; }
             set { http_root = value; }
         }
 
-        public string RelativePath
+        public virtual string RelativePath
         {
             get { return relative_path; }
             set { relative_path = value; }
         }
 
-        public string UncRoot
+        public virtual string UncRoot
         {
             get { return unc_root; }
             set { unc_root = value; }
         }
 
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public bool Original
+        public virtual bool Original
         {
             get { return original != 0 ? true : false; }
             set { original = value ? 1 : 0; }
         }
 
-        public string Postfix
+        public virtual string Postfix
         {
             get { return postfix; }
             set { postfix = value; }
         }
 
-        public bool Alive
+        public virtual bool Alive
         {
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
 
-        public bool AlwaysCreate
+        public virtual bool AlwaysCreate
         {
             get { return (always_create ?? default(int)) != 0 ? true : false; }
             set { always_create = value ? 1 : 0; }
         }
 
-        public string Colourspace
+        public virtual string Colourspace
         {
             get { return colourspace; }
             set { colourspace = value; }
         }
 
-        public bool CropToFit
+        public virtual bool CropToFit
         {
             get { return (crop_to_fit ?? default(int)) != 0 ? true : false; }
             set { crop_to_fit = value ? 1 : 0; }
         }
 
-        public string Description
+        public virtual string Description
         {
             get { return description; }
             set { description = value; }
         }
 
-        public int DisplayOrder
+        public virtual int DisplayOrder
         {
             get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 
-        public string FileFormat
+        public virtual string FileFormat
         {
             get { return file_format; }
             set { file_format = value; }
         }
 
-        public int Height
+        public virtual int Height
         {
             get { return height ?? default(int); }
             set { height = value; }
         }
 
-        public int Quality
+        public virtual int Quality
         {
             get { return quality ?? default(int); }
             set { quality = value; }
         }
 
-        public bool SizeProtected
+        public virtual bool SizeProtected
         {
             get { return size_protected != 0 ? true : false; }
             set { size_protected = value ? 1 : 0; }
         }
 
-        public bool UseForContactSheet
+        public virtual bool UseForContactSheet
         {
             get { return use_for_contact_sheet != 0 ? true : false; }
             set { use_for_contact_sheet = value ? 1 : 0; }
         }
 
-        public bool UseForPowerpoint
+        public virtual bool UseForPowerpoint
         {
             get { return use_for_power_point != 0 ? true : false; }
             set { use_for_power_point = value ? 1 : 0; }
         }
 
-        public bool UseForZip
+        public virtual bool UseForZip
         {
             get { return use_for_zip != 0 ? true : false; }
             set { use_for_zip = value ? 1 : 0; }
         }
 
-        public int Width
+        public virtual int Width
         {
             get { return width ?? default(int); }
             set { width = value; }
         }
 
-        public int XResolution
+        public virtual int XResolution
         {
             get { return x_resolution ?? default(int); }
             set { x_resolution = value; }
         }
 
-        public int YResolution
+        public virtual int YResolution
         {
             get { return y_resolution ?? default(int); }
             set { y_resolution = value; }

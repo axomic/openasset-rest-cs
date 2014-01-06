@@ -35,55 +35,55 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public string NameAlias1
+        public virtual string NameAlias1
         {
             get { return name_alias_1; }
             set { name_alias_1 = value; }
         }
 
-        public string NameAlias2
+        public virtual string NameAlias2
         {
             get { return name_alias_2; }
             set { name_alias_2 = value; }
         }
 
-        public string Code
+        public virtual string Code
         {
             get { return code; }
             set { code = value; }
         }
 
-        public string CodeAlias1
+        public virtual string CodeAlias1
         {
             get { return code_alias_1; }
             set { code_alias_1 = value; }
         }
 
-        public string CodeAlias2
+        public virtual string CodeAlias2
         {
             get { return code_alias_2; }
             set { code_alias_2 = value; }
         }
 
-        public bool Alive
+        public virtual bool Alive
         {
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
 
-        public List<ProjectKeyword> ProjectKeywords
+        public virtual List<ProjectKeyword> ProjectKeywords
         {
             get { return projectKeywords; }
             set { projectKeywords = value; }
         }
 
-        public List<Field> Fields
+        public virtual List<Field> Fields
         {
             get { return fields; }
             set { fields = value; }

@@ -43,79 +43,79 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public int AllUsersCanModify
+        public virtual int AllUsersCanModify
         {
             get { return all_users_can_modify ?? default(int); }
             set { all_users_can_modify = value; }
         }
 
-        public bool ApprovedCompanySavedSearch
+        public virtual bool ApprovedCompanySavedSearch
         {
             get { return (approved_company_saved_search ?? default(int)) != 0 ? true : false; }
             set { approved_company_saved_search = value ? 1 : 0; }
         }
 
-        public bool CanModify
+        public virtual bool CanModify
         {
             get { return (can_modify ?? default(int)) != 0 ? true : false; }
             set { can_modify = value ? 1 : 0; }
         }
 
-        public string Code
+        public virtual string Code
         {
             get { return code; }
             set { code = value; }
         }
 
-        public bool CompanySavedSearch
+        public virtual bool CompanySavedSearch
         {
             get { return (company_saved_search ?? default(int)) != 0 ? true : false; }
             set { company_saved_search = value ? 1 : 0; }
         }
 
-        public DateTime Created
+        public virtual DateTime Created
         {
             get { return dbString2DateTime(created); }
             set { created = dateTime2DbString(value); }
         }
 
-        public bool Locked
+        public virtual bool Locked
         {
             get { return (locked ?? default(int)) != 0 ? true : false; }
             set { locked = value ? 1 : 0; }
         }
 
-        public bool Saved
+        public virtual bool Saved
         {
             get { return (saved ?? default(int)) != 0 ? true : false; }
             set { saved = value ? 1 : 0; }
         }
 
-        public bool ShareWithAllUsers
+        public virtual bool ShareWithAllUsers
         {
             get { return (share_with_all_users ?? default(int)) != 0 ? true : false; }
             set { share_with_all_users = value ? 1 : 0; }
         }
 
-        public DateTime Updated
+        public virtual DateTime Updated
         {
             get { return dbString2DateTime(updated); }
             set { updated = dateTime2DbString(value); }
         }
 
-        public int UserId
+        public virtual int UserId
         {
             get { return user_id ?? default(int); }
             set { user_id = value; }
         }
 
-        public List<SearchItem> SearchItems
+        public virtual List<SearchItem> SearchItems
         {
             get { return search_items; }
             set { search_items = value; }

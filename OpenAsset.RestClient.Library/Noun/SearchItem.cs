@@ -27,31 +27,31 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Code
+        public virtual string Code
         {
             get { return code; }
             set { code = value; }
         }
 
-        public string Operator
+        public virtual string Operator
         {
             get { return _operator; }
             set { _operator = value; }
         }
 
-        public bool Exclude
+        public virtual bool Exclude
         {
             get { return (exclude ?? default(int)) != 0; }
             set { exclude = value ? 1 : 0; }
         }
 
-        public List<int> Ids
+        public virtual List<int> Ids
         {
             get { return ids; }
             set { ids = value; }
         }
 
-        public List<string> Values
+        public virtual List<string> Values
         {
             get { return values; }
             set { values = value; }

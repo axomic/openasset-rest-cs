@@ -38,55 +38,55 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
 
-        public string Code
+        public virtual string Code
         {
             get { return code; }
             set { code = value; }
         }
 
-        public string Description
+        public virtual string Description
         {
             get { return description; }
             set { description = value; }
         }
 
-        public int DefaultAccessLevel
+        public virtual int DefaultAccessLevel
         {
             get { return default_access_level ?? default(int); }
             set { default_access_level = value; }
         }
 
-        public int DefaultRank
+        public virtual int DefaultRank
         {
             get { return default_rank ?? default(int); }
             set { default_rank = value; }
         }
 
-        public int MaximumRank
+        public virtual int MaximumRank
         {
             get { return maximum_rank ?? default(int); }
             set { maximum_rank = value; }
         }
 
-        public int DisplayOrder
+        public virtual int DisplayOrder
         {
             get { return display_order ?? default(int); }
             set { display_order = value; }
         }
 
-        public int ProjectsCategory
+        public virtual int ProjectsCategory
         {
             get { return projects_category ?? default(int); }
             set { projects_category = value; }
         }
 
-        public bool Alive
+        public virtual bool Alive
         {
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }

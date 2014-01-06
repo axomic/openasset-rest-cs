@@ -23,19 +23,19 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string UserName
+        public virtual string UserName
         {
             get { return username; }
             set { username = value; }
         }
 
-        public string FullName
+        public virtual string FullName
         {
             get { return full_name; }
             set { full_name = value; }
         }
 
-        public bool Alive
+        public virtual bool Alive
         {
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }

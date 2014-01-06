@@ -25,25 +25,25 @@ namespace OpenAsset.RestClient.Library.Noun
         #endregion
 
         #region Accessors
-        public string TextMatch
+        public virtual string TextMatch
         {
             get { return text_match; }
             set { text_match = value; }
         }
 
-        public string TextReplace
+        public virtual string TextReplace
         {
             get { return text_replace; }
             set { text_replace = value; }
         }
 
-        public bool CaseSensitive
+        public virtual bool CaseSensitive
         {
             get { return (case_sensitive ?? default(int)) != 0; }
             set { case_sensitive = value ? 1 : 0; }
         }
 
-        public bool PreserveFirstLetterCase
+        public virtual bool PreserveFirstLetterCase
         {
             get { return (preserve_first_letter_case ?? default(int)) != 0; }
             set { preserve_first_letter_case = value ? 1 : 0; }
