@@ -120,14 +120,14 @@ namespace OpenAsset.RestClient.Library
             return cc;
         }
 
-        public void LogoutCurrentSession()
+        public void LogoutCurrentSession(int retryIndex = 0)
         {
             _username = Constant.REST_ANONYMOUS_USERNAME;
             isAnonymous();
             if (String.IsNullOrEmpty(_sessionKey))
                 return;
             string validationUrl = _serverURL;
-            validationUrl += Constant.REST_BASE_PATH + Constant.REST_AUTHENTICATE_URL_EXTENSION + Constant.REST_LOGOUT_EXTENSION;
+            validationUrl += Constant.REST_BASE_PATH + Constant.REST_AUTHENTICATE_URL_EXTENSION[retryIndex] + Constant.REST_LOGOUT_EXTENSION;
             HttpWebResponse response = null;
             HttpWebRequest request = null;
             request = (HttpWebRequest)WebRequest.Create(validationUrl);
@@ -139,9 +139,13 @@ namespace OpenAsset.RestClient.Library
             {
                 response = getResponse(request);
             }
-            catch (Exception)
+            catch (WebException e)
             {
                 // Doesn't matter if this fails for now
+                if (httpRetryValid(request, e) && retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
+                {
+                    LogoutCurrentSession(++retryIndex);
+                }
             }
             finally
             {

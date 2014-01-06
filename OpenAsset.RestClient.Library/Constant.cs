@@ -12,7 +12,7 @@ namespace OpenAsset.RestClient.Library
         public static readonly string[] REST_AUTHENTICATE_URL_EXTENSION = { "/Headers", "/AccessLevels?limit=1" };
         //public const string REST_AUTHENTICATE_URL_EXTENSION = "/Headers";
         //public const string REST_AUTHENTICATE_URL_EXTENSION_FALLBACK = "/AccessLevels?limit=1";
-        public const string REST_LOGOUT_EXTENSION = "&logout=logout";
+        public const string REST_LOGOUT_EXTENSION = "?logout=logout";
         public const string REST_USER_AGENT = "User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Revit Plugin)";
         public const string REST_BASE_PATH = "/REST/1";
 
