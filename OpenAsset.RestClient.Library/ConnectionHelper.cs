@@ -164,7 +164,15 @@ namespace OpenAsset.RestClient.Library
 
         public bool IsLoggedIn()
         {
-            bool result = ValidateCredentials();
+            bool result = false;
+            try
+            {
+                result = ValidateCredentials();
+            }
+            catch (RESTAPIException e)
+            {
+                result = false;
+            }
             return !isAnonymous() && result;
         }
 
