@@ -104,35 +104,35 @@ namespace OpenAsset.RestClient.TestLibrary
                 //fileUpload.Rank = 1;
                 //File newFile = connectionHelper.SendObject<File>(fileUpload, filename);
 
-                // post multiple objects
-                //Photographer photographer1 = new Photographer();
-                //photographer1.Name = "a1";
-                //Photographer photographer2 = new Photographer();
-                //photographer2.Name = "ab1";
-                //Photographer photographer3 = new Photographer();
-                //photographer3.Name = "abc1";
-                //List<Photographer> photographerList = new List<Photographer>() 
-                //{ 
-                //    photographer1,
-                //    photographer2,
-                //    photographer3,
-                //};
-                //List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
+                // POST multiple objects
+                Photographer photographer1 = new Photographer();
+                photographer1.Name = "asfd1";
+                Photographer photographer2 = new Photographer();
+                photographer2.Name = "asfb1";
+                Photographer photographer3 = new Photographer();
+                photographer3.Name = "asfdbc1";
+                List<Photographer> photographerList = new List<Photographer>() 
+                { 
+                    photographer1,
+                    photographer2,
+                    photographer3,
+                };
+                List<Photographer> newPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, true);
 
                 // get Fields/FieldLookupString
-                OpenAsset.RestClient.Library.RESTOptions<FieldLookupString> optionsFieldLookupString = new OpenAsset.RestClient.Library.RESTOptions<FieldLookupString>();
-                optionsFieldLookupString.AddDisplayField("id");
-                optionsFieldLookupString.AddDisplayField("value");
-                optionsFieldLookupString.AddDisplayField("description");
-                optionsFieldLookupString.AddDisplayField("field_id");
+                //OpenAsset.RestClient.Library.RESTOptions<FieldLookupString> optionsFieldLookupString = new OpenAsset.RestClient.Library.RESTOptions<FieldLookupString>();
+                //optionsFieldLookupString.AddDisplayField("id");
+                //optionsFieldLookupString.AddDisplayField("value");
+                //optionsFieldLookupString.AddDisplayField("description");
+                //optionsFieldLookupString.AddDisplayField("field_id");
                 //optionsFieldLookupString.SetSearchParameter("id", "15,16,20");
-                List<FieldLookupString> nestedFieldLookupString = connectionHelper.GetObjects<FieldLookupString>(15, "Fields", optionsFieldLookupString);
+                //List<FieldLookupString> nestedFieldLookupString = connectionHelper.GetObjects<FieldLookupString>(15, "Fields", optionsFieldLookupString);
 
-                //// put multiple objects
+                //// PUT multiple objects
                 //// NOT WORKING YET
-                //photographerList[0].Name = "cba";
-                //photographerList[1].Name = "cba1";
-                //photographerList[2].Name = "cba2";
+                //photographerList[0].Name = "cbdfa";
+                //photographerList[1].Name = "cbfdsa1";
+                //photographerList[2].Name = "cbsdfa2";
                 //List<Photographer> modifiedPhotographerList = connectionHelper.SendObjects<Photographer>(photographerList, false);
 
             }

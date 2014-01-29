@@ -17,6 +17,7 @@ namespace OpenAsset.RestClient.Library
         protected bool _anonymous = false;
         protected string _sessionKey = null; //current session key
         private Error _lastError = null;
+        private string _userAgent = null;
 
         //values from the last request made
         // if the last request didn't had the value it is empty
@@ -47,6 +48,12 @@ namespace OpenAsset.RestClient.Library
         public string SessionKey
         {
             get { return _sessionKey; }
+        }
+
+        public string UserAgent
+        {
+            get { return _userAgent; }
+            set { _userAgent = value; }
         }
         #endregion
 
@@ -86,6 +93,7 @@ namespace OpenAsset.RestClient.Library
         #region Constructors
         protected ConnectionHelper(string serverURL)
         {
+            _userAgent = "User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)";
             _username = Constant.REST_ANONYMOUS_USERNAME;
             isAnonymous();
             _serverURL = serverURL;
@@ -133,7 +141,7 @@ namespace OpenAsset.RestClient.Library
             request = (HttpWebRequest)WebRequest.Create(validationUrl);
             request.Headers.Add(Constant.HEADER_SESSIONKEY, _sessionKey);
             request.Timeout = Constant.REST_AUTHENTICATE_TIMEOUT;
-            request.UserAgent = Constant.REST_USER_AGENT;
+            request.UserAgent = _userAgent;//Constant.REST_USER_AGENT;
             request.Method = "HEAD";
             try
             {
@@ -207,7 +215,7 @@ namespace OpenAsset.RestClient.Library
                 request.Headers.Add(Constant.HEADER_SESSIONKEY, sessionKey);
             }
             request.Timeout = Constant.REST_AUTHENTICATE_TIMEOUT;
-            request.UserAgent = Constant.REST_USER_AGENT;
+            request.UserAgent = _userAgent;//Constant.REST_USER_AGENT;
             request.Method = "HEAD";
 
             try
@@ -426,7 +434,7 @@ namespace OpenAsset.RestClient.Library
             // HTTP REQUEST
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = method;
-            request.UserAgent = Constant.REST_USER_AGENT;
+            request.UserAgent = _userAgent;//Constant.REST_USER_AGENT;
             request.Timeout = Constant.REST_REQUEST_TIMEOUT;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             request.ContentType = contentType;
@@ -695,9 +703,7 @@ namespace OpenAsset.RestClient.Library
             T value = null;
             if (createNew)
             {
-                NewItem newItem = JsonConvert.DeserializeObject<NewItem>(response);
-                value = new T();
-                value.Id = newItem.NewId;
+                value = JsonConvert.DeserializeObject<T>(response);
             }
             else
             {
@@ -765,34 +771,7 @@ namespace OpenAsset.RestClient.Library
             string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType);
 
             // fill values list
-            List<T> values = null;
-            if (createNew)
-            {
-                // developing a converter to the correct types
-                //List<CustomResponses.Base.BaseCustomResponse> newItemListTEST = JsonConvert.DeserializeObject<List<CustomResponses.Base.BaseCustomResponse>>(responseText, new CustomResponseConverter());
-
-
-                List<NewItem> newItemList = JsonConvert.DeserializeObject<List<NewItem>>(responseText);
-                values = new List<T>();
-                foreach (NewItem newItem in newItemList)
-                {
-                    if (newItem.NewId != 0)
-                    {
-                        T value = new T();
-                        value.Id = newItem.NewId;
-                        values.Add(value);
-                    }
-                    else
-                    {
-                        // it probably failed the creation of the object!!!!
-                        // throw exception? do what?
-                    }
-                }
-            }
-            else
-            {
-                values = JsonConvert.DeserializeObject<List<T>>(responseText);
-            }
+            List<T> values = JsonConvert.DeserializeObject<List<T>>(responseText);
             return values;
         }
         #endregion
