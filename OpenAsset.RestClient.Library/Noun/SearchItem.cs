@@ -57,49 +57,7 @@ namespace OpenAsset.RestClient.Library.Noun
             set { values = value; }
         }
         #endregion
-        
-      
-        /*
-        public override string ToString()
-        {
-            string text = Char.ToUpperInvariant(code[0]) + code.Substring(1);
-            int id = 0;
-            if (code.Contains('.'))
-            {
-                id = Convert.ToInt32(text.Substring(text.IndexOf('.') + 1));
-                text = text.Substring(0, text.IndexOf('.'));
-                switch (text)
-                {
-                    case "Field":
-                        Field field = RESTEngine.Instance.GetField(id);
-                        if (field != null)
-                            text = field.name;
-                        break;
-                    case "Keyword":
-                        KeywordCategory keywordCategory = RESTEngine.Instance.GetKeywordCategory(id);
-                        if (keywordCategory != null)
-                            text = keywordCategory.name;
-                        break;
-                    case "ProjectKeyword":
-                        ProjectKeywordCategory projectKeywordCategory = RESTEngine.Instance.GetProjectKeywordCategory(id);
-                        if (projectKeywordCategory != null)
-                            text = projectKeywordCategory.name;
-                        break;
-                }
-            }
-            text += ": ";
-            if (values != null && values.Count > 0)
-            {
-                text += String.Join(", ", values.ToArray());
-            }
-            if (ids != null && ids.Count > 0)
-            {
-                List<string> idStrings = BLL.RESTEngine.Instance.GetSearchStringsFromIds(code, ids);
-                text += String.Join(", ", idStrings.ToArray());
-            }
-            return text;
-        }
-        */
+
         public override int CompareTo(object obj)
         {
             if (obj == null) return 1;
