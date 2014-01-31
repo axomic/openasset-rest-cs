@@ -32,6 +32,8 @@ namespace OpenAsset.RestClient.TestLibrary
                 //check if user is valid
                 bool validUser = connectionHelper.ValidateCredentials();
 
+                bool newSessionOK = connectionHelper.NewSession("dsdfsfd", "dsffsd");
+
                 //// get
                 //RESTOptions<File> optionsFile = new RESTOptions<File>();
                 //optionsFile.SetSearchParameter("sizes", "all");
@@ -61,18 +63,18 @@ namespace OpenAsset.RestClient.TestLibrary
                 //Search search1 = searchList.ElementAt<Search>(1);
 
                 ////post
-                //Search postSearch = new Search();
-                //postSearch.Name = "POSTTESTNAME";
-                //SearchItem searchItem = new SearchItem();
-                //searchItem.Code = "popularFields";
-                //searchItem.Values = new List<string>();
-                //searchItem.Values.Add("test1");
-                //searchItem.Values.Add("test2");
-                //searchItem.Values.Add("test3");
-                //postSearch.SearchItems = new List<SearchItem>();
-                //postSearch.SearchItems.Add(searchItem);
-                //Search newSearch = connectionHelper.SendObject<Search>(postSearch, true); // only returns a Search object with only an Id
-                //newSearch = connectionHelper.GetObject<Search>(newSearch.Id, optionsSearch); // get new search data
+                Search postSearch = new Search();
+                postSearch.Name = "POSTTESTNAME";
+                SearchItem searchItem = new SearchItem();
+                searchItem.Code = "popularFields";
+                searchItem.Values = new List<string>();
+                searchItem.Values.Add("test1");
+                searchItem.Values.Add("test2");
+                searchItem.Values.Add("test3");
+                postSearch.SearchItems = new List<SearchItem>();
+                postSearch.SearchItems.Add(searchItem);
+                Search newSearch = connectionHelper.SendObject<Search>(postSearch, true); // only returns a Search object with only an Id
+                newSearch = connectionHelper.GetObject<Search>(newSearch.Id, optionsSearch); // get new search data
 
                 ////put
                 //Search putSearch = new Search();
@@ -110,7 +112,7 @@ namespace OpenAsset.RestClient.TestLibrary
                 Photographer photographer2 = new Photographer();
                 photographer2.Name = "asfb1";
                 Photographer photographer3 = new Photographer();
-                photographer3.Name = "asfdbc1";
+                photographer3.Name = "asfdbfefc1";
                 List<Photographer> photographerList = new List<Photographer>() 
                 { 
                     photographer1,

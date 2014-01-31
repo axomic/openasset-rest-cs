@@ -698,17 +698,9 @@ namespace OpenAsset.RestClient.Library
             return responseText;
         }
 
-        private T deserealizeResponse<T>(string response, bool createNew) where T : Noun.Base.BaseNoun, new()
+        private T deserealizeResponse<T>(string response) where T : Noun.Base.BaseNoun, new()
         {
-            T value = null;
-            if (createNew)
-            {
-                value = JsonConvert.DeserializeObject<T>(response);
-            }
-            else
-            {
-                value = JsonConvert.DeserializeObject<T>(response);
-            }
+            T value = JsonConvert.DeserializeObject<T>(response);
             return value;
         }
 
@@ -724,10 +716,9 @@ namespace OpenAsset.RestClient.Library
             string contentType = "application/json";
             string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType);
             // deserealize object
-            T value = deserealizeResponse<T>(responseText, createNew);
+            T value = deserealizeResponse<T>(responseText);
             return value;
         }
-
 
         // any base noun can be used but only the FileNoun accepts this type of POST
         public T SendObject<T>(T sendingObject, string filepath) where T : Noun.Base.BaseNoun, new()
@@ -755,7 +746,7 @@ namespace OpenAsset.RestClient.Library
             string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
             string responseText = sendObjectStringResponse(formData, true, urlNoun, contentType);
             // deserealize object
-            T value = deserealizeResponse<T>(responseText, true);
+            T value = deserealizeResponse<T>(responseText);
             return value;
         }
 
