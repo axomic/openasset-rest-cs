@@ -19,6 +19,34 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected int id;
 
+        #region Error
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected int http_status_code;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected string error_message;
+
+        private void cleanError()
+        {
+            http_status_code = 0;
+            error_message = null;
+        }
+
+        public bool Failed
+        {
+            get { return error_message != null; }
+        }
+
+        public int ErrorHTTPCode
+        {
+            get { return http_status_code; }
+        }
+
+        public string ErrorMessage
+        {
+            get { return error_message; }
+        }
+        #endregion
+        
         public int Id
         {
             get { return id; }
@@ -64,6 +92,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         [OnDeserializing]
         internal void OnDeserializingMethod(StreamingContext context)
         {
+            cleanError();
             OnDeserializing(context);
         }
 
@@ -121,6 +150,10 @@ namespace OpenAsset.RestClient.Library.Noun.Base
 
         public override string ToString()
         {
+            if (Failed)
+            {
+                return ErrorHTTPCode + " : " + ErrorMessage;
+            }
             return SearchCode + ":" + UniqueCodeField + ":" + UniqueCode;
         }
 

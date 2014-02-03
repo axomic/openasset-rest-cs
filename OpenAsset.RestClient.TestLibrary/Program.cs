@@ -32,7 +32,7 @@ namespace OpenAsset.RestClient.TestLibrary
                 //check if user is valid
                 bool validUser = connectionHelper.ValidateCredentials();
 
-                bool newSessionOK = connectionHelper.NewSession("dsdfsfd", "dsffsd");
+                //bool newSessionOK = connectionHelper.NewSession("dsdfsfd", "dsffsd");
 
                 //// get
                 //RESTOptions<File> optionsFile = new RESTOptions<File>();
@@ -108,11 +108,11 @@ namespace OpenAsset.RestClient.TestLibrary
 
                 // POST multiple objects
                 Photographer photographer1 = new Photographer();
-                photographer1.Name = "asfd1";
+                photographer1.Name = "adfdfsfd1";
                 Photographer photographer2 = new Photographer();
-                photographer2.Name = "asfb1";
+                photographer2.Name = "asfdioifdb1";
                 Photographer photographer3 = new Photographer();
-                photographer3.Name = "asfdbfefc1";
+                photographer3.Name = "astytyfdbfdffefc1";
                 List<Photographer> photographerList = new List<Photographer>() 
                 { 
                     photographer1,
