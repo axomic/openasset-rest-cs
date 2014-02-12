@@ -704,7 +704,7 @@ namespace OpenAsset.RestClient.Library
         }
 
         // any base noun can be used but only the FileNoun accepts this type of POST
-        public T SendObject<T>(T sendingObject, string filepath) where T : Noun.Base.BaseNoun, new()
+        public T SendObject<T>(T sendingObject, string filepath, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
             // read file
             string filename = Path.GetFileName(filepath);
@@ -727,7 +727,8 @@ namespace OpenAsset.RestClient.Library
 
             // send post/put request
             string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-            string responseText = sendObjectStringResponse(formData, true, urlNoun, contentType);
+            urlNoun += createNew ? "" : "/" + sendingObject.Id;
+            string responseText = sendObjectStringResponse(formData, createNew, urlNoun, contentType);
             // deserealize object
             T value = deserealizeResponse<T>(responseText);
             return value;
