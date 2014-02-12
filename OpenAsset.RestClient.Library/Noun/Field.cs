@@ -36,10 +36,6 @@ namespace OpenAsset.RestClient.Library.Noun
         //
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected List<string> values;
-
-        // sets the id of the object (when deserialization is made from an expanded field)
-        [JsonProperty("field_id",NullValueHandling = NullValueHandling.Ignore)]
-        protected int? field_id;
         #endregion
 
         #region Accessors
@@ -121,14 +117,6 @@ namespace OpenAsset.RestClient.Library.Noun
             get
             {
                 return base.SearchCode + "." + id.ToString();
-            }
-        }
-
-        protected override void OnDeserialized(StreamingContext context)
-        {
-            if (field_id.HasValue)
-            {
-                id = field_id.Value;
             }
         }
     }

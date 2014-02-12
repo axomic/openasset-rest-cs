@@ -34,18 +34,6 @@ namespace OpenAsset.RestClient.Library.Noun
         }
         #endregion
 
-        // sets the id of the object (when deserialization is made from an expanded field)
-        [JsonProperty("keyword_id",NullValueHandling = NullValueHandling.Ignore)]
-        protected int? keyword_id;
-
-        protected override void OnDeserialized(StreamingContext context)
-        {
-            if (keyword_id.HasValue)
-            {
-                id = keyword_id.Value;
-            }
-        }
-
         public override int CompareTo(object obj)
         {
             if (obj == null) return 1;

@@ -65,10 +65,6 @@ namespace OpenAsset.RestClient.Library.Noun
         protected int? watermarked;
         #endregion
 
-        // sets the id of the object (when deserialization is made from an expanded field)
-        [JsonProperty("size_id",NullValueHandling = NullValueHandling.Ignore)]
-        protected int? size_id;
-
         #region Accessors
         public virtual int Filesize
         {
@@ -214,14 +210,6 @@ namespace OpenAsset.RestClient.Library.Noun
             set { y_resolution = value; }
         }
         #endregion
-
-        protected override void OnDeserialized(StreamingContext context)
-        {
-            if (size_id.HasValue)
-            {
-                id = size_id.Value;
-            }
-        }
 
         public override string UniqueCode
         {
