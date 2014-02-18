@@ -57,7 +57,7 @@ namespace OpenAsset.RestClient.Library
         }
         #endregion
 
-        #region ConnectionHelper Factory
+        #region Connection Factory
         private static Dictionary<string, Connection> _connectionHelpers = new Dictionary<string, Connection>();
         public static Connection GetConnection(string serverURL, string username = null, string password = null)
         {
