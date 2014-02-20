@@ -95,7 +95,6 @@ namespace OpenAsset.RestClient.Library
         {
             _userAgent = "User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)";
             _username = Constant.REST_ANONYMOUS_USERNAME;
-            isAnonymous();
             _serverURL = serverURL;
             LastResponseHeaders = new ResponseHeaders();
         }
@@ -105,7 +104,6 @@ namespace OpenAsset.RestClient.Library
         {
             _username = username;
             _password = password;
-            isAnonymous();
         }
         #endregion
 
@@ -131,7 +129,6 @@ namespace OpenAsset.RestClient.Library
         public void LogoutCurrentSession(int retryIndex = 0)
         {
             _username = Constant.REST_ANONYMOUS_USERNAME;
-            isAnonymous();
             if (String.IsNullOrEmpty(_sessionKey))
                 return;
             string validationUrl = _serverURL;
@@ -150,9 +147,9 @@ namespace OpenAsset.RestClient.Library
             catch (WebException e)
             {
                 // Doesn't matter if this fails for now
-                if (httpRetryValid(request, e) && retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
+                if (endpointNotFound(e) && retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
                 {
-                    LogoutCurrentSession(++retryIndex);
+                    LogoutCurrentSession(retryIndex + 1);
                 }
             }
             finally
@@ -166,7 +163,6 @@ namespace OpenAsset.RestClient.Library
         {
             _password = password;
             _username = username;
-            isAnonymous();
             return ValidateCredentials();
         }
 
@@ -256,7 +252,7 @@ namespace OpenAsset.RestClient.Library
             {
                 if (httpRetryValid(request, e) && retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
                 {
-                    return ValidateCredentials(++retryIndex);
+                    return ValidateCredentials(retryIndex + 1);
                 }
 				try
 				{
@@ -284,7 +280,6 @@ namespace OpenAsset.RestClient.Library
                     response.Close();
             }
 
-            isAnonymous();
             return false;
         }
         #endregion
@@ -295,7 +290,7 @@ namespace OpenAsset.RestClient.Library
             HttpWebResponse errorResponse = we.Response as HttpWebResponse;
             if (errorResponse == null)
                 return false;
-            bool anonLoginEnabled = Convert.ToBoolean(isAnonymous());
+            bool anonLoginEnabled = isAnonymous();
             string username = null, password = null;
             string authorization = request.Headers["Authorization"];
             if (authorization != null && authorization.StartsWith("Basic "))
@@ -327,6 +322,16 @@ namespace OpenAsset.RestClient.Library
                     }
                 }
             }
+            return false;
+        }
+
+        private bool endpointNotFound(WebException we)
+        {
+            HttpWebResponse errorResponse = we.Response as HttpWebResponse;
+            if (errorResponse == null)
+                return false;
+            if (errorResponse.StatusCode == HttpStatusCode.NotFound || errorResponse.StatusCode == HttpStatusCode.InternalServerError)
+                return true;
             return false;
         }
 
@@ -474,7 +479,7 @@ namespace OpenAsset.RestClient.Library
             }
             catch (WebException e)
             {
-                if (httpRetryValid(request, e))
+                if (!retry && httpRetryValid(request, e))
                 {
                     return getRESTResponse(url, method, output, true, contentType);
                 }

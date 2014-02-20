@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionHelper.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CustomResponses\Base\BaseCustomResponse.cs" />
     <Compile Include="CustomResponses\CustomResponseConverter.cs" />
