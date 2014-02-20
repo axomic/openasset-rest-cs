@@ -774,20 +774,14 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
 		#region DELETE Objects
-		public T DeleteObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun
+        // Empty response on success, throws error on failure
+		public void DeleteObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun
 		{
 			HttpWebResponse response = null;
 			try
 			{
 				string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id + "?" + options.GetUrlParameters();
 				response = getRESTResponse(restUrl, "DELETE");
-				TextReader tr = new StreamReader(response.GetResponseStream());
-				string responseText = tr.ReadToEnd();
-				tr.Close();
-				tr.Dispose();
-
-				T objT = JsonConvert.DeserializeObject<T>(responseText);
-				return objT;
 			}
 			finally
 			{
@@ -795,42 +789,6 @@ namespace OpenAsset.RestClient.Library
 					response.Close();
 			}
 		}
-
-		public List<T> DeleteObjects<T>(RESTOptions<T> options) where T : Noun.Base.BaseNoun
-        {
-            return DeleteObjects<T>(0, null, options);
-        }
-
-        public List<T> DeleteObjects<T>(int id, string parentNoun, RESTOptions<T> options) where T : Noun.Base.BaseNoun
-        {
-            HttpWebResponse response = null;
-            try
-            {
-                string restUrl = _serverURL + Constant.REST_BASE_PATH;
-                if (!String.IsNullOrEmpty(parentNoun))
-                    restUrl += "/" + parentNoun;
-                else
-                    restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-                if (id > 0)
-                    restUrl += "/" + id;
-                if (!String.IsNullOrEmpty(parentNoun))
-                    restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-                restUrl += "?" + options.GetUrlParameters();
-                response = getRESTResponse(restUrl, "DELETE");
-
-                TextReader tr = new StreamReader(response.GetResponseStream());
-                string responseText = tr.ReadToEnd();
-                tr.Close();
-                tr.Dispose();
-                return JsonConvert.DeserializeObject<List<T>>(responseText);
-            }
-            finally
-            {
-                if (response != null)
-                    response.Close();
-            }
-        }
-
 		#endregion
     }
 }
