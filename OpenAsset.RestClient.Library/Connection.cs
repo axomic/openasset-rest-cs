@@ -792,5 +792,36 @@ namespace OpenAsset.RestClient.Library
             }
         }
         #endregion
+
+        #region OPTIONS Calls
+        public T GetOptions<T>(Type type, int id = 0) where T : Information.Base.BaseOptions
+        {
+            HttpWebResponse response = null;
+            try
+            {
+                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(type);
+                if (id > 0)
+                    restUrl += "/" + id;
+                response = getRESTResponse(restUrl, "OPTIONS");
+                TextReader tr = new StreamReader(response.GetResponseStream());
+                string responseText = tr.ReadToEnd();
+                tr.Close();
+                tr.Dispose();
+
+                T objT = JsonConvert.DeserializeObject<T>(responseText);
+                return objT;
+            }
+            finally
+            {
+                if (response != null)
+                    response.Close();
+            }
+        }
+
+        public T GetOptions<T>(Noun.Base.BaseNoun noun) where T : Information.Base.BaseOptions
+        {
+            return GetOptions<T>(noun.GetType(), noun.Id);
+        }
+        #endregion
     }
 }

@@ -54,11 +54,14 @@
     <Compile Include="CustomResponses\Error.cs" />
     <Compile Include="Exception\NotValidUserException.cs" />
     <Compile Include="Exception\NounNonExistingPropertyException.cs" />
+    <Compile Include="Information\CategoryItem.cs" />
+    <Compile Include="Information\Extenders\SecurityList.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\AlternateStore.cs" />
     <Compile Include="Noun\AspectRatio.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />
+    <Compile Include="Information\Base\BaseOptions.cs" />
     <Compile Include="Noun\Category.cs" />
     <Compile Include="Noun\CopyrightHolder.cs" />
     <Compile Include="Noun\CopyrightPolicy.cs" />
@@ -82,6 +85,7 @@
     <Compile Include="Exception\RESTAPIException.cs" />
     <Compile Include="RESTOptions.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
