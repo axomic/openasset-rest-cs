@@ -74,7 +74,7 @@
     <Compile Include="Noun\ProjectKeywordCategory.cs" />
     <Compile Include="Noun\Result.cs" />
     <Compile Include="Noun\Search.cs" />
-    <Compile Include="Noun\SearchItem.cs" />
+    <Compile Include="Noun\Extenders\SearchItem.cs" />
     <Compile Include="Noun\Size.cs" />
     <Compile Include="Noun\TextRewrite.cs" />
     <Compile Include="Noun\User.cs" />
