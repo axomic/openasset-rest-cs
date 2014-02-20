@@ -254,25 +254,25 @@ namespace OpenAsset.RestClient.Library
                 {
                     return ValidateCredentials(retryIndex + 1);
                 }
-				try
-				{
-					MarshallError(validationUrl, e);
-				}
-				catch (Exception)
-				{
-					return false;
-				}
+                try
+                {
+                    MarshallError(validationUrl, e);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
             catch (Exception e)
             {
                 try
-				{
-					MarshallError(validationUrl, e);
-				}
-				catch (Exception)
-				{
-					return false;
-				}
+                {
+                    MarshallError(validationUrl, e);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
             finally
             {
@@ -387,7 +387,8 @@ namespace OpenAsset.RestClient.Library
                     string message = "Username of response differs from username in request";
                     throw new NotValidUserException(
                         response.ResponseUri.ToString(),
-                        new Exception(message));
+                        new Exception(message),
+                        request);
                 }
             }
             setLastResponseHeaders(responseHeader);
@@ -440,7 +441,7 @@ namespace OpenAsset.RestClient.Library
 
             // HTTP REQUEST
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			request.KeepAlive = false;
+            request.KeepAlive = false;
             request.Method = method;
             request.UserAgent = _userAgent;//Constant.REST_USER_AGENT;
             request.Timeout = Constant.REST_REQUEST_TIMEOUT;
@@ -587,7 +588,8 @@ namespace OpenAsset.RestClient.Library
                     {
                         ValidateCredentials();
                         oaVersion = LastResponseHeaders.OpenAssetVersion;
-                    } catch (Exception e) 
+                    }
+                    catch (Exception e)
                     {
                         oaVersion = null;
                     }
@@ -666,7 +668,7 @@ namespace OpenAsset.RestClient.Library
                 string responseText = tr.ReadToEnd();
                 tr.Close();
                 tr.Dispose();
-				//System.Console.WriteLine(responseText);
+                //System.Console.WriteLine(responseText);
                 return JsonConvert.DeserializeObject<List<T>>(responseText);
             }
             finally
@@ -773,22 +775,22 @@ namespace OpenAsset.RestClient.Library
         #endregion
         #endregion
 
-		#region DELETE Objects
+        #region DELETE Objects
         // Empty response on success, throws error on failure
-		public void DeleteObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun
-		{
-			HttpWebResponse response = null;
-			try
-			{
-				string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id + "?" + options.GetUrlParameters();
-				response = getRESTResponse(restUrl, "DELETE");
-			}
-			finally
-			{
-				if (response != null)
-					response.Close();
-			}
-		}
-		#endregion
+        public void DeleteObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun
+        {
+            HttpWebResponse response = null;
+            try
+            {
+                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id + "?" + options.GetUrlParameters();
+                response = getRESTResponse(restUrl, "DELETE");
+            }
+            finally
+            {
+                if (response != null)
+                    response.Close();
+            }
+        }
+        #endregion
     }
 }

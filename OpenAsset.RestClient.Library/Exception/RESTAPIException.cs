@@ -57,6 +57,11 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
+        public RESTAPIException(string url, Exception e, WebRequest r)
+            : this(url, null, e, r)
+        {
+        }
+
         public RESTAPIException(string url, Error error, Exception e)
             : this(url, e)
         {
