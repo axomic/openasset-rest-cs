@@ -54,7 +54,6 @@
     <Compile Include="CustomResponses\Error.cs" />
     <Compile Include="Exception\NotValidUserException.cs" />
     <Compile Include="Exception\NounNonExistingPropertyException.cs" />
-    <Compile Include="FileType.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\AlternateStore.cs" />
@@ -66,6 +65,7 @@
     <Compile Include="Noun\Field.cs" />
     <Compile Include="Noun\FieldLookupString.cs" />
     <Compile Include="Noun\File.cs" />
+    <Compile Include="Noun\FileType.cs" />
     <Compile Include="Noun\Keyword.cs" />
     <Compile Include="Noun\KeywordCategory.cs" />
     <Compile Include="Noun\Photographer.cs" />
