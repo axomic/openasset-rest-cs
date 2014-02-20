@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace OpenAsset.RestClient.Library.Noun
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class AspectRatios : Base.BaseNoun
+    public class AspectRatio : Base.BaseNoun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

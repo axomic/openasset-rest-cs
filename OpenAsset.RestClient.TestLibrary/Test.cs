@@ -42,22 +42,71 @@ namespace OpenAsset.RestClient.TestLibrary
 			this.superUser = false;
 
 			this.TestAuth();
+
+			this.TestGet<AccessLevel>("AccessLevel", 3);
+			this.TestGet<Album>("Album", -1);
+			this.TestGet<AlternateStore>("AlternateStore", -1);
+			this.TestGet<AspectRatio>("AspectRatio", 6);
+
 			this.TestCategory();
-			
+
 			this.Test<CopyrightHolder>("CopyrightHolder", SetupCopyrightHolder, ModifyCopyrightHolder, CompareCopyrightHolder, true, false);
 			this.Test<CopyrightPolicy>("CopyrightPolicy", SetupCopyrightPolicy, ModifyCopyrightPolicy, CompareCopyrightPolicy, true, false);
-			this.Test<Field>("Field", SetupField, ModifyField, CompareField, false, true);
-			this.Test<Photographer>("Photographer", SetupPhotographer, ModifyPhotographer, ComparePhotographer, true, true);
+			this.Test<Field>("Field", SetupField, ModifyField, CompareField, false, false);		
+			
+
+			this.Test<File>("File", SetupFile, ModifyFile, CompareFile, true, true, "C:\\testFile.jpg");
+			
+			this.Test<Keyword>("Keyword", SetupKeyword, ModifyKeyword, CompareKeyword, true, true);
+			this.Test<KeywordCategory>("KeywordCategory", SetupKeywordCategory, ModifyKeywordCategory, CompareKeywordCategory, true, true);
+			this.Test<Photographer>("Photographer", SetupPhotographer, ModifyPhotographer, ComparePhotographer, true, false);
+			this.Test<Project>("Project", SetupProject, ModifyProject, CompareProject, true, true);		
+			this.Test<ProjectKeyword>("ProjectKeyword", SetupProjectKeyword, ModifyProjectKeyword, CompareProjectKeyword, true, true);
+			this.Test<ProjectKeywordCategory>("ProjectKeywordCategory", SetupProjectKeywordCategory, ModifyProjectKeywordCategory, CompareProjectKeywordCategory, true, true);
+
+			this.Test<Search>("Search", SetupSearch, ModifySearch, CompareSearch, true, false);
+
+			// We can't edit the postfix, or delete this. Need to work out a new way, or prevent creation.
+			// this.Test<Size>("Size", SetupSize, ModifySize, CompareSize, true, true);
+
+			this.TestGet<TextRewrite>("TextRewrite", 0);
+			this.TestGet<User>("User", -1);
+
+		}
+
+		// Generic test for Nounds that only support GET
+		void TestGet<T>(string testName, int numberToAssert) where T : OpenAsset.RestClient.Library.Noun.Base.BaseNoun, new()
+		{
+			System.Console.Write("Test - " + testName);
+			try
+			{
+				RESTOptions<T> options = new RESTOptions<T>();
+				List<T> list = this.conn.GetObjects<T>(options);
+				// some sort of check
+				if (numberToAssert >= 0) {
+					Debug.Assert(list.Count == numberToAssert);
+				}
+			}
+			catch (Exception e)
+			{
+				System.Console.WriteLine(": FAIL");
+				System.Console.WriteLine("Error:");
+				System.Console.WriteLine(e);
+				System.Console.WriteLine("---------------------");
+				return;
+			}
+			System.Console.WriteLine(": OK");
 		}
 
 		// Generic test for Nouns that support all verbs
-		void Test<T>(string testName, Func<T> setup, Func<T,T> modify, Func<T, T, bool> compare, bool post, bool delete) 
+		void Test<T>(string testName, Func<T> setup, Func<T,T> modify, Func<T, T, bool> compare, bool post, bool delete, string args = "") 
 			where T : OpenAsset.RestClient.Library.Noun.Base.BaseNoun, new()
 		{
 			System.Console.Write("Test - " + testName);
 			try
 			{
 				RESTOptions<T> options = new RESTOptions<T>();
+
 				// GET All
 				List<T> startList = this.conn.GetObjects<T>(options);
 
@@ -65,12 +114,18 @@ namespace OpenAsset.RestClient.TestLibrary
 				if (post)
 				{
 					// POST Test
-					T postInstance = this.conn.SendObject<T>(newInstance, true);
+					T postInstance;
+					if (testName == "File")
+					{
+						postInstance = this.conn.SendObject<T>(newInstance, args, true);
+					} else {
+						postInstance = this.conn.SendObject<T>(newInstance, true);
+					}
 					newInstance.Id = postInstance.Id;
 				}
 				else
 				{
-					newInstance = startList[0];
+					newInstance = startList[startList.Count-1];
 				}
 
 				// Verify with a single GET
@@ -105,7 +160,6 @@ namespace OpenAsset.RestClient.TestLibrary
 			System.Console.WriteLine(": OK");
 		}
 
-		
 		void TestCategory() {
 			System.Console.Write("Test - Category");
 			try
@@ -167,10 +221,10 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 
 		/* 
-		 * Below are all helper functions used for the generic Test function
+		 * Below are all helper functions used for the generic Test function.
+		 * Possibly refactor these into each Noun.
 		 * 
 		 */
-
 		// CopyrightHolder Generics
 		CopyrightHolder SetupCopyrightHolder()
 		{
@@ -180,7 +234,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		CopyrightHolder ModifyCopyrightHolder(CopyrightHolder item)
 		{
-			item.Name = "RESTClient Test CopyrightHolder - PUT Test #" + item.UniqueCode;
+			item.Name = item.Name + " - PUT Test #" + item.Id;
 			return item;
 		}
 		bool CompareCopyrightHolder(CopyrightHolder first, CopyrightHolder second)
@@ -199,7 +253,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		CopyrightPolicy ModifyCopyrightPolicy(CopyrightPolicy item)
 		{
-			item.Name = "RESTClient Test CopyrightPolicy - PUT Test #" + item.UniqueCode;
+			item.Name = item.Name + " - PUT Test #" + item.Id;
 			return item;
 		}
 		bool CompareCopyrightPolicy(CopyrightPolicy first, CopyrightPolicy second)
@@ -221,7 +275,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Field ModifyField(Field item)
 		{
-			item.Name = "RESTClient Test Field - PUT Test #" + item.Id;
+			item.Name = item.Name + " - PUT Test #" + item.Id;
 			return item;
 		}
 		bool CompareField(Field first, Field second)
@@ -240,7 +294,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Photographer ModifyPhotographer(Photographer item)
 		{
-			item.Name = "RESTClient Test Field - PUT Test #" + item.Id;
+			item.Name = item.Name + " - PUT Test #" + item.Id;
 			return item;
 		}
 		bool ComparePhotographer(Photographer first, Photographer second)
@@ -248,6 +302,186 @@ namespace OpenAsset.RestClient.TestLibrary
 			if (first.Id != second.Id) return false;
 			if (first.Name != second.Name) return false;
 			return true;
+		}
+
+		// Project Generics
+		Project SetupProject()
+		{
+			Project item = new Project();
+			item.Name = "RESTClient Test Project";
+			item.Code = "RST001";
+			return item;
+		}
+		Project ModifyProject(Project item)
+		{
+			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Code = "RST" + item.Id;
+			return item;
+		}
+		bool CompareProject(Project first, Project second)
+		{
+			if (first.Id != second.Id) return false;
+			if (first.Name != second.Name) return false;
+			return true;
+		}
+		
+		// Size Generics
+		Size SetupSize()
+		{
+			Size item = new Size();
+			item.Name = "RESTClient Test Size";
+			item.Postfix = "rst";
+			item.FileFormat = "jpg"; // options: bmp, gif, jpg, png, tif, tiff
+			item.Colourspace = "rgb";
+			item.Width = 250;
+			item.Height = 250;
+			item.AlwaysCreate = false;
+			item.XResolution = 72;
+			return item;
+		}
+		Size ModifySize(Size item)
+		{
+			item.Name = item.Name + " - PUT Test #" + item.Id;
+			return item;
+		}
+		bool CompareSize(Size first, Size second)
+		{
+			if (first.Id != second.Id) return false;
+			if (first.Name != second.Name) return false;
+			return true;
+		}
+
+		// KeywordCategory Generics
+		KeywordCategory SetupKeywordCategory()
+		{
+			KeywordCategory item = new KeywordCategory();
+			item.CategoryId = 1; // ensure?
+			item.Name = "RESTClient Test KeywordCategory";
+			return item;
+		}
+		KeywordCategory ModifyKeywordCategory(KeywordCategory item)
+		{
+			item.Name = item.Name + " - PUT Test #" + item.Id;
+			return item;
+		}
+		bool CompareKeywordCategory(KeywordCategory first, KeywordCategory second)
+		{
+			if (first.Id != second.Id) return false;
+			if (first.Name != second.Name) return false;
+			return true;
+		}
+
+		// Keywords
+		Keyword SetupKeyword()
+		{
+			Keyword item = new Keyword();
+			item.Name = "RESTClient Test Keyword";
+			item.KeywordCategoryId = 1; // ensure?
+			return item;
+		}
+		Keyword ModifyKeyword(Keyword item)
+		{
+			item.Name = item.Name + " - PUT Test #" + item.Id;
+			return item;
+		}
+		bool CompareKeyword(Keyword first, Keyword second)
+		{
+			if (first.Id != second.Id) return false;
+			if (first.Name != second.Name) return false;
+			return true;
+		}
+
+		// ProjectKeywordCategory Generics
+		ProjectKeywordCategory SetupProjectKeywordCategory()
+		{
+			ProjectKeywordCategory item = new ProjectKeywordCategory();
+			item.Name = "RESTClient Test ProjectKeywordCategory";
+			return item;
+		}
+		ProjectKeywordCategory ModifyProjectKeywordCategory(ProjectKeywordCategory item)
+		{
+			item.Name = item.Name + " - PUT Test #" + item.Id;
+			return item;
+		}
+		bool CompareProjectKeywordCategory(ProjectKeywordCategory first, ProjectKeywordCategory second)
+		{
+			if (first.Id != second.Id) return false;
+			if (first.Name != second.Name) return false;
+			return true;
+		}
+		
+		// ProjectKeywords Generics
+		ProjectKeyword SetupProjectKeyword()
+		{
+			ProjectKeyword item = new ProjectKeyword();
+			item.Name = "RESTClient Test ProjectKeyword";
+			item.ProjectKeywordCategoryId = 1;
+			return item;
+		}
+		ProjectKeyword ModifyProjectKeyword(ProjectKeyword item)
+		{
+			item.Name = item.Name + " - PUT Test #" + item.Id;
+			return item;
+		}
+		bool CompareProjectKeyword(ProjectKeyword first, ProjectKeyword second)
+		{
+			if (first.Id != second.Id) return false;
+			if (first.Name != second.Name) return false;
+			return true;
+		}
+
+		// File Generics
+		File SetupFile()
+		{
+			File item = new File();
+			// Need a way to verify this. Perhaps storing an image as base64 and then writing it out to a temp
+			// dir and then loading that. For now use a static path.
+			item.Filename = "C:\\testFile.jpg";
+			item.OriginalFilename = "testFile.jpg";
+			item.AccessLevel = 1;
+			item.Rank = 1;
+			item.CategoryId = 2; // Reference, need to get this properly, perhaps with a GET
+			item.ProjectId = 0;
+			return item;
+		}
+		File ModifyFile(File item)
+		{
+			item.AccessLevel = 2;
+			return item;
+		}
+		bool CompareFile(File first, File second)
+		{
+			if (first.AccessLevel != second.AccessLevel) return false;
+
+			return true;
+		}
+
+		// Search Generics
+		Search SetupSearch()
+		{
+			SearchItem searchItems = new SearchItem();
+			// setup searchItems
+			searchItems.Code = "popularFields";
+			searchItems.Values = new List<string>();
+			searchItems.Values.Add("testFile.jpg");
+
+			// setup the actual Search
+			Search item = new Search();
+			item.Name = "RESTClient Test Search";
+			item.SearchItems = new List<SearchItem>();
+			item.SearchItems.Add(searchItems);
+			item.Saved = true;
+			return item;
+		}
+		Search ModifySearch(Search item)
+		{
+			item.Name = item.Name + " - PUT Test #" + item.Id;
+			return item;
+		}
+		bool CompareSearch(Search first, Search second)
+		{
+			if (first.Name != second.Name) return false;
+			return true; 
 		}
 	}
 }

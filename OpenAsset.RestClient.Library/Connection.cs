@@ -435,6 +435,7 @@ namespace OpenAsset.RestClient.Library
 
             // HTTP REQUEST
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			request.KeepAlive = false;
             request.Method = method;
             request.UserAgent = _userAgent;//Constant.REST_USER_AGENT;
             request.Timeout = Constant.REST_REQUEST_TIMEOUT;
@@ -660,6 +661,7 @@ namespace OpenAsset.RestClient.Library
                 string responseText = tr.ReadToEnd();
                 tr.Close();
                 tr.Dispose();
+				//System.Console.WriteLine(responseText);
                 return JsonConvert.DeserializeObject<List<T>>(responseText);
             }
             finally

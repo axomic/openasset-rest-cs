@@ -14,7 +14,7 @@ namespace OpenAsset.RestClient.TestLibrary
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void MainOld()
         {
             string oaURL = "http://192.168.1.142";
             string username = "axomic";
@@ -25,7 +25,7 @@ namespace OpenAsset.RestClient.TestLibrary
 
             System.Console.WriteLine("TEST RUNNING!");
 
-            ConnectionHelper connectionHelper = ConnectionHelper.GetConnectionHelper(oaURL, username, password);// get a connection helper from the "pool"
+            Connection connectionHelper = Connection.GetConnection(oaURL, username, password);// get a connection helper from the "pool"
             try
             {
 

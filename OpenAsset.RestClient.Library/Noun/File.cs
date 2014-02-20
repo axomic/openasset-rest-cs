@@ -41,7 +41,7 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected int? download_count;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        protected int? duration;
+        protected float? duration;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected string md5_at_upload;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -145,9 +145,9 @@ namespace OpenAsset.RestClient.Library.Noun
             set { download_count = value; }
         }
 
-        public virtual int Duration
+        public virtual float Duration
         {
-            get { return duration ?? default(int); }
+            get { return duration ?? default(float); }
             set { duration = value; }
         }
 

@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionHelper.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CustomResponses\Base\BaseCustomResponse.cs" />
     <Compile Include="CustomResponses\CustomResponseConverter.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="Noun\AccessLevel.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\AlternateStore.cs" />
-    <Compile Include="Noun\AspectRatios.cs" />
+    <Compile Include="Noun\AspectRatio.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />
     <Compile Include="Noun\Category.cs" />
     <Compile Include="Noun\CopyrightHolder.cs" />
