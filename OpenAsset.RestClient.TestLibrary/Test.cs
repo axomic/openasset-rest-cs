@@ -179,6 +179,7 @@ namespace OpenAsset.RestClient.TestLibrary
 				System.Console.WriteLine(e);
 				System.Console.WriteLine("--------------------");
 			}
+			System.Console.WriteLine(": OK");
 		}
 
 		void TestResult(int id, int count)
@@ -273,7 +274,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		CopyrightHolder ModifyCopyrightHolder(CopyrightHolder item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test CopyrightHolder - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareCopyrightHolder(CopyrightHolder first, CopyrightHolder second)
@@ -292,7 +293,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		CopyrightPolicy ModifyCopyrightPolicy(CopyrightPolicy item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test CopyrightPolicy - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareCopyrightPolicy(CopyrightPolicy first, CopyrightPolicy second)
@@ -314,7 +315,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Field ModifyField(Field item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test Field - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareField(Field first, Field second)
@@ -333,7 +334,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Photographer ModifyPhotographer(Photographer item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test Photographer - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool ComparePhotographer(Photographer first, Photographer second)
@@ -353,7 +354,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Project ModifyProject(Project item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test Project - PUT Test #" + Guid.NewGuid().ToString();
 			item.Code = "RST" + item.Id;
 			return item;
 		}
@@ -380,7 +381,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Size ModifySize(Size item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test Size - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareSize(Size first, Size second)
@@ -400,7 +401,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		KeywordCategory ModifyKeywordCategory(KeywordCategory item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test KeywordCategory - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareKeywordCategory(KeywordCategory first, KeywordCategory second)
@@ -420,7 +421,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Keyword ModifyKeyword(Keyword item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test Keyword - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareKeyword(Keyword first, Keyword second)
@@ -439,7 +440,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		ProjectKeywordCategory ModifyProjectKeywordCategory(ProjectKeywordCategory item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test ProjectKeywordCategory - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareProjectKeywordCategory(ProjectKeywordCategory first, ProjectKeywordCategory second)
@@ -459,7 +460,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		ProjectKeyword ModifyProjectKeyword(ProjectKeyword item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test ProjectKeyword - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareProjectKeyword(ProjectKeyword first, ProjectKeyword second)
@@ -514,7 +515,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		Search ModifySearch(Search item)
 		{
-			item.Name = item.Name + " - PUT Test #" + item.Id;
+			item.Name = "RESTClient Test Search - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
 		bool CompareSearch(Search first, Search second)
