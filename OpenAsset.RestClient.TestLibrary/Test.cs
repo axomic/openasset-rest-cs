@@ -53,7 +53,7 @@ namespace OpenAsset.RestClient.TestLibrary
 			this.Test<CopyrightHolder>("CopyrightHolder", SetupCopyrightHolder, ModifyCopyrightHolder, CompareCopyrightHolder, true, false);
 			this.Test<CopyrightPolicy>("CopyrightPolicy", SetupCopyrightPolicy, ModifyCopyrightPolicy, CompareCopyrightPolicy, true, false);
 			this.Test<Field>("Field", SetupField, ModifyField, CompareField, false, false);		
-			
+			this.TestFieldLookupString(1);
 
 			this.Test<File>("File", SetupFile, ModifyFile, CompareFile, true, true, "C:\\testFile.jpg");
 			
@@ -64,6 +64,8 @@ namespace OpenAsset.RestClient.TestLibrary
 			this.Test<ProjectKeyword>("ProjectKeyword", SetupProjectKeyword, ModifyProjectKeyword, CompareProjectKeyword, true, true);
 			this.Test<ProjectKeywordCategory>("ProjectKeywordCategory", SetupProjectKeywordCategory, ModifyProjectKeywordCategory, CompareProjectKeywordCategory, true, true);
 
+			// Need to guarantee ID
+			this.TestResult(97, 0);
 			this.Test<Search>("Search", SetupSearch, ModifySearch, CompareSearch, true, false);
 
 			// We can't edit the postfix, or delete this. Need to work out a new way, or prevent creation.
@@ -158,6 +160,43 @@ namespace OpenAsset.RestClient.TestLibrary
 				return;
 			}
 			System.Console.WriteLine(": OK");
+		}
+
+		void TestFieldLookupString(int id)
+		{
+			System.Console.Write("Test - FieldLookupString");
+			try
+			{
+				RESTOptions<FieldLookupString> options = new RESTOptions<FieldLookupString>();
+				options.AddDisplayField("field_id");
+				options.SetSearchParameter("id", id.ToString());
+				List<FieldLookupString> nestedFieldLookupString = this.conn.GetObjects<FieldLookupString>(id, "Fields", options);
+			}
+			catch (Exception e)
+			{
+				System.Console.WriteLine(": Fail");
+				System.Console.WriteLine("Error:");
+				System.Console.WriteLine(e);
+				System.Console.WriteLine("--------------------");
+			}
+		}
+
+		void TestResult(int id, int count)
+		{
+			System.Console.Write("Test - Result");
+			try
+			{
+				RESTOptions<Result> options = new RESTOptions<Result>();
+				List<Result> itemList = this.conn.GetObjects<Result>(id, "Searches", options);
+				Debug.Assert(itemList.Count == count);
+			}
+			catch (Exception e)
+			{
+				System.Console.WriteLine(": FAIL");
+				System.Console.WriteLine("Error:");
+				System.Console.WriteLine(e);
+				System.Console.WriteLine("---------------------");
+			}
 		}
 
 		void TestCategory() {
