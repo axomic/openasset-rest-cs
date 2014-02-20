@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace OpenAsset.RestClient.Library.Noun
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class SearchItem
+    public class SearchItem : IComparable
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -58,7 +58,7 @@ namespace OpenAsset.RestClient.Library.Noun
         }
         #endregion
 
-        public override int CompareTo(object obj)
+        public int CompareTo(object obj)
         {
             if (obj == null) return 1;
 
