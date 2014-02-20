@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 
 namespace OpenAsset.RestClient.Library
 {
@@ -9,6 +10,8 @@ namespace OpenAsset.RestClient.Library
     {
         private Error _error = null;
         private string _url = null;
+        private WebResponse _response = null;
+        private WebRequest _request = null;
 
         public Error ErrorObj
         {
@@ -18,12 +21,28 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public RESTAPIException()
+        public WebResponse Response
         {
-
+            get
+            {
+                return _response;
+            }
         }
 
-        public RESTAPIException(string message) : base(message)
+        public WebRequest Request
+        {
+            get
+            {
+                return _request;
+            }
+        }
+
+        public RESTAPIException()
+        {
+        }
+
+        public RESTAPIException(string message)
+            : base(message)
         {
         }
 
@@ -31,12 +50,23 @@ namespace OpenAsset.RestClient.Library
             : base(url, e)
         {
             _url = url;
+            WebException we = e as WebException;
+            if (we != null)
+            {
+                _response = we.Response;
+            }
         }
 
         public RESTAPIException(string url, Error error, Exception e)
             : this(url, e)
         {
             _error = error;
+        }
+
+        public RESTAPIException(string url, Error error, Exception e, WebRequest r)
+            : this(url, error, e)
+        {
+            _request = r;
         }
     }
 }

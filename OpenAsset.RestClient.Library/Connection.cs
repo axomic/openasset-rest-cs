@@ -335,7 +335,7 @@ namespace OpenAsset.RestClient.Library
             return false;
         }
 
-        protected void MarshallError(string openAssetUrl, Exception e)
+        protected void MarshallError(string openAssetUrl, Exception e, WebRequest request = null)
         {
             if (e is WebException && (e as WebException).Status == WebExceptionStatus.ProtocolError)
             {
@@ -370,7 +370,7 @@ namespace OpenAsset.RestClient.Library
                 _lastError.ErrorMessage = e.Message;
             }
 
-            throw new RESTAPIException(openAssetUrl, _lastError, e);
+            throw new RESTAPIException(openAssetUrl, _lastError, e, request);
         }
         #endregion
 
@@ -484,12 +484,12 @@ namespace OpenAsset.RestClient.Library
                 {
                     return getRESTResponse(url, method, output, true, contentType);
                 }
-                MarshallError(url, e);
+                MarshallError(url, e, request);
                 throw;
             }
             catch (Exception e)
             {
-                MarshallError(url, e);
+                MarshallError(url, e, request);
                 throw;
             }
 
