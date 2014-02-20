@@ -14,9 +14,9 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Keyword : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? keyword_category_id;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string name;
         #endregion
 

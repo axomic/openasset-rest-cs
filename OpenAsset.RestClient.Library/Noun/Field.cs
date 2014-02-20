@@ -14,27 +14,33 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Field : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string name;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? alive;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? cardinality;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string code;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string description;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? display_order;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string field_display_type;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string field_type;
-        [JsonProperty("protected",NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("protected",NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? _protected;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected int? built_in;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected int? include_on_info;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected int? include_on_search;
 
         //
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected List<string> values;
         #endregion
 
@@ -97,6 +103,24 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return values; }
             set { values = value; }
+        }
+
+        public virtual bool BuiltIn
+        {
+            get { return (built_in ?? default(int)) != 0 ? true : false; }
+            set { built_in = value ? 1 : 0; }
+        }
+
+        public virtual bool IncludeOnInfo
+        {
+            get { return (include_on_info ?? default(int)) != 0 ? true : false; }
+            set { include_on_info = value ? 1 : 0; }
+        }
+
+        public virtual bool IncludeOnSearch
+        {
+            get { return (include_on_search ?? default(int)) != 0 ? true : false; }
+            set { include_on_search = value ? 1 : 0; }
         }
         #endregion
 

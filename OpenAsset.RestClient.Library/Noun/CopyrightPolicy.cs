@@ -14,10 +14,12 @@ namespace OpenAsset.RestClient.Library.Noun
     public class CopyrightPolicy : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string code;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string name;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected string description;
         #endregion
 
         #region Accessors
@@ -31,6 +33,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return name; }
             set { name = value; }
+        }
+
+        public virtual string Description
+        {
+            get { return description; }
+            set { description = value; }
         }
         #endregion
     }

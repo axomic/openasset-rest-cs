@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\BaseNounProperty.cs" />
+    <Compile Include="Attributes\NestedNounProperty.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CustomResponses\Base\BaseCustomResponse.cs" />

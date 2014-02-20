@@ -16,7 +16,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
     [JsonObject(MemberSerialization.OptIn)]
     public class BaseNoun : IComparable
     {
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, NestedNounProperty]
         protected int id;
 
         #region Error

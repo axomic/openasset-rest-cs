@@ -14,7 +14,7 @@ namespace OpenAsset.RestClient.Library.Noun
     public class Result : Base.BaseNoun
     {
         #region private serializable properties
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? file_id;
         #endregion
 
