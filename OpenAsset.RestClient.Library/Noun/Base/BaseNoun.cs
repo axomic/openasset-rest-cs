@@ -21,7 +21,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
 
         #region Error
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        protected int http_status_code;
+        protected int? http_status_code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected string error_message;
 
@@ -38,7 +38,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
 
         public int ErrorHTTPCode
         {
-            get { return http_status_code; }
+            get { return (http_status_code  ?? default(int)); }
         }
 
         public string ErrorMessage

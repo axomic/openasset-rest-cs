@@ -14,7 +14,7 @@ namespace OpenAsset.RestClient.Library
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, Required = Required.Always)]
-        protected int http_status_code;
+        protected int? http_status_code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, Required = Required.Always)]
         protected string error_message;
         #endregion
@@ -22,7 +22,7 @@ namespace OpenAsset.RestClient.Library
         #region Accessors
         public int HttpStatusCode
         {
-            get { return http_status_code; }
+            get { return http_status_code ?? default(int); }
             set { http_status_code = value; }
         }
 
