@@ -6,7 +6,7 @@ using System.Text;
 namespace OpenAsset.RestClient.Library
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    class BaseNounProperty : Attribute
+    public class BaseNounProperty : Attribute
     {
     }
 }
