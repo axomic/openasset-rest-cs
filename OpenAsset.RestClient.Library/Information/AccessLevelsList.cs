@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 namespace OpenAsset.RestClient.Library.Information
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class SecurityList
+    public class AccessLevelsList
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -43,5 +43,49 @@ namespace OpenAsset.RestClient.Library.Information
             get { return DELETE; }
         }
         #endregion
+
+        public bool Can(string action, int accessLevel)
+        {
+            switch (action.ToLowerInvariant())
+            {
+                case "get":
+                    if (Get == null)
+                        return false;
+                    return Get.Contains(accessLevel);
+                case "post":
+                    if (Post == null)
+                        return false;
+                    return Post.Contains(accessLevel);
+                case "put":
+                    if (Put == null)
+                        return false;
+                    return Put.Contains(accessLevel);
+                case "delete":
+                    if (Delete == null)
+                        return false;
+                    return Delete.Contains(accessLevel);
+            }
+            return false;
+        }
+
+        public bool CanGet(int accessLevel)
+        {
+            return Can("get", accessLevel);
+        }
+
+        public bool CanPost(int accessLevel)
+        {
+            return Can("post", accessLevel);
+        }
+
+        public bool CanPut(int accessLevel)
+        {
+            return Can("put", accessLevel);
+        }
+
+        public bool CanDelete(int accessLevel)
+        {
+            return Can("delete", accessLevel);
+        }
     }
 }

@@ -794,7 +794,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region OPTIONS Calls
-        public T GetOptions<T>(Type type, int id = 0) where T : Information.Base.BaseOptions
+        public Information.Options GetOptions(Type type, int id = 0)
         {
             HttpWebResponse response = null;
             try
@@ -808,7 +808,7 @@ namespace OpenAsset.RestClient.Library
                 tr.Close();
                 tr.Dispose();
 
-                T objT = JsonConvert.DeserializeObject<T>(responseText);
+                Information.Options objT = JsonConvert.DeserializeObject<Information.Options>(responseText);
                 return objT;
             }
             finally
@@ -818,9 +818,9 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public T GetOptions<T>(Noun.Base.BaseNoun noun) where T : Information.Base.BaseOptions
+        public Information.Options GetOptions(Noun.Base.BaseNoun noun)
         {
-            return GetOptions<T>(noun.GetType(), noun.Id);
+            return GetOptions(noun.GetType(), noun.Id);
         }
         #endregion
     }

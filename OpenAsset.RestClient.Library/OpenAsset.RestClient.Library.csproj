@@ -54,14 +54,13 @@
     <Compile Include="CustomResponses\Error.cs" />
     <Compile Include="Exception\NotValidUserException.cs" />
     <Compile Include="Exception\NounNonExistingPropertyException.cs" />
-    <Compile Include="Information\CategoryItem.cs" />
-    <Compile Include="Information\Extenders\SecurityList.cs" />
+    <Compile Include="Information\AccessLevelsList.cs" />
+    <Compile Include="Information\Options.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\AlternateStore.cs" />
     <Compile Include="Noun\AspectRatio.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />
-    <Compile Include="Information\Base\BaseOptions.cs" />
     <Compile Include="Noun\Category.cs" />
     <Compile Include="Noun\CopyrightHolder.cs" />
     <Compile Include="Noun\CopyrightPolicy.cs" />
