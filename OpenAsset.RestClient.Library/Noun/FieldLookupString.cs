@@ -17,6 +17,8 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty("value",NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         public string _value;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
+        public string description;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? display_order;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? field_id;
@@ -27,6 +29,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return _value; }
             set { _value = value; }
+        }
+
+        public virtual string Description
+        {
+            get { return description; }
+            set { description = value; }
         }
 
         public virtual int DisplayOrder
