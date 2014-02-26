@@ -249,7 +249,8 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             return matches == conditions.Count;
         }
 
-        public virtual RESTOptions<T> GetOptions<T>() where T : Noun.Base.BaseNoun
+        // Override this method to give custom control of RESTOptions based on Noun
+        public virtual RESTOptions<T> GetRESTOptions<T>() where T : Noun.Base.BaseNoun
         {
             RESTOptions<T> options = new RESTOptions<T>();
             return options;
