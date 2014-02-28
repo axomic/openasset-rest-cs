@@ -79,7 +79,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             OnSerializing(context);
         }
 
-        protected virtual void OnSerializing(StreamingContext context) { }
+        public virtual void OnSerializing(StreamingContext context) { }
 
         [OnSerialized]
         internal void OnSerializedMethod(StreamingContext context)
@@ -87,7 +87,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             OnSerialized(context);
         }
 
-        protected virtual void OnSerialized(StreamingContext context) { }
+        public virtual void OnSerialized(StreamingContext context) { }
 
         [OnDeserializing]
         internal void OnDeserializingMethod(StreamingContext context)
@@ -96,7 +96,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             OnDeserializing(context);
         }
 
-        protected virtual void OnDeserializing(StreamingContext context) { }
+        public virtual void OnDeserializing(StreamingContext context) { }
 
         [OnDeserialized]
         internal void OnDeserializedMethod(StreamingContext context)
@@ -104,7 +104,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             OnDeserialized(context);
         }
 
-        protected virtual void OnDeserialized(StreamingContext context) { }
+        public virtual void OnDeserialized(StreamingContext context) { }
         #endregion
 
         public virtual int CompareTo(object obj)
