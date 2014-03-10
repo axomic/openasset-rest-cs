@@ -617,7 +617,7 @@ namespace OpenAsset.RestClient.Library
             return false;
         }
 
-        private string getMimeType(string fileName)
+        public static string GetMimeType(string fileName)
         {
             string mimeType = "application/unknown";
             string ext = Path.GetExtension(fileName).ToLower();
@@ -741,7 +741,7 @@ namespace OpenAsset.RestClient.Library
         {
             // read file
             string filename = Path.GetFileName(filepath);
-            string mimeType = getMimeType(filename);
+            string mimeType = GetMimeType(filename);
             FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
             byte[] data = new byte[fs.Length];
             fs.Read(data, 0, data.Length);
@@ -750,8 +750,10 @@ namespace OpenAsset.RestClient.Library
         }
 
         // any base noun can be used but only the FileNoun accepts this type of POST
-        public T SendObject<T>(T sendingObject, byte[] data, string filename, string mimeType, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        public T SendObject<T>(T sendingObject, byte[] data, string filename, string mimeType = null, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
+            if (mimeType == null)
+                mimeType = "application/unknown";
             // serialize sending object
             string jsonOut = JsonConvert.SerializeObject(sendingObject);
             // generate post object
