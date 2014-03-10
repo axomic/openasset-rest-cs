@@ -616,6 +616,16 @@ namespace OpenAsset.RestClient.Library
 
             return false;
         }
+
+        private string getMimeType(string fileName)
+        {
+            string mimeType = "application/unknown";
+            string ext = Path.GetExtension(fileName).ToLower();
+            Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
+            if (regKey != null && regKey.GetValue("Content Type") != null)
+                mimeType = regKey.GetValue("Content Type").ToString();
+            return mimeType;
+        }
         #endregion
 
         #region Get/Send objects
@@ -731,16 +741,22 @@ namespace OpenAsset.RestClient.Library
         {
             // read file
             string filename = Path.GetFileName(filepath);
-            string fileExtension = Path.GetExtension(filename).Remove(0, 1);
+            string mimeType = getMimeType(filename);
             FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
             byte[] data = new byte[fs.Length];
             fs.Read(data, 0, data.Length);
             fs.Close();
+            return SendObject<T>(sendingObject, data, filename, mimeType, createNew);
+        }
+
+        // any base noun can be used but only the FileNoun accepts this type of POST
+        public T SendObject<T>(T sendingObject, byte[] data, string filename, string mimeType, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        {
             // serialize sending object
-            string jsonOut = JsonConvert.SerializeObject(sendingObject);//
+            string jsonOut = JsonConvert.SerializeObject(sendingObject);
             // generate post object
             Dictionary<string, object> postParameters = new Dictionary<string, object>();
-            postParameters.Add("file", new FileParameter(data, filename, "image/" + fileExtension));
+            postParameters.Add("file", new FileParameter(data, filename, mimeType));
             postParameters.Add("_jsonBody", jsonOut);
 
             // form data
