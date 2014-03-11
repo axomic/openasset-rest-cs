@@ -579,6 +579,18 @@ namespace OpenAsset.RestClient.Library
 
         public bool MeetsRESTRequirement(string oaVersion = null)
         {
+            return MeetsRESTRequirement(Constant.REST_MIN_VERSION, oaVersion);
+        }
+
+        public bool MeetsRESTRequirement(string versionToCheck, string oaVersion = null)
+        {
+            // Check that versionToCheck is of the format #.#.#
+            if (String.IsNullOrEmpty(versionToCheck))
+                return false;
+            string[] minVersion = versionToCheck.Split('.');
+            if (minVersion.Length != 3)
+                return false;
+
             if (String.IsNullOrEmpty(oaVersion))
             {
                 oaVersion = LastResponseHeaders.OpenAssetVersion;
@@ -599,7 +611,6 @@ namespace OpenAsset.RestClient.Library
             {
                 oaVersion = oaVersion.Replace("h", "");
                 string[] curVersion = oaVersion.Split('.');
-                string[] minVersion = Constant.REST_MIN_VERSION.Split('.');
                 if (minVersion.Length != curVersion.Length)
                     return false;
                 for (int i = 0; i < minVersion.Length && i < curVersion.Length; i++)

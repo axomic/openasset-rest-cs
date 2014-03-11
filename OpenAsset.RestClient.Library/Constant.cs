@@ -13,8 +13,8 @@ namespace OpenAsset.RestClient.Library
         public const string REST_LOGOUT_EXTENSION = "?logout=logout";
         public const string REST_BASE_PATH = "/REST/1";
 
-        // Uncategorized yet
-        public const string REST_MIN_VERSION = "7.1.22";
+        // Uncategorized yet, currently covers all features in this library
+        public const string REST_MIN_VERSION = "8.1.7";
         
         // text
         public const string DB_DATE_FORMAT = "yyyyMMddHHmmss";
