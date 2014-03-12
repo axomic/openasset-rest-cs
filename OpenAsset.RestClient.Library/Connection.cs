@@ -173,7 +173,7 @@ namespace OpenAsset.RestClient.Library
             {
                 result = ValidateCredentials();
             }
-            catch (RESTAPIException e)
+            catch (RESTAPIException)
             {
                 result = false;
             }
@@ -182,7 +182,7 @@ namespace OpenAsset.RestClient.Library
 
         private bool isAnonymous()
         {
-            _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username) ? true : false;
+            _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username);
             return _anonymous;
         }
 
@@ -337,9 +337,10 @@ namespace OpenAsset.RestClient.Library
 
         protected void MarshallError(string openAssetUrl, Exception e, WebRequest request = null)
         {
-            if (e is WebException && (e as WebException).Status == WebExceptionStatus.ProtocolError)
+            WebException we = e as WebException;
+            if (we != null && we.Status == WebExceptionStatus.ProtocolError)
             {
-                HttpWebResponse errorResponse = (HttpWebResponse)(e as WebException).Response;
+                HttpWebResponse errorResponse = we.Response as HttpWebResponse;
                 setLastResponseHeaders(errorResponse.Headers);
                 TextReader tr = new StreamReader(errorResponse.GetResponseStream());
                 string responseText = tr.ReadToEnd();
@@ -357,10 +358,10 @@ namespace OpenAsset.RestClient.Library
                     _lastError.ErrorMessage = responseText;
                 }
             }
-            else if (e is WebException)
+            else if (we != null)
             {
                 _lastError = new Error();
-                _lastError.HttpStatusCode = (int)(e as WebException).Status;
+                _lastError.HttpStatusCode = (int)we.Status;
                 _lastError.ErrorMessage = e.Message;
             }
             else
@@ -486,12 +487,10 @@ namespace OpenAsset.RestClient.Library
                     return getRESTResponse(url, method, output, true, contentType);
                 }
                 MarshallError(url, e, request);
-                throw;
             }
             catch (Exception e)
             {
                 MarshallError(url, e, request);
-                throw;
             }
 
 
