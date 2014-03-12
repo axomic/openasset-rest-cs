@@ -144,13 +144,9 @@ namespace OpenAsset.RestClient.Library
             {
                 response = getResponse(request);
             }
-            catch (WebException e)
+            catch (WebException)
             {
-                // Doesn't matter if this fails for now
-                if (endpointNotFound(e) && retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
-                {
-                    LogoutCurrentSession(retryIndex + 1);
-                }
+                // Doesn't matter if this fails as logout is always accepted
             }
             finally
             {
