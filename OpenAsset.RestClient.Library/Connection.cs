@@ -350,7 +350,7 @@ namespace OpenAsset.RestClient.Library
                 catch (JsonException)
                 {
                     _lastError = new Error();
-                    _lastError.HttpStatusCode = (int)((e as WebException).Response as HttpWebResponse).StatusCode;
+                    _lastError.HttpStatusCode = (int)(we.Response as HttpWebResponse).StatusCode;
                     _lastError.ErrorMessage = responseText;
                 }
             }
@@ -570,6 +570,11 @@ namespace OpenAsset.RestClient.Library
         public Error RetrieveLastError()
         {
             return _lastError;
+        }
+
+        public void ClearLastError()
+        {
+            _lastError = null;
         }
 
         public bool MeetsRESTRequirement(string oaVersion = null)
