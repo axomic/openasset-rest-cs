@@ -577,12 +577,7 @@ namespace OpenAsset.RestClient.Library
             _lastError = null;
         }
 
-        public bool MeetsRESTRequirement(string oaVersion = null)
-        {
-            return MeetsRESTRequirement(Constant.REST_MIN_VERSION, oaVersion);
-        }
-
-        public bool MeetsRESTRequirement(string versionToCheck, string oaVersion = null)
+        public bool MeetsRESTRequirement(string oaVersion = null, string versionToCheck = Constant.REST_MIN_VERSION)
         {
             // Check that versionToCheck is of the format #.#.#
             if (String.IsNullOrEmpty(versionToCheck))
