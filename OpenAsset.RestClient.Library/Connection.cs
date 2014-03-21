@@ -176,7 +176,7 @@ namespace OpenAsset.RestClient.Library
             return !isAnonymous() && result;
         }
 
-        private virtual bool isAnonymous()
+        protected virtual bool isAnonymous()
         {
             _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username);
             return _anonymous;
