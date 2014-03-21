@@ -149,7 +149,7 @@ namespace OpenAsset.RestClient.TestLibrary
 
 				// DELETE Test
 				if (delete)
-					this.conn.DeleteObject<T>(newInstance.Id, options);
+					this.conn.DeleteObject<T>(newInstance.Id);
 			}
 			catch (Exception e)
 			{

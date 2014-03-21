@@ -806,12 +806,12 @@ namespace OpenAsset.RestClient.Library
 
         #region DELETE Objects
         // Empty response on success, throws error on failure
-        public void DeleteObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun
+        public void DeleteObject<T>(int id) where T : Noun.Base.BaseNoun
         {
             HttpWebResponse response = null;
             try
             {
-                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id + "?" + options.GetUrlParameters();
+                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id;
                 response = getRESTResponse(restUrl, "DELETE");
             }
             finally
