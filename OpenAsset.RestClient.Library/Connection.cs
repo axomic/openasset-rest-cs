@@ -16,8 +16,8 @@ namespace OpenAsset.RestClient.Library
         protected string _password = null;
         protected bool _anonymous = false;
         protected string _sessionKey = null; //current session key
-        private Error _lastError = null;
-        private string _userAgent = null;
+        protected Error _lastError = null;
+        protected string _userAgent = null;
 
         //values from the last request made
         // if the last request didn't had the value it is empty
@@ -58,7 +58,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Connection Factory
-        private static Dictionary<string, Connection> _connectionHelpers = new Dictionary<string, Connection>();
+        protected static Dictionary<string, Connection> _connectionHelpers = new Dictionary<string, Connection>();
         public static Connection GetConnection(string serverURL, string username = null, string password = null)
         {
             Connection connectionHelper = null;
@@ -108,12 +108,12 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Authorization
-        private string authHeaderString(string username, string password)
+        protected string authHeaderString(string username, string password)
         {
             return "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(username + ":" + password));
         }
 
-        private CredentialCache standardCredentials(string url)
+        protected virtual CredentialCache standardCredentials(string url)
         {
             CredentialCache cc = new CredentialCache();
             if (isAnonymous())
@@ -126,7 +126,7 @@ namespace OpenAsset.RestClient.Library
             return cc;
         }
 
-        public void LogoutCurrentSession(int retryIndex = 0)
+        public virtual void LogoutCurrentSession(int retryIndex = 0)
         {
             _username = Constant.REST_ANONYMOUS_USERNAME;
             if (String.IsNullOrEmpty(_sessionKey))
@@ -155,14 +155,14 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public bool NewSession(string username, string password)
+        public virtual bool NewSession(string username, string password)
         {
             _password = password;
             _username = username;
             return ValidateCredentials();
         }
 
-        public bool IsLoggedIn()
+        public virtual bool IsLoggedIn()
         {
             bool result = false;
             try
@@ -176,13 +176,13 @@ namespace OpenAsset.RestClient.Library
             return !isAnonymous() && result;
         }
 
-        private bool isAnonymous()
+        private virtual bool isAnonymous()
         {
             _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username);
             return _anonymous;
         }
 
-        public bool ValidateCredentials(int retryIndex = 0)
+        public virtual bool ValidateCredentials(int retryIndex = 0)
         {
             string username = _username;
             string password = _password;
@@ -281,7 +281,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Error handling
-        private bool httpRetryValid(HttpWebRequest request, WebException we)
+        protected bool httpRetryValid(HttpWebRequest request, WebException we)
         {
             HttpWebResponse errorResponse = we.Response as HttpWebResponse;
             if (errorResponse == null)
@@ -321,7 +321,7 @@ namespace OpenAsset.RestClient.Library
             return false;
         }
 
-        private bool endpointNotFound(WebException we)
+        protected bool endpointNotFound(WebException we)
         {
             HttpWebResponse errorResponse = we.Response as HttpWebResponse;
             if (errorResponse == null)
@@ -372,7 +372,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region Response
-        private HttpWebResponse getResponse(HttpWebRequest request, bool ignoreUsername = false)
+        protected virtual HttpWebResponse getResponse(HttpWebRequest request, bool ignoreUsername = false)
         {
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             WebHeaderCollection responseHeader = response.Headers;
@@ -392,7 +392,7 @@ namespace OpenAsset.RestClient.Library
             return response;
         }
 
-        private void setLastResponseHeaders(WebHeaderCollection headerCollection)
+        protected virtual void setLastResponseHeaders(WebHeaderCollection headerCollection)
         {
             LastResponseHeaders.OpenAssetVersion = headerCollection[Constant.HEADER_OPENASSET_VERSION];
             LastResponseHeaders.Username = headerCollection[Constant.HEADER_USERNAME];
@@ -432,7 +432,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        private HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json")
+        protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json")
         {
             HttpWebResponse response = null;
 
@@ -511,7 +511,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary)
+        protected static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary)
         {
             ASCIIEncoding encoding = new ASCIIEncoding();
             Stream formDataStream = new System.IO.MemoryStream();
@@ -636,7 +636,7 @@ namespace OpenAsset.RestClient.Library
 
         #region Get/Send objects
         #region GET Objects
-        public T GetObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
+        public virtual T GetObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
             try
@@ -658,12 +658,12 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public List<T> GetObjects<T>(RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
+        public virtual List<T> GetObjects<T>(RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
         {
             return GetObjects<T>(0, null, options);
         }
 
-        public List<T> GetObjects<T>(int id, string parentNoun, RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
+        public virtual List<T> GetObjects<T>(int id, string parentNoun, RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
             try
@@ -696,7 +696,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region SEND Objects
-        private string sendObjectStringResponse(byte[] output, bool createNew, string urlNoun, string contentType)
+        protected virtual string sendObjectStringResponse(byte[] output, bool createNew, string urlNoun, string contentType)
         {
             string responseText;
             HttpWebResponse response = null;
@@ -720,13 +720,13 @@ namespace OpenAsset.RestClient.Library
             return responseText;
         }
 
-        private T deserealizeResponse<T>(string response) where T : Noun.Base.BaseNoun, new()
+        protected virtual T deserealizeResponse<T>(string response) where T : Noun.Base.BaseNoun, new()
         {
             T value = JsonConvert.DeserializeObject<T>(response);
             return value;
         }
 
-        public T SendObject<T>(T sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        public virtual T SendObject<T>(T sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
             // serialize sending object
             string jsonOut = JsonConvert.SerializeObject(sendingObject);
@@ -743,7 +743,7 @@ namespace OpenAsset.RestClient.Library
         }
 
         // any base noun can be used but only the FileNoun accepts this type of POST
-        public T SendObject<T>(T sendingObject, string filepath, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        public virtual T SendObject<T>(T sendingObject, string filepath, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
             // read file
             string filename = Path.GetFileName(filepath);
@@ -756,7 +756,7 @@ namespace OpenAsset.RestClient.Library
         }
 
         // any base noun can be used but only the FileNoun accepts this type of POST
-        public T SendObject<T>(T sendingObject, byte[] data, string filename, string mimeType = null, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        public virtual T SendObject<T>(T sendingObject, byte[] data, string filename, string mimeType = null, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
             if (mimeType == null)
                 mimeType = "application/unknown";
@@ -781,7 +781,7 @@ namespace OpenAsset.RestClient.Library
             return value;
         }
 
-        public List<T> SendObjects<T>(List<T> sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        public virtual List<T> SendObjects<T>(List<T> sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
             // serialize sending object
             string jsonOut = JsonConvert.SerializeObject(sendingObject);
@@ -801,7 +801,7 @@ namespace OpenAsset.RestClient.Library
 
         #region DELETE Objects
         // Empty response on success, throws error on failure
-        public void DeleteObject<T>(int id) where T : Noun.Base.BaseNoun
+        public virtual void DeleteObject<T>(int id) where T : Noun.Base.BaseNoun
         {
             HttpWebResponse response = null;
             try
@@ -818,7 +818,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region OPTIONS Calls
-        public Information.Options GetOptions(Type type, int id = 0)
+        public virtual Information.Options GetOptions(Type type, int id = 0)
         {
             HttpWebResponse response = null;
             try
@@ -842,7 +842,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public Information.Options GetOptions(Noun.Base.BaseNoun noun)
+        public virtual Information.Options GetOptions(Noun.Base.BaseNoun noun)
         {
             return GetOptions(noun.GetType(), noun.Id);
         }
