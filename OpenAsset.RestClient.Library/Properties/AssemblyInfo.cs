@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Axomic Ltd")]
 [assembly: AssemblyProduct("OpenAsset RestClient Library")]
-[assembly: AssemblyCopyright("Copyright © Axomic Ltd 2013")]
+[assembly: AssemblyCopyright("Copyright © Axomic Ltd 2013-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
