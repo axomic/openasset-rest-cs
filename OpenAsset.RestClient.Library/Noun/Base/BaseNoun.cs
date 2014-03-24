@@ -19,6 +19,9 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, NestedNounProperty]
         protected int id;
 
+        [JsonExtensionData]
+        protected Dictionary<string, object> _additionalData;
+
         #region Error
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected int? http_status_code;
