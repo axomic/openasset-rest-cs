@@ -18,6 +18,7 @@ namespace OpenAsset.RestClient.Library
         protected string _sessionKey = null; //current session key
         protected Error _lastError = null;
         protected string _userAgent = null;
+        protected int _lastValidationEndpoint = 0;
 
         //values from the last request made
         // if the last request didn't had the value it is empty
@@ -126,13 +127,13 @@ namespace OpenAsset.RestClient.Library
             return cc;
         }
 
-        public virtual void LogoutCurrentSession(int retryIndex = 0)
+        public virtual void LogoutCurrentSession()
         {
             _username = Constant.REST_ANONYMOUS_USERNAME;
             if (String.IsNullOrEmpty(_sessionKey))
                 return;
             string validationUrl = _serverURL;
-            validationUrl += Constant.REST_BASE_PATH + Constant.REST_AUTHENTICATE_URL_EXTENSION[retryIndex] + Constant.REST_LOGOUT_EXTENSION;
+            validationUrl += Constant.REST_BASE_PATH + Constant.REST_AUTHENTICATE_URL_EXTENSION[_lastValidationEndpoint] + Constant.REST_LOGOUT_EXTENSION;
             HttpWebResponse response = null;
             HttpWebRequest request = null;
             request = (HttpWebRequest)WebRequest.Create(validationUrl);
@@ -142,7 +143,7 @@ namespace OpenAsset.RestClient.Library
             request.Method = "HEAD";
             try
             {
-                response = getResponse(request);
+                response = getResponse(request, true);
             }
             catch (WebException)
             {
@@ -188,6 +189,9 @@ namespace OpenAsset.RestClient.Library
             string password = _password;
             string serverAddress = _serverURL;
             string sessionKey = _sessionKey;
+
+            if (retryIndex < _lastValidationEndpoint)
+                retryIndex = _lastValidationEndpoint;
 
             string validationUrl = serverAddress + Constant.REST_BASE_PATH + Constant.REST_AUTHENTICATE_URL_EXTENSION[retryIndex];
             HttpWebResponse response = null;
@@ -246,9 +250,15 @@ namespace OpenAsset.RestClient.Library
             }
             catch (WebException e)
             {
-                if (httpRetryValid(request, e) && retryIndex < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length)
+                if (endpointNotFound(e))
                 {
-                    return ValidateCredentials(retryIndex + 1);
+                    retryIndex++;
+                    _lastValidationEndpoint = retryIndex;
+                    return ValidateCredentials(retryIndex);
+                }
+                if (httpRetryValid(request, e))
+                {
+                    return ValidateCredentials(retryIndex);
                 }
                 try
                 {
