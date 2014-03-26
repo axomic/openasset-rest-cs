@@ -250,7 +250,7 @@ namespace OpenAsset.RestClient.Library
             }
             catch (WebException e)
             {
-                if (endpointNotFound(e))
+                if ((retryIndex + 1) < Constant.REST_AUTHENTICATE_URL_EXTENSION.Length && endpointNotFound(e))
                 {
                     retryIndex++;
                     _lastValidationEndpoint = retryIndex;
