@@ -631,9 +631,6 @@ namespace OpenAsset.RestClient.Library
             // Check that versionToCheck is of the format #.#.#
             if (String.IsNullOrEmpty(versionToCheck))
                 return false;
-            string[] minVersion = versionToCheck.Split('.');
-            if (minVersion.Length != 3)
-                return false;
 
             if (String.IsNullOrEmpty(oaVersion))
             {
@@ -654,19 +651,17 @@ namespace OpenAsset.RestClient.Library
             if (!String.IsNullOrEmpty(oaVersion))
             {
                 oaVersion = oaVersion.Replace("h", "");
-                string[] curVersion = oaVersion.Split('.');
-                if (minVersion.Length != curVersion.Length)
-                    return false;
-                for (int i = 0; i < minVersion.Length && i < curVersion.Length; i++)
+                try
                 {
-                    int min = Convert.ToInt32(minVersion[i]);
-                    int cur = Convert.ToInt32(curVersion[i]);
-                    if (min > cur)
-                        return false;
-                    if (cur > min)
-                        return true;
+                    Version minVersion = new Version(versionToCheck);
+                    Version curVersion = new Version(oaVersion);
+                    return curVersion >= minVersion;
                 }
-                return true;
+                catch (Exception)
+                {
+                    // One of the versions did not parse correctly
+                    return false;
+                }
             }
 
             return false;
