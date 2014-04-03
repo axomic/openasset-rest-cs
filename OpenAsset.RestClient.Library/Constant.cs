@@ -20,8 +20,8 @@ namespace OpenAsset.RestClient.Library
         public const string DB_DATE_FORMAT = "yyyyMMddHHmmss";
 
         // Numbers
-        public const int REST_REQUEST_TIMEOUT = 90000;
-        public const int REST_AUTHENTICATE_TIMEOUT = 3000;
+        public const int DEFAULT_REST_REQUEST_TIMEOUT = 90000;
+        public const int DEFAULT_REST_AUTHENTICATE_TIMEOUT = 3000;
 
         // headers
         public const string HEADER_FULL_RESULTS_COUNT = "X-Full-Results-Count";

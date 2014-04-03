@@ -18,7 +18,10 @@ namespace OpenAsset.RestClient.Library
         protected string _sessionKey = null; //current session key
         protected Error _lastError = null;
         protected string _userAgent = null;
+        protected int _authenticationTimeout = Constant.DEFAULT_REST_AUTHENTICATE_TIMEOUT;
+        protected int _requestTimeout = Constant.DEFAULT_REST_REQUEST_TIMEOUT;
         protected int _lastValidationEndpoint = 0;
+        protected bool _forceProxyBypass = false;
 
         //values from the last request made
         // if the last request didn't had the value it is empty
@@ -55,6 +58,34 @@ namespace OpenAsset.RestClient.Library
         {
             get { return _userAgent; }
             set { _userAgent = value; }
+        }
+
+        public int AuthenticationTimeout
+        {
+            get { return _authenticationTimeout; }
+            set
+            {
+                if (value < 0)
+                    _authenticationTimeout = Constant.DEFAULT_REST_AUTHENTICATE_TIMEOUT;
+                _authenticationTimeout = value;
+            }
+        }
+
+        public int RequestTimeout
+        {
+            get { return _requestTimeout; }
+            set
+            {
+                if (value < 0)
+                    _requestTimeout = Constant.DEFAULT_REST_REQUEST_TIMEOUT;
+                _requestTimeout = value;
+            }
+        }
+
+        public bool ForceProxyBypass
+        {
+            get { return _forceProxyBypass; }
+            set { _forceProxyBypass = value; }
         }
         #endregion
 
@@ -138,8 +169,10 @@ namespace OpenAsset.RestClient.Library
             HttpWebRequest request = null;
             request = (HttpWebRequest)WebRequest.Create(validationUrl);
             request.Headers.Add(Constant.HEADER_SESSIONKEY, _sessionKey);
-            request.Timeout = Constant.REST_AUTHENTICATE_TIMEOUT;
+            request.Timeout = AuthenticationTimeout;
             request.UserAgent = _userAgent;
+            if (_forceProxyBypass)
+                request.Proxy = new WebProxy();
             request.Method = "HEAD";
             try
             {
@@ -156,11 +189,13 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        public virtual bool NewSession(string username, string password)
+        public virtual bool NewSession(string username, string password, bool forceValidate = true)
         {
             _password = password;
             _username = username;
-            return ValidateCredentials();
+            if (forceValidate)
+                return ValidateCredentials();
+            return false;
         }
 
         public virtual bool IsLoggedIn()
@@ -210,8 +245,10 @@ namespace OpenAsset.RestClient.Library
             {
                 request.Headers.Add(Constant.HEADER_SESSIONKEY, sessionKey);
             }
-            request.Timeout = Constant.REST_AUTHENTICATE_TIMEOUT;
+            request.Timeout = AuthenticationTimeout;
             request.UserAgent = _userAgent;
+            if (_forceProxyBypass)
+                request.Proxy = new WebProxy();
             request.Method = "HEAD";
 
             try
@@ -450,8 +487,10 @@ namespace OpenAsset.RestClient.Library
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.KeepAlive = false;
             request.Method = method;
-            request.UserAgent = _userAgent;//Constant.REST_USER_AGENT;
-            request.Timeout = Constant.REST_REQUEST_TIMEOUT;
+            request.UserAgent = _userAgent;
+            if (_forceProxyBypass)
+                request.Proxy = new WebProxy();
+            request.Timeout = RequestTimeout;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             request.ContentType = contentType;
 
