@@ -642,7 +642,7 @@ namespace OpenAsset.RestClient.Library
                         ValidateCredentials();
                         oaVersion = LastResponseHeaders.OpenAssetVersion;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         oaVersion = null;
                     }
