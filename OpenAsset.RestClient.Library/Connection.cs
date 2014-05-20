@@ -112,7 +112,7 @@ namespace OpenAsset.RestClient.Library
             }
             //if URL exists but username and password different start a new session
             if (!connectionHelper._password.Equals(password) ||
-                !connectionHelper._username.Equals(username) ||
+                !connectionHelper._username.Equals(username, StringComparison.OrdinalIgnoreCase) ||
                 !connectionHelper._serverURL.Equals(serverURL))
             {
                 connectionHelper.LogoutCurrentSession();
@@ -214,7 +214,7 @@ namespace OpenAsset.RestClient.Library
 
         protected virtual bool isAnonymous()
         {
-            _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username);
+            _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username, StringComparison.OrdinalIgnoreCase);
             return _anonymous;
         }
 
@@ -237,7 +237,7 @@ namespace OpenAsset.RestClient.Library
             {
                 request.Credentials = standardCredentials(validationUrl);
             }
-            else if (!Constant.REST_ANONYMOUS_USERNAME.Equals(username))
+            else if (!Constant.REST_ANONYMOUS_USERNAME.Equals(username, StringComparison.OrdinalIgnoreCase))
             {
                 request.Headers.Add("Authorization", authHeaderString(username, password));
             }
@@ -259,7 +259,7 @@ namespace OpenAsset.RestClient.Library
 
                 if (username == null || password == null)
                 {
-                    if (validUser == null || (!validUser.Equals(username) && !validUser.Equals(CredentialCache.DefaultNetworkCredentials.UserName)))
+                    if (validUser == null || (!validUser.Equals(username, StringComparison.OrdinalIgnoreCase) && !validUser.Equals(CredentialCache.DefaultNetworkCredentials.UserName, StringComparison.OrdinalIgnoreCase)))
                     {
                         if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password))
                         {
@@ -273,7 +273,7 @@ namespace OpenAsset.RestClient.Library
                     return true;
                 }
 
-                if (validUser != null && validUser.Equals(username))
+                if (validUser != null && validUser.Equals(username, StringComparison.OrdinalIgnoreCase))
                 {
                     // if it is a valid user keep the session
                     if (!String.IsNullOrEmpty(lastSessionKey))
@@ -359,7 +359,7 @@ namespace OpenAsset.RestClient.Library
             {
                 if (!anonLoginEnabled && !String.IsNullOrEmpty(_username) && !String.IsNullOrEmpty(_password))
                 {
-                    if (!_username.Equals(errorResponse.Headers[Constant.HEADER_USERNAME]) && !_username.Equals(username) && !_password.Equals(password))
+                    if (!_username.Equals(errorResponse.Headers[Constant.HEADER_USERNAME], StringComparison.OrdinalIgnoreCase) && !_username.Equals(username, StringComparison.OrdinalIgnoreCase) && !_password.Equals(password))
                     {
                         return true;
                     }
@@ -426,7 +426,7 @@ namespace OpenAsset.RestClient.Library
             string validUser = responseHeader[Constant.HEADER_USERNAME];
             if (!ignoreUsername)
             {
-                if (!validUser.Equals(_username))
+                if (!validUser.Equals(_username, StringComparison.OrdinalIgnoreCase))
                 {
                     string message = "Username of response differs from username in request";
                     throw new NotValidUserException(
