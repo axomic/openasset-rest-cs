@@ -68,6 +68,9 @@ namespace OpenAsset.RestClient.Library.Noun
         protected List<Size> sizes;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected List<Keyword> keywords;
+        // Album extra attribute
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty, VersionImplemented("8.1.11")]
+        protected int? display_order;
         #endregion
 
         #region Accessors
@@ -231,6 +234,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return keywords; }
             set { keywords = value; }
+        }
+
+        public virtual int DisplayOrder
+        {
+            get { return display_order ?? default(int); }
+            set { display_order = value; }
         }
         #endregion
 

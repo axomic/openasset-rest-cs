@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Attributes\BaseNounProperty.cs" />
     <Compile Include="Attributes\NestedNounProperty.cs" />
+    <Compile Include="Attributes\VersionImplemented.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CustomResponses\Base\BaseCustomResponse.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Noun\AspectRatio.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />
     <Compile Include="Noun\Category.cs" />
+    <Compile Include="Noun\Group.cs" />
     <Compile Include="Noun\CopyrightHolder.cs" />
     <Compile Include="Noun\CopyrightPolicy.cs" />
     <Compile Include="Noun\Field.cs" />

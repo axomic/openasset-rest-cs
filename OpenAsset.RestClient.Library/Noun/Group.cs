@@ -10,32 +10,24 @@ using System.Runtime.Serialization;
 
 namespace OpenAsset.RestClient.Library.Noun
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class User : Base.BaseNoun
+    [JsonObject(MemberSerialization.OptIn), VersionImplemented("8.1.11")]
+    public class Group : Base.BaseNoun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
-        protected string username;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
-        protected string full_name;
+        protected string name;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? alive;
-        // User Sharing extra values
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty, VersionImplemented("8.1.11")]
+        // Group Sharing extra values
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? can_modify;
         #endregion
 
         #region Accessors
-        public virtual string UserName
+        public virtual string Name
         {
-            get { return username; }
-            set { username = value; }
-        }
-
-        public virtual string FullName
-        {
-            get { return full_name; }
-            set { full_name = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         public virtual bool Alive

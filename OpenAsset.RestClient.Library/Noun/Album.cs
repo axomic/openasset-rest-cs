@@ -46,6 +46,12 @@ namespace OpenAsset.RestClient.Library.Noun
         protected string updated;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string created;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, VersionImplemented("8.1.11")]
+        protected List<File> files;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, VersionImplemented("8.1.11")]
+        protected List<User> users;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, VersionImplemented("8.1.11")]
+        protected List<Group> groups;
         #endregion
 
         #region Accessors
@@ -143,6 +149,24 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return dbString2DateTime(created); }
             set { created = dateTime2DbString(value); }
+        }
+
+        public virtual List<File> Files
+        {
+            get { return files; }
+            set { files = value; }
+        }
+
+        public virtual List<User> Users
+        {
+            get { return users; }
+            set { users = value; }
+        }
+
+        public virtual List<Group> Groups
+        {
+            get { return groups; }
+            set { groups = value; }
         }
         #endregion
 
