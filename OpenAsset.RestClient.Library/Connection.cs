@@ -827,12 +827,24 @@ namespace OpenAsset.RestClient.Library
 
         public virtual List<T> SendObjects<T>(List<T> sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
         {
+            return SendObjects<T>(null, sendingObject, createNew);
+        }
+
+        // Nested send supported when parent not null, will return full list of values no matter what method you use
+        // Method used by for nested createNew:  false - replace with list, true - add to list
+        public virtual List<T> SendObjects<T>(Noun.Base.BaseNoun parent, List<T> sendingObject, bool createNew = false) where T : Noun.Base.BaseNoun, new()
+        {
+            if (parent != null && parent.Id <= 0)
+                throw new RESTAPIException("Parent noun (" + parent + ") must have a valid id");
+
             // serialize sending object
             string jsonOut = JsonConvert.SerializeObject(sendingObject);
             ASCIIEncoding encoding = new ASCIIEncoding();
             byte[] output = encoding.GetBytes(jsonOut);
             // send post/put request
             string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
+            if (parent != null)
+                urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(parent.GetType()) + "/" + parent.Id + urlNoun;
             string contentType = "application/json";
             string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType);
 
@@ -847,10 +859,22 @@ namespace OpenAsset.RestClient.Library
         // Empty response on success, throws error on failure
         public virtual void DeleteObject<T>(int id) where T : Noun.Base.BaseNoun
         {
+            DeleteObject<T>(id, null);
+        }
+
+        // Empty response on success, throws error on failure
+        // Handles new option to delete a single nested noun item
+        public virtual void DeleteObject<T>(int id, Noun.Base.BaseNoun parent) where T : Noun.Base.BaseNoun
+        {
+            if (parent != null && parent.Id <= 0)
+                throw new RESTAPIException("Parent noun (" + parent + ") must have a valid id");
             HttpWebResponse response = null;
             try
             {
-                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id;
+                string restUrl = _serverURL + Constant.REST_BASE_PATH;
+                if (parent != null)
+                    restUrl += "/" + Noun.Base.BaseNoun.GetNoun(parent.GetType()) + "/" + parent.Id;
+                restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id;
                 response = getRESTResponse(restUrl, "DELETE");
             }
             finally
