@@ -164,7 +164,12 @@ namespace OpenAsset.RestClient.Library
             if (String.IsNullOrEmpty(_sessionKey))
                 return;
             string validationUrl = _serverURL;
-            validationUrl += Constant.REST_BASE_PATH + Constant.REST_AUTHENTICATE_URL_EXTENSION[_lastValidationEndpoint] + Constant.REST_LOGOUT_EXTENSION;
+            validationUrl += Constant.REST_BASE_PATH + Constant.REST_AUTHENTICATE_URL_EXTENSION[_lastValidationEndpoint];
+            if (validationUrl.Contains('?'))
+                validationUrl += '&';
+            else
+                validationUrl += '?';
+            validationUrl += Constant.REST_LOGOUT_EXTENSION;
             HttpWebResponse response = null;
             HttpWebRequest request = null;
             request = (HttpWebRequest)WebRequest.Create(validationUrl);

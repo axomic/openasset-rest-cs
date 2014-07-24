@@ -10,7 +10,7 @@ namespace OpenAsset.RestClient.Library
         // Urls
         public const string REST_ANONYMOUS_USERNAME = "anonymous";
         public static readonly string[] REST_AUTHENTICATE_URL_EXTENSION = { "/Headers", "/AccessLevels?limit=1" };
-        public const string REST_LOGOUT_EXTENSION = "?logout=logout";
+        public const string REST_LOGOUT_EXTENSION = "logout=logout";
         public const string REST_BASE_PATH = "/REST/1";
 
         // Uncategorized yet, currently covers all features in this library
