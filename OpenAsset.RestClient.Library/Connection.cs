@@ -405,6 +405,13 @@ namespace OpenAsset.RestClient.Library
                     _lastError.HttpStatusCode = (int)(we.Response as HttpWebResponse).StatusCode;
                     _lastError.ErrorMessage = responseText;
                 }
+
+                if (_lastError == null)
+                {
+                    _lastError = new Error();
+                    _lastError.HttpStatusCode = (int)(we.Response as HttpWebResponse).StatusCode;
+                    _lastError.ErrorMessage = e.Message;
+                }
             }
             else if (we != null)
             {
