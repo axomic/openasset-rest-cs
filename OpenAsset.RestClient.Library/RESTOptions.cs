@@ -67,7 +67,7 @@ namespace OpenAsset.RestClient.Library
             _orderBy.Insert(_orderBy.Count,field + postfix);
         }
 
-        public bool RemoveOrderByd(string field)
+        public bool RemoveOrderBy(string field)
         {
             field = Regex.Replace(field, "[^A-Za-z_,]", "_");
             bool result = _orderBy.Remove(field + "Asc");
