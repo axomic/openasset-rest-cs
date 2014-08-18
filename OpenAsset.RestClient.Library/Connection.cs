@@ -148,7 +148,7 @@ namespace OpenAsset.RestClient.Library
         protected virtual CredentialCache standardCredentials(string url)
         {
             CredentialCache cc = new CredentialCache();
-            if (isAnonymous())
+            if (IsAnonymous())
                 return cc;
             cc.Add(new Uri(url), "NTLM", CredentialCache.DefaultNetworkCredentials);
             if (!String.IsNullOrEmpty(_username) && !String.IsNullOrEmpty(_password))
@@ -214,10 +214,10 @@ namespace OpenAsset.RestClient.Library
             {
                 result = false;
             }
-            return !isAnonymous() && result;
+            return !IsAnonymous() && result;
         }
 
-        protected virtual bool isAnonymous()
+        public virtual bool IsAnonymous()
         {
             _anonymous = Constant.REST_ANONYMOUS_USERNAME.Equals(_username, StringComparison.OrdinalIgnoreCase);
             return _anonymous;
@@ -338,7 +338,7 @@ namespace OpenAsset.RestClient.Library
             HttpWebResponse errorResponse = we.Response as HttpWebResponse;
             if (errorResponse == null)
                 return false;
-            bool anonLoginEnabled = isAnonymous();
+            bool anonLoginEnabled = IsAnonymous();
             string username = null, password = null;
             string authorization = request.Headers["Authorization"];
             if (authorization != null && authorization.StartsWith("Basic "))
@@ -510,7 +510,7 @@ namespace OpenAsset.RestClient.Library
             {
                 request.Headers.Add(Constant.HEADER_SESSIONKEY, _sessionKey);
             }
-            if (!isAnonymous())
+            if (!IsAnonymous())
             {
                 if (retry)
                 {
