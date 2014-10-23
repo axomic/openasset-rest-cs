@@ -64,6 +64,8 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected string unc_root;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
+        protected int? cropped;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? recreate;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? watermarked;
@@ -74,6 +76,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return filesize ?? default(int); }
             set { filesize = value; }
+        }
+
+        public virtual bool Cropped
+        {
+            get { return cropped != 0; }
+            set { cropped = value ? 1 : 0; }
         }
 
         public virtual bool Recreate
