@@ -27,6 +27,8 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string code_alias_2;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected int? hero_image_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? alive;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected List<Field> fields;
@@ -69,6 +71,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return code_alias_2; }
             set { code_alias_2 = value; }
+        }
+
+        public virtual bool HeroImageId
+        {
+            get { return (hero_image_id ?? default(int)) != 0 ? true : false; }
+            set { hero_image_id = value ? 1 : 0; }
         }
 
         public virtual bool Alive
