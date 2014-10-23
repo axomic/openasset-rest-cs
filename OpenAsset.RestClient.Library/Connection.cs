@@ -491,7 +491,7 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json")
+        protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null)
         {
             HttpWebResponse response = null;
 
@@ -505,6 +505,11 @@ namespace OpenAsset.RestClient.Library
             request.Timeout = RequestTimeout;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             request.ContentType = contentType;
+
+            if (!String.IsNullOrEmpty(overrideMethod))
+            {
+                request.Headers.Add("X-HTTP-Method-Override", overrideMethod);
+            }
 
             if (!String.IsNullOrEmpty(_sessionKey))
             {
@@ -692,17 +697,44 @@ namespace OpenAsset.RestClient.Library
 
         #region Get/Send objects
         #region GET Objects
+        protected virtual string getObjectStringResponse(string baseUrl, Dictionary<string, object> parameters)
+        {
+            string responseText;
+            HttpWebResponse response = null;
+            try
+            {
+                string parameterString = RESTOptions<Noun.File>.GetUrlParameters(parameters);
+                if (parameterString.Length > 1024)
+                {
+                    string formDataBoundary = String.Format("----------{0:N}", Guid.NewGuid());
+                    byte[] formData = GetMultipartFormData(parameters, formDataBoundary);
+                    string contentType = "multipart/form-data; boundary=" + formDataBoundary;
+
+                    response = getRESTResponse(baseUrl, "POST", formData, false, contentType, "GET");
+                }
+                else
+                {
+                    response = getRESTResponse(baseUrl + "?" + parameterString, "GET");
+                }
+                TextReader tr = new StreamReader(response.GetResponseStream());
+                responseText = tr.ReadToEnd();
+                tr.Close();
+                tr.Dispose();
+            }
+            finally
+            {
+                if (response != null)
+                    response.Close();
+            }
+            return responseText;
+        }
         public virtual T GetObject<T>(int id, RESTOptions<T> options) where T : Noun.Base.BaseNoun, new()
         {
             HttpWebResponse response = null;
             try
             {
-                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id + "?" + options.GetUrlParameters();
-                response = getRESTResponse(restUrl, "GET");
-                TextReader tr = new StreamReader(response.GetResponseStream());
-                string responseText = tr.ReadToEnd();
-                tr.Close();
-                tr.Dispose();
+                string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id;
+                string responseText = this.getObjectStringResponse(restUrl, options.GetPostParameters());
 
                 T objT = JsonConvert.DeserializeObject<T>(responseText);
                 return objT;
@@ -733,14 +765,8 @@ namespace OpenAsset.RestClient.Library
                     restUrl += "/" + id;
                 if (!String.IsNullOrEmpty(parentNoun))
                     restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-                restUrl += "?" + options.GetUrlParameters();
-                response = getRESTResponse(restUrl, "GET");
+                string responseText = this.getObjectStringResponse(restUrl, options.GetPostParameters());
 
-                TextReader tr = new StreamReader(response.GetResponseStream());
-                string responseText = tr.ReadToEnd();
-                tr.Close();
-                tr.Dispose();
-                //System.Console.WriteLine(responseText);
                 return JsonConvert.DeserializeObject<List<T>>(responseText);
             }
             finally

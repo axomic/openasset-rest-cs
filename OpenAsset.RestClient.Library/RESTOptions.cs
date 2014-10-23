@@ -175,17 +175,32 @@ namespace OpenAsset.RestClient.Library
 
         public string GetUrlParameters()
         {
-            string parameters = "limit=" + Limit;
-            parameters += "&offset=" + Offset;
-            string displayFields = String.Join(",", _displayFields.ToArray());
-            if (!String.IsNullOrEmpty(displayFields))
-                parameters += "&displayFields=" + displayFields;
-            string orderBy = String.Join(",", _orderBy.ToArray());
-            if (!String.IsNullOrEmpty(orderBy))
-                parameters += "&orderBy=" + orderBy;
+            return GetUrlParameters(this.GetPostParameters());
+        }
+
+        public static string GetUrlParameters(Dictionary<string, object> parameters)
+        {
+            List<string> paramList = new List<string>();
+            foreach (KeyValuePair<string, object> kvp in parameters)
+            {
+                paramList.Add(kvp.Key + "=" + kvp.Value.ToString());
+            }
+
+            return String.Join("&", paramList.ToArray());
+        }
+
+        public Dictionary<string, object> GetPostParameters()
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters["limit"] =  Limit;
+            parameters["offset"] = Offset;
+            if (_displayFields.Count > 0)
+                parameters["displayFields"] = String.Join(",", _displayFields.ToArray());
+            if (_orderBy.Count > 0)
+                parameters["orderBy"] = String.Join(",", _orderBy.ToArray());
             foreach (KeyValuePair<string, string> kvp in _filters)
             {
-                parameters += "&" + kvp.Key + "=" + kvp.Value;
+                parameters[kvp.Key] = kvp.Value;
             }
 
             return parameters;
