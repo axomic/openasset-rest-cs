@@ -60,6 +60,8 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected string relative_path;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
+        protected string http_relative_path;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected string unc_root;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? recreate;
@@ -96,6 +98,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return relative_path; }
             set { relative_path = value; }
+        }
+
+        public virtual string HttpRelativePath
+        {
+            get { return http_relative_path; }
+            set { http_relative_path = value; }
         }
 
         public virtual string UncRoot
