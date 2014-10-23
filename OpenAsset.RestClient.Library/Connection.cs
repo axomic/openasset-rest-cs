@@ -704,7 +704,12 @@ namespace OpenAsset.RestClient.Library
             try
             {
                 string parameterString = RESTOptions<Noun.File>.GetUrlParameters(parameters);
-                if (parameterString.Length > 1024)
+                bool canGetAsPost = false;
+                if (!String.IsNullOrEmpty(LastResponseHeaders.OpenAssetVersion))
+                {
+                    canGetAsPost = this.MeetsRESTRequirement(LastResponseHeaders.OpenAssetVersion, "9.0.0");
+                }
+                if (canGetAsPost && parameterString.Length > 1024)
                 {
                     string formDataBoundary = String.Format("----------{0:N}", Guid.NewGuid());
                     byte[] formData = GetMultipartFormData(parameters, formDataBoundary);

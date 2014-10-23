@@ -59,11 +59,11 @@ namespace OpenAsset.RestClient.Library.Noun
         protected string http_root;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected string relative_path;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty, VersionImplemented("9.0.0")]
         protected string http_relative_path;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected string unc_root;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty, VersionImplemented("9.0.0")]
         protected int? cropped;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? recreate;

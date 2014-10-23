@@ -26,7 +26,7 @@ namespace OpenAsset.RestClient.Library.Noun
         protected string code_alias_1;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string code_alias_2;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, VersionImplemented("9.0.0")]
         protected int? hero_image_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? alive;
