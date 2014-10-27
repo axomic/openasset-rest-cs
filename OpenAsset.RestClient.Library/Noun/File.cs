@@ -58,6 +58,10 @@ namespace OpenAsset.RestClient.Library.Noun
         protected string uploaded;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? user_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, VersionImplemented("9.0.0")]
+        protected string replaced;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, VersionImplemented("9.0.0")]
+        protected int? replaced_user_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string deleted;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
@@ -204,6 +208,18 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return user_id ?? default(int); }
             set { user_id = value; }
+        }
+
+        public virtual DateTime Replaced
+        {
+            get { return dbString2DateTime(replaced); }
+            set { replaced = dateTime2DbString(value); }
+        }
+
+        public virtual int ReplacedUserId
+        {
+            get { return replaced_user_id ?? default(int); }
+            set { replaced_user_id = value; }
         }
 
         public virtual DateTime Deleted
