@@ -390,7 +390,7 @@ namespace OpenAsset.RestClient.Library
             {
                 HttpWebResponse errorResponse = we.Response as HttpWebResponse;
                 setLastResponseHeaders(errorResponse.Headers);
-                TextReader tr = new StreamReader(errorResponse.GetResponseStream());
+                TextReader tr = this.getReaderFromResponse(errorResponse);
                 string responseText = tr.ReadToEnd();
                 tr.Close();
                 tr.Dispose();
@@ -693,6 +693,20 @@ namespace OpenAsset.RestClient.Library
                 mimeType = regKey.GetValue("Content Type").ToString();
             return mimeType;
         }
+
+        private TextReader getReaderFromResponse(HttpWebResponse response)
+        {
+            Encoding encoding;
+            try
+            {
+                encoding = Encoding.GetEncoding(response.CharacterSet);
+            } 
+            catch (ArgumentException)
+            {
+                encoding = Encoding.UTF8;
+            }
+            return new StreamReader(response.GetResponseStream(), encoding);
+        }
         #endregion
 
         #region Get/Send objects
@@ -721,7 +735,7 @@ namespace OpenAsset.RestClient.Library
                 {
                     response = getRESTResponse(baseUrl + "?" + parameterString, "GET");
                 }
-                TextReader tr = new StreamReader(response.GetResponseStream());
+                TextReader tr = this.getReaderFromResponse(response);
                 responseText = tr.ReadToEnd();
                 tr.Close();
                 tr.Dispose();
@@ -794,7 +808,7 @@ namespace OpenAsset.RestClient.Library
 
                 response = getRESTResponse(restUrl, method, output, true, contentType);
                 // get response data
-                TextReader tr = new StreamReader(response.GetResponseStream());
+                TextReader tr = this.getReaderFromResponse(response);
                 responseText = tr.ReadToEnd();
                 tr.Close();
                 tr.Dispose();
@@ -938,7 +952,7 @@ namespace OpenAsset.RestClient.Library
                 if (id > 0)
                     restUrl += "/" + id;
                 response = getRESTResponse(restUrl, "OPTIONS");
-                TextReader tr = new StreamReader(response.GetResponseStream());
+                TextReader tr = this.getReaderFromResponse(response);
                 string responseText = tr.ReadToEnd();
                 tr.Close();
                 tr.Dispose();
