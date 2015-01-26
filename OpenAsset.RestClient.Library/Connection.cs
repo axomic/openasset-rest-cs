@@ -579,7 +579,7 @@ namespace OpenAsset.RestClient.Library
 
         protected static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary)
         {
-            ASCIIEncoding encoding = new ASCIIEncoding();
+            Encoding encoding = Encoding.UTF8;
             Stream formDataStream = new System.IO.MemoryStream();
             bool needsCLRF = false;
 
@@ -831,7 +831,7 @@ namespace OpenAsset.RestClient.Library
         {
             // serialize sending object
             string jsonOut = JsonConvert.SerializeObject(sendingObject);
-            ASCIIEncoding encoding = new ASCIIEncoding();
+            Encoding encoding = Encoding.UTF8;
             byte[] output = encoding.GetBytes(jsonOut);
             // send post/put request
             string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
@@ -896,7 +896,7 @@ namespace OpenAsset.RestClient.Library
 
             // serialize sending object
             string jsonOut = JsonConvert.SerializeObject(sendingObject);
-            ASCIIEncoding encoding = new ASCIIEncoding();
+            Encoding encoding = Encoding.UTF8;
             byte[] output = encoding.GetBytes(jsonOut);
             // send post/put request
             string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
