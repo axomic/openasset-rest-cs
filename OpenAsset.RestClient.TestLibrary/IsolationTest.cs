@@ -7,19 +7,19 @@ using OpenAsset.RestClient.Library.Noun;
 using OpenAsset.RestClient;
 using System.Diagnostics;
 
+// Class tests each noun individually
 namespace OpenAsset.RestClient.TestLibrary
 {
-	class RestTest
+	class IsolationTest
 	{
 		Connection conn;
 		string username;
 		string password;
 		string oaURL;
-		bool superUser;
 
 		[STAThread]
 		static void Main() {
-			RestTest test = new RestTest();
+            IsolationTest test = new IsolationTest();
 			try
 			{
 				System.Console.WriteLine("Begin testing..");
@@ -39,7 +39,6 @@ namespace OpenAsset.RestClient.TestLibrary
 			this.oaURL = "http://192.168.1.139";
 			this.username = "admin";
 			this.password = "admin";
-			this.superUser = false;
 
 			this.TestAuth();
 
