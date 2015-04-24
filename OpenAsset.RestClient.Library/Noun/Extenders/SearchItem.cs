@@ -47,14 +47,36 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public virtual List<int> Ids
         {
-            get { return ids; }
-            set { ids = value; }
+            get
+            {
+                if (ids == null)
+                    ids = new List<int>();
+                return ids;
+            }
+            set
+            {
+                if (ids == null)
+                    ids = value;
+                else
+                    ids.AddRange(value);
+            }
         }
 
         public virtual List<string> Values
         {
-            get { return values; }
-            set { values = value; }
+            get
+            {
+                if (values == null)
+                    values = new List<string>();
+                return values;
+            }
+            set
+            {
+                if (values == null)
+                    values = value;
+                else
+                    values.AddRange(value);
+            }
         }
         #endregion
 

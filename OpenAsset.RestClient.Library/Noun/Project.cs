@@ -87,14 +87,36 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public virtual List<ProjectKeyword> ProjectKeywords
         {
-            get { return projectKeywords; }
-            set { projectKeywords = value; }
+            get
+            {
+                if (projectKeywords == null)
+                    projectKeywords = new List<ProjectKeyword>();
+                return projectKeywords;
+            }
+            set
+            {
+                if (projectKeywords == null)
+                    projectKeywords = value;
+                else
+                    projectKeywords.AddRange(value);
+            }
         }
 
         public virtual List<Field> Fields
         {
-            get { return fields; }
-            set { fields = value; }
+            get
+            {
+                if (fields == null)
+                    fields = new List<Field>();
+                return fields;
+            }
+            set
+            {
+                if (fields == null)
+                    fields = value;
+                else
+                    fields.AddRange(value);
+            }
         }
         #endregion
 

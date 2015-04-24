@@ -117,8 +117,19 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public virtual List<SearchItem> SearchItems
         {
-            get { return search_items; }
-            set { search_items = value; }
+            get
+            {
+                if (search_items == null)
+                    search_items = new List<SearchItem>();
+                return search_items;
+            }
+            set
+            {
+                if (search_items == null)
+                    search_items = value;
+                else
+                    search_items.AddRange(value);
+            }
         }
         #endregion
 

@@ -153,20 +153,53 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public virtual List<File> Files
         {
-            get { return files; }
-            set { files = value; }
+            get
+            {
+                if (files == null)
+                    files = new List<File>();
+                return files;
+            }
+            set
+            {
+                if (files == null)
+                    files = value;
+                else
+                    files.AddRange(value);
+            }
         }
 
         public virtual List<User> Users
         {
-            get { return users; }
-            set { users = value; }
+            get
+            {
+                if (users == null)
+                    users = new List<User>();
+                return users;
+            }
+            set
+            {
+                if (users == null)
+                    users = value;
+                else
+                    users.AddRange(value);
+            }
         }
 
         public virtual List<Group> Groups
         {
-            get { return groups; }
-            set { groups = value; }
+            get
+            {
+                if (groups == null)
+                    groups = new List<Group>();
+                return groups;
+            }
+            set
+            {
+                if (groups == null)
+                    groups = value;
+                else
+                    groups.AddRange(values);
+            }
         }
         #endregion
 

@@ -236,20 +236,53 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public virtual List<Field> Fields
         {
-            get { return fields; }
-            set { fields = value; }
+            get
+            {
+                if (fields == null)
+                    fields = new List<Field>();
+                return fields;
+            }
+            set
+            {
+                if (fields == null)
+                    fields = value;
+                else
+                    fields.AddRange(value);
+            }
         }
 
         public virtual List<Size> Sizes
         {
-            get { return sizes; }
-            set { sizes = value; }
+            get
+            {
+                if (sizes == null)
+                    sizes = new List<Size>();
+                return sizes;
+            }
+            set
+            {
+                if (sizes == null)
+                    sizes = value;
+                else
+                    sizes.AddRange(value);
+            }
         }
 
         public virtual List<Keyword> Keywords
         {
-            get { return keywords; }
-            set { keywords = value; }
+            get
+            {
+                if (keywords == null)
+                    keywords = new List<Keyword>();
+                return keywords;
+            }
+            set
+            {
+                if (keywords == null)
+                    keywords = value;
+                else
+                    keywords.AddRange(value);
+            }
         }
 
         public virtual int DisplayOrder

@@ -101,8 +101,19 @@ namespace OpenAsset.RestClient.Library.Noun
 
         public virtual List<string> Values
         {
-            get { return values; }
-            set { values = value; }
+            get
+            {
+                if (values == null)
+                    values = new List<string>();
+                return values;
+            }
+            set
+            {
+                if (values == null)
+                    values = value;
+                else
+                    values.AddRange(value);
+            }
         }
 
         public virtual bool BuiltIn
