@@ -58,7 +58,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (ids == null)
                     ids = value;
                 else
+                {
+                    ids.Clear();
                     ids.AddRange(value);
+                }
             }
         }
 
@@ -75,7 +78,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (values == null)
                     values = value;
                 else
+                {
+                    values.Clear();
                     values.AddRange(value);
+                }
             }
         }
         #endregion

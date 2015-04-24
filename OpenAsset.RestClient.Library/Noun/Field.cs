@@ -112,7 +112,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (values == null)
                     values = value;
                 else
+                {
+                    values.Clear();
                     values.AddRange(value);
+                }
             }
         }
 

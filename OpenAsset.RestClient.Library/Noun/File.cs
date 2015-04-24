@@ -247,7 +247,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (fields == null)
                     fields = value;
                 else
+                {
+                    fields.Clear();
                     fields.AddRange(value);
+                }
             }
         }
 
@@ -264,7 +267,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (sizes == null)
                     sizes = value;
                 else
+                {
+                    sizes.Clear();
                     sizes.AddRange(value);
+                }
             }
         }
 
@@ -281,7 +287,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (keywords == null)
                     keywords = value;
                 else
+                {
+                    keywords.Clear();
                     keywords.AddRange(value);
+                }
             }
         }
 

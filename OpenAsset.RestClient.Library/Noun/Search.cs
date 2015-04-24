@@ -128,7 +128,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (search_items == null)
                     search_items = value;
                 else
+                {
+                    search_items.Clear();
                     search_items.AddRange(value);
+                }
             }
         }
         #endregion

@@ -98,7 +98,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (projectKeywords == null)
                     projectKeywords = value;
                 else
+                {
+                    projectKeywords.Clear();
                     projectKeywords.AddRange(value);
+                }
             }
         }
 
@@ -115,7 +118,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (fields == null)
                     fields = value;
                 else
+                {
+                    fields.Clear();
                     fields.AddRange(value);
+                }
             }
         }
         #endregion

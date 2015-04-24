@@ -164,7 +164,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (files == null)
                     files = value;
                 else
+                {
+                    files.Clear();
                     files.AddRange(value);
+                }
             }
         }
 
@@ -181,7 +184,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (users == null)
                     users = value;
                 else
+                {
+                    users.Clear();
                     users.AddRange(value);
+                }
             }
         }
 
@@ -198,7 +204,10 @@ namespace OpenAsset.RestClient.Library.Noun
                 if (groups == null)
                     groups = value;
                 else
-                    groups.AddRange(values);
+                {
+                    groups.Clear();
+                    groups.AddRange(value);
+                }
             }
         }
         #endregion
