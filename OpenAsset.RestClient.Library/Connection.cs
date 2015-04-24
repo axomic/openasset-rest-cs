@@ -6,6 +6,7 @@ using System.Web;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using OpenAsset.RestClient.Library.Noun.Base;
 
 namespace OpenAsset.RestClient.Library
 {
@@ -913,15 +914,19 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region DELETE Objects
-        // Empty response on success, throws error on failure
-        public virtual void DeleteObject<T>(int id) where T : Noun.Base.BaseNoun
+        public virtual void DeleteObject(BaseNoun noun, BaseNoun parent = null)
         {
-            DeleteObject<T>(id, null);
+            deleteObject(noun.GetType(), noun.Id, parent);
         }
 
         // Empty response on success, throws error on failure
         // Handles new option to delete a single nested noun item
-        public virtual void DeleteObject<T>(int id, Noun.Base.BaseNoun parent) where T : Noun.Base.BaseNoun
+        public virtual void DeleteObject<T>(int id, Noun.Base.BaseNoun parent = null) where T : Noun.Base.BaseNoun
+        {
+            deleteObject(typeof(T), id, parent);
+        }
+
+        protected virtual void deleteObject(Type type, int id, BaseNoun parent = null)
         {
             if (parent != null && parent.Id <= 0)
                 throw new RESTAPIException("Parent noun (" + parent + ") must have a valid id");
@@ -931,7 +936,7 @@ namespace OpenAsset.RestClient.Library
                 string restUrl = _serverURL + Constant.REST_BASE_PATH;
                 if (parent != null)
                     restUrl += "/" + Noun.Base.BaseNoun.GetNoun(parent.GetType()) + "/" + parent.Id;
-                restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id;
+                restUrl += "/" + Noun.Base.BaseNoun.GetNoun(type) + "/" + id;
                 response = getRESTResponse(restUrl, "DELETE");
             }
             finally

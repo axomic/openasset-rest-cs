@@ -6,6 +6,7 @@ using OpenAsset.RestClient.Library;
 using OpenAsset.RestClient.Library.Noun;
 using OpenAsset.RestClient;
 using System.Diagnostics;
+using System.Drawing;
 
 // Class tests each noun individually
 namespace OpenAsset.RestClient.TestLibrary
@@ -16,6 +17,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		string username;
 		string password;
 		string oaURL;
+        string test_id;
 
 		[STAThread]
 		static void Main() {
@@ -36,9 +38,10 @@ namespace OpenAsset.RestClient.TestLibrary
 
 		void Init()
 		{
-			this.oaURL = "http://192.168.1.139";
+			this.oaURL = "http://192.168.4.85";
 			this.username = "admin";
 			this.password = "admin";
+            this.test_id = Guid.NewGuid().ToString();
 
 			this.TestAuth();
 
@@ -54,7 +57,7 @@ namespace OpenAsset.RestClient.TestLibrary
 			this.Test<Field>("Field", SetupField, ModifyField, CompareField, false, false);		
 			this.TestFieldLookupString(1);
 
-			this.Test<File>("File", SetupFile, ModifyFile, CompareFile, true, true, "C:\\testFile.jpg");
+			this.Test<File>("File", SetupFile, ModifyFile, CompareFile, true, true, this.test_id+".jpg");
 			
 			this.Test<Keyword>("Keyword", SetupKeyword, ModifyKeyword, CompareKeyword, true, true);
 			this.Test<KeywordCategory>("KeywordCategory", SetupKeywordCategory, ModifyKeywordCategory, CompareKeywordCategory, true, true);
@@ -235,7 +238,6 @@ namespace OpenAsset.RestClient.TestLibrary
 			System.Console.Write("Test - Auth");
 			try
 			{
-				// TODO: This is a precondition, needs refinement. 
 				this.conn = Connection.GetConnection(this.oaURL, "anonymous", "");
 				bool anonymousUser = conn.ValidateCredentials();
 				Debug.Assert(anonymousUser);
@@ -365,9 +367,9 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		
 		// Size Generics
-		Size SetupSize()
+		OpenAsset.RestClient.Library.Noun.Size SetupSize()
 		{
-			Size item = new Size();
+			OpenAsset.RestClient.Library.Noun.Size item = new OpenAsset.RestClient.Library.Noun.Size();
 			item.Name = "RESTClient Test Size";
 			item.Postfix = "rst";
 			item.FileFormat = "jpg"; // options: bmp, gif, jpg, png, tif, tiff
@@ -378,12 +380,12 @@ namespace OpenAsset.RestClient.TestLibrary
 			item.XResolution = 72;
 			return item;
 		}
-		Size ModifySize(Size item)
+		OpenAsset.RestClient.Library.Noun.Size ModifySize(OpenAsset.RestClient.Library.Noun.Size item)
 		{
 			item.Name = "RESTClient Test Size - PUT Test #" + Guid.NewGuid().ToString();
 			return item;
 		}
-		bool CompareSize(Size first, Size second)
+		bool CompareSize(OpenAsset.RestClient.Library.Noun.Size first, OpenAsset.RestClient.Library.Noun.Size second)
 		{
 			if (first.Id != second.Id) return false;
 			if (first.Name != second.Name) return false;
@@ -475,8 +477,8 @@ namespace OpenAsset.RestClient.TestLibrary
 			File item = new File();
 			// Need a way to verify this. Perhaps storing an image as base64 and then writing it out to a temp
 			// dir and then loading that. For now use a static path.
-			item.Filename = "C:\\testFile.jpg";
-			item.OriginalFilename = "testFile.jpg";
+            item.Filename = GenerateImage(this.test_id);
+			item.OriginalFilename = this.test_id + ".jpg";
 			item.AccessLevel = 1;
 			item.Rank = 1;
 			item.CategoryId = 2; // Reference, need to get this properly, perhaps with a GET
@@ -502,7 +504,7 @@ namespace OpenAsset.RestClient.TestLibrary
 			// setup searchItems
 			searchItems.Code = "popularFields";
 			searchItems.Values = new List<string>();
-			searchItems.Values.Add("testFile.jpg");
+            searchItems.Values.Add(this.test_id + ".jpg");
 
 			// setup the actual Search
 			Search item = new Search();
@@ -522,5 +524,56 @@ namespace OpenAsset.RestClient.TestLibrary
 			if (first.Name != second.Name) return false;
 			return true; 
 		}
+
+        // Generates an image from text
+        public string GenerateImage(string filename)
+        {
+            Font font = new Font("Arial", 20);
+            Color textColor = Color.FromName("black");
+            Color backColor = Color.FromName("white");
+            Image img = DrawText(filename, font, textColor, backColor);
+
+            string filepath = "C:\\" + filename + ".png";
+            img.Save(filepath, System.Drawing.Imaging.ImageFormat.Png);
+
+            Console.WriteLine("Generated temp image");
+            return filepath;
+        }
+
+        // Deletes a file at specified path
+        public bool DeleteImageFile(string filepath)
+        {
+            if (System.IO.File.Exists(filepath))
+            {
+                System.IO.File.Delete(filepath);
+                Console.WriteLine("Deleted generated temp image");
+                return true;
+            }
+            return false;
+        }
+
+        // Creates and retuns an image object
+        private Image DrawText(string text, Font font, Color textColor, Color backColor)
+        {
+            Image img = new Bitmap(1, 1);
+            Graphics drawing = Graphics.FromImage(img);
+            SizeF textSize = drawing.MeasureString(text, font);
+
+            img.Dispose();
+            drawing.Dispose();
+
+            img = new Bitmap((int)textSize.Width, (int)textSize.Height);
+            drawing = Graphics.FromImage(img);
+            drawing.Clear(backColor);
+
+            Brush textBrush = new SolidBrush(textColor);
+            drawing.DrawString(text, font, textBrush, 0, 0);
+
+            drawing.Save();
+            textBrush.Dispose();
+            drawing.Dispose();
+
+            return img;
+        }
 	}
 }

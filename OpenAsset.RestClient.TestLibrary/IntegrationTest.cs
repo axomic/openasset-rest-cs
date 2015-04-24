@@ -19,6 +19,7 @@ namespace OpenAsset.RestClient.TestLibrary
         public string username;
         public string password;
         public string test_id;
+        public bool superUser;
 
         string _oaURL;
         public string oaURL
@@ -61,6 +62,7 @@ namespace OpenAsset.RestClient.TestLibrary
             this.oaURL = "";
             this.username = "";
             this.password = "";
+            this.superUser = false;
             this.test_id = Guid.NewGuid().ToString();
         }
 
@@ -70,6 +72,7 @@ namespace OpenAsset.RestClient.TestLibrary
             this.oaURL = oaURL;
             this.username = username;
             this.password = password;
+            this.superUser = (this.username == "axomic" || this.username == "superuser") ? true : false;
             this.test_id = Guid.NewGuid().ToString();
 
             if (!EstablishConnection())
@@ -112,13 +115,20 @@ namespace OpenAsset.RestClient.TestLibrary
             Album album = CreateAlbum(file);
 
             List<Search> searches = CreateSearches(file, keywordCategory, keyword, imageField, photographer, copyrightHolder, accessLevel, project, album);
-
-            BaseNoun[] nouns = new BaseNoun[] { file, photographer, copyrightHolder, copyrightPolicy, album, keyword, keywordCategory, imageField, projectField, projectKeyword, projectKeywordCategory, project };
-            VerifySearches(searches, file);
-            //if (VerifySearches(searches, file))
-            //{
-             //   DeleteNoun(nouns);
-            //}
+            
+            if (VerifySearches(searches, file))
+            {
+                BaseNoun[] nouns;
+                if (superUser)
+                {
+                    nouns = new BaseNoun[] { file, photographer, copyrightHolder, copyrightPolicy, album, keyword, keywordCategory, imageField, projectField, projectKeyword, projectKeywordCategory, project };
+                }
+                else
+                {
+                    nouns = new BaseNoun[] { file, album, keyword, keywordCategory, imageField, projectField, projectKeyword, projectKeywordCategory, project };
+                }
+                DeleteNouns(nouns);
+            }
         }
 
         // Returns the ID of the first Project category
@@ -283,10 +293,7 @@ namespace OpenAsset.RestClient.TestLibrary
             albumItem.ShareWithAllUsers = true;
             albumItem.AllUsersCanModify = true;
             albumItem.CompanyAlbum = true;
-
-            List<File> fileList = new List<File>();
-            fileList.Add(file);
-            albumItem.Files = fileList;
+            albumItem.Files.Add(file);
             
             Album resp = this.conn.SendObject<Album>(albumItem, true);
             Console.WriteLine(resp.Id);
@@ -332,6 +339,7 @@ namespace OpenAsset.RestClient.TestLibrary
             return resp;
         }
 
+        // Creates a list of Search objects to verify insertions
         public List<Search> CreateSearches(File file, KeywordCategory keywordCategory, Keyword keyword, Field field, Photographer photographer, CopyrightHolder copyrightHolder, AccessLevel accessLevel, 
             Project project, Album album)
         {
@@ -346,7 +354,6 @@ namespace OpenAsset.RestClient.TestLibrary
             search.Name = this.test_id + "_Test_Search_Filename";
             searchItems.Code = "filename";
             searchItems.Exclude = false;
-            searchItems.Values = new List<String>();
             searchItems.Values.Add(file.Filename);
             search.SearchItems.Add(searchItems);
             searchList.Add(search);
@@ -445,8 +452,7 @@ namespace OpenAsset.RestClient.TestLibrary
             search.Name = this.test_id + "_Test_Search_Field";
             searchItems.Code = "field."+field.Id;
             searchItems.Exclude = false;
-            searchItems.Ids = new List<int>();
-            searchItems.Ids.Add(field.Id);
+            searchItems.Values = field.Values;
             search.SearchItems.Add(searchItems);
             searchList.Add(search);
 
@@ -455,7 +461,7 @@ namespace OpenAsset.RestClient.TestLibrary
 
         // Verifies that each search brought a result that includes the uploaded file
         public bool VerifySearches(List<Search> searchList, File file) {
-            Console.WriteLine("Verifying Searches:");
+            Console.WriteLine("Verifying Searches: ");
             RESTOptions<Result> options;
             List<Result> itemList;
             Search currSearch;
@@ -464,6 +470,7 @@ namespace OpenAsset.RestClient.TestLibrary
 
             foreach (Search search in searchList)
             {
+                Console.Write("\t" + search.SearchItems[0].Code + ": ");
                 currSearch = this.conn.SendObject<Search>(search, true);
                 options = new RESTOptions<Result>();
                 itemList = this.conn.GetObjects<Result>(currSearch.Id, "Searches", options);
@@ -473,6 +480,7 @@ namespace OpenAsset.RestClient.TestLibrary
                 {
                     if (result.FileId == file.Id)
                     {
+                        Console.WriteLine("GOOD");
                         fileFound = true;
                         break;
                     }
@@ -483,19 +491,20 @@ namespace OpenAsset.RestClient.TestLibrary
                     throw new Exception("File search not found for " + currSearch.Code + " (" + currSearch.Id + ")");
                 }
             }
-         
+
+            Console.WriteLine("Verification Passed");
             return true;
         }
 
-        // Deletes a Noun
-        public bool DeleteNoun(BaseNoun[] nouns)
+        // Deletes Nouns
+        public bool DeleteNouns(BaseNoun[] nouns)
         {
             Console.WriteLine("Deleting Objects:");
             try
             {
                 foreach (BaseNoun noun in nouns)
                 {
-                    this.conn.DeleteObject<BaseNoun>(noun.Id);
+                    this.conn.DeleteObject(noun);
                     Console.WriteLine("\tDeleted "+noun.GetType().Name);
                 }
             }
