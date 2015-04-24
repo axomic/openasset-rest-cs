@@ -98,8 +98,8 @@ namespace OpenAsset.RestClient.TestLibrary
 
             Project project = CreateProject(projectKeyword, projectField);
 
-            KeywordCategory keywordCategoryItem = CreateKeywordCategory(projectCategory.Id);
-            Keyword keyword = CreateKeyword(keywordCategoryItem.Id);
+            KeywordCategory keywordCategory = CreateKeywordCategory(projectCategory.Id);
+            Keyword keyword = CreateKeyword(keywordCategory.Id);
 
             Photographer photographer = CreatePhotographer();
             AccessLevel accessLevel = GetRandomAccessLevel();
@@ -110,6 +110,15 @@ namespace OpenAsset.RestClient.TestLibrary
             File file = UploadFile(projectCategory, project, imageField, keyword, photographer, accessLevel, copyrightHolder);
 
             Album album = CreateAlbum(file);
+
+            List<Search> searches = CreateSearches(file, keywordCategory, keyword, imageField, photographer, copyrightHolder, accessLevel, project, album);
+
+            BaseNoun[] nouns = new BaseNoun[] { file, photographer, copyrightHolder, copyrightPolicy, album, keyword, keywordCategory, imageField, projectField, projectKeyword, projectKeywordCategory, project };
+            VerifySearches(searches, file);
+            //if (VerifySearches(searches, file))
+            //{
+             //   DeleteNoun(nouns);
+            //}
         }
 
         // Returns the ID of the first Project category
@@ -206,6 +215,7 @@ namespace OpenAsset.RestClient.TestLibrary
             fieldItem.Description = this.test_id + "_Field_Test";
             fieldItem.FieldType = fieldType;
             fieldItem.FieldDisplayType = "singleLine";
+            fieldItem.IncludeOnSearch = true;
             
             Field resp = this.conn.SendObject<Field>(fieldItem, true);
             List<String> valueList = new List<String>();
@@ -322,10 +332,182 @@ namespace OpenAsset.RestClient.TestLibrary
             return resp;
         }
 
-        // Deletes a Noun
-        public void DeleteNoun<T>(T Noun) where T : BaseNoun
+        public List<Search> CreateSearches(File file, KeywordCategory keywordCategory, Keyword keyword, Field field, Photographer photographer, CopyrightHolder copyrightHolder, AccessLevel accessLevel, 
+            Project project, Album album)
         {
-            this.conn.DeleteObject<T>(Noun.Id);
+            Console.WriteLine("Creating Searches");
+            Search search;
+            SearchItem searchItems;
+            List<Search> searchList = new List<Search>();
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Filename";
+            searchItems.Code = "filename";
+            searchItems.Exclude = false;
+            searchItems.Values = new List<String>();
+            searchItems.Values.Add(file.Filename);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Original_Filename";
+            searchItems.Code = "originalFilename";
+            searchItems.Exclude = false;
+            searchItems.Values = new List<String>();
+            searchItems.Values.Add(file.OriginalFilename);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Caption";
+            searchItems.Code = "caption";
+            searchItems.Exclude = false;
+            searchItems.Values = new List<String>();
+            searchItems.Values.Add(file.Caption);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Description";
+            searchItems.Code = "description";
+            searchItems.Exclude = false;
+            searchItems.Values = new List<String>();
+            searchItems.Values.Add(file.Description);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Photographer";
+            searchItems.Code = "photographer";
+            searchItems.Exclude = false;
+            searchItems.Ids = new List<int>();
+            searchItems.Ids.Add(photographer.Id);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Keyword";
+            searchItems.Code = "keyword."+keywordCategory.Id;
+            searchItems.Exclude = false;
+            searchItems.Ids = new List<int>();
+            searchItems.Ids.Add(keyword.Id);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Project";
+            searchItems.Code = "project";
+            searchItems.Exclude = false;
+            searchItems.Ids = new List<int>();
+            searchItems.Ids.Add(project.Id);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Album";
+            searchItems.Code = "album";
+            searchItems.Exclude = false;
+            searchItems.Ids = new List<int>();
+            searchItems.Ids.Add(album.Id);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_CopyrightHolder";
+            searchItems.Code = "copyrightHolder";
+            searchItems.Exclude = false;
+            searchItems.Ids = new List<int>();
+            searchItems.Ids.Add(copyrightHolder.Id);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            search = new Search();
+            searchItems = new SearchItem();
+            search.Saved = false;
+            search.Name = this.test_id + "_Test_Search_Field";
+            searchItems.Code = "field."+field.Id;
+            searchItems.Exclude = false;
+            searchItems.Ids = new List<int>();
+            searchItems.Ids.Add(field.Id);
+            search.SearchItems.Add(searchItems);
+            searchList.Add(search);
+
+            return searchList;
+        }
+
+        // Verifies that each search brought a result that includes the uploaded file
+        public bool VerifySearches(List<Search> searchList, File file) {
+            Console.WriteLine("Verifying Searches:");
+            RESTOptions<Result> options;
+            List<Result> itemList;
+            Search currSearch;
+
+            bool fileFound = false;
+
+            foreach (Search search in searchList)
+            {
+                currSearch = this.conn.SendObject<Search>(search, true);
+                options = new RESTOptions<Result>();
+                itemList = this.conn.GetObjects<Result>(currSearch.Id, "Searches", options);
+                fileFound = false;
+
+                foreach (Result result in itemList)
+                {
+                    if (result.FileId == file.Id)
+                    {
+                        fileFound = true;
+                        break;
+                    }
+                }
+
+                if (!fileFound)
+                {
+                    throw new Exception("File search not found for " + currSearch.Code + " (" + currSearch.Id + ")");
+                }
+            }
+         
+            return true;
+        }
+
+        // Deletes a Noun
+        public bool DeleteNoun(BaseNoun[] nouns)
+        {
+            Console.WriteLine("Deleting Objects:");
+            try
+            {
+                foreach (BaseNoun noun in nouns)
+                {
+                    this.conn.DeleteObject<BaseNoun>(noun.Id);
+                    Console.WriteLine("\tDeleted "+noun.GetType().Name);
+                }
+            }
+            catch (RESTAPIException e) {
+                System.Console.WriteLine(e);
+                System.Console.WriteLine("Exception in the test program: \n\t" + e.ErrorObj);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e);
+            }
+            return true;
         }
 
         // Generates an image from text

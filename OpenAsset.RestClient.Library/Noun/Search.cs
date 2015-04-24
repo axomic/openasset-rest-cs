@@ -49,10 +49,10 @@ namespace OpenAsset.RestClient.Library.Noun
             set { name = value; }
         }
 
-        public virtual int AllUsersCanModify
+        public virtual bool AllUsersCanModify
         {
-            get { return all_users_can_modify ?? default(int); }
-            set { all_users_can_modify = value; }
+            get { return (all_users_can_modify ?? default(int)) != 0 ? true : false; }
+            set { all_users_can_modify = value ? 1 : 0; }
         }
 
         public virtual bool ApprovedCompanySavedSearch
