@@ -20,6 +20,7 @@ namespace OpenAsset.RestClient.TestLibrary
         public string password;
         public string test_id;
         public bool superUser;
+        public bool deleteObjects;
 
         string _oaURL;
         public string oaURL
@@ -39,8 +40,9 @@ namespace OpenAsset.RestClient.TestLibrary
             string oaURL = "http://192.168.4.85";
             string username = "admin";
             string password = "admin";
+            bool deleteObjects = false;
 
-            IntegrationTest test = new IntegrationTest(oaURL, username, password);
+            IntegrationTest test = new IntegrationTest(oaURL, username, password, deleteObjects);
 
             try
             {
@@ -67,12 +69,13 @@ namespace OpenAsset.RestClient.TestLibrary
         }
 
         // Overloaded constructor
-        public IntegrationTest(string oaURL = "", string username = "", string password = "")
+        public IntegrationTest(string oaURL = "", string username = "", string password = "", bool deleteObjects = true)
         {
             this.oaURL = oaURL;
             this.username = username;
             this.password = password;
             this.superUser = (this.username == "axomic" || this.username == "superuser") ? true : false;
+            this.deleteObjects = deleteObjects;
             this.test_id = Guid.NewGuid().ToString();
 
             if (!EstablishConnection())
@@ -113,6 +116,7 @@ namespace OpenAsset.RestClient.TestLibrary
             File file = UploadFile(projectCategory, project, imageField, keyword, photographer, accessLevel, copyrightHolder);
 
             Album album = CreateAlbum(file);
+            bool isHeroImage = AttachHeroImage(file, project);
 
             List<Search> searches = CreateSearches(file, keywordCategory, keyword, imageField, photographer, copyrightHolder, accessLevel, project, album);
             
@@ -127,7 +131,11 @@ namespace OpenAsset.RestClient.TestLibrary
                 {
                     nouns = new BaseNoun[] { file, album, keyword, keywordCategory, imageField, projectField, projectKeyword, projectKeywordCategory, project };
                 }
-                DeleteNouns(nouns);
+
+                if (this.deleteObjects)
+                {
+                    DeleteNouns(nouns);
+                }
             }
         }
 
@@ -298,6 +306,16 @@ namespace OpenAsset.RestClient.TestLibrary
             Album resp = this.conn.SendObject<Album>(albumItem, true);
             Console.WriteLine(resp.Id);
             return resp;
+        }
+
+        public bool AttachHeroImage(File file, Project project)
+        {
+            Console.Write("Marking file as HeroImage: ");
+            RESTOptions<File> _file = new RESTOptions<File>();
+
+            project.HeroImageId = file.Id;
+            Project resp = this.conn.SendObject<Project>(project, false);
+            return true;
         }
 
         // Generates and uploads a File to OpenAsset, along with tagging it's field, keyword, photographer, access level, and copyright holder
