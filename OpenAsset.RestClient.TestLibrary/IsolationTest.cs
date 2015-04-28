@@ -57,7 +57,7 @@ namespace OpenAsset.RestClient.TestLibrary
 			this.Test<Field>("Field", SetupField, ModifyField, CompareField, false, false);		
 			this.TestFieldLookupString(1);
 
-			this.Test<File>("File", SetupFile, ModifyFile, CompareFile, true, true, this.test_id+".jpg");
+			this.Test<File>("File", SetupFile, ModifyFile, CompareFile, true, true, "C:\\"+this.test_id+".png");
 			
 			this.Test<Keyword>("Keyword", SetupKeyword, ModifyKeyword, CompareKeyword, true, true);
 			this.Test<KeywordCategory>("KeywordCategory", SetupKeywordCategory, ModifyKeywordCategory, CompareKeywordCategory, true, true);
@@ -475,13 +475,11 @@ namespace OpenAsset.RestClient.TestLibrary
 		File SetupFile()
 		{
 			File item = new File();
-			// Need a way to verify this. Perhaps storing an image as base64 and then writing it out to a temp
-			// dir and then loading that. For now use a static path.
             item.Filename = GenerateImage(this.test_id);
-			item.OriginalFilename = this.test_id + ".jpg";
+			item.OriginalFilename = this.test_id + ".png";
 			item.AccessLevel = 1;
 			item.Rank = 1;
-			item.CategoryId = 2; // Reference, need to get this properly, perhaps with a GET
+			item.CategoryId = 2;
 			item.ProjectId = 0;
 			return item;
 		}
@@ -492,6 +490,7 @@ namespace OpenAsset.RestClient.TestLibrary
 		}
 		bool CompareFile(File first, File second)
 		{
+            DeleteImageFile("C:\\"+this.test_id+".png");
 			if (first.AccessLevel != second.AccessLevel) return false;
 
 			return true;
@@ -536,7 +535,6 @@ namespace OpenAsset.RestClient.TestLibrary
             string filepath = "C:\\" + filename + ".png";
             img.Save(filepath, System.Drawing.Imaging.ImageFormat.Png);
 
-            Console.WriteLine("Generated temp image");
             return filepath;
         }
 
@@ -546,7 +544,6 @@ namespace OpenAsset.RestClient.TestLibrary
             if (System.IO.File.Exists(filepath))
             {
                 System.IO.File.Delete(filepath);
-                Console.WriteLine("Deleted generated temp image");
                 return true;
             }
             return false;
