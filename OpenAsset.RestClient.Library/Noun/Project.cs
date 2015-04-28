@@ -73,10 +73,10 @@ namespace OpenAsset.RestClient.Library.Noun
             set { code_alias_2 = value; }
         }
 
-        public virtual bool HeroImageId
+        public virtual int HeroImageId
         {
-            get { return (hero_image_id ?? default(int)) != 0 ? true : false; }
-            set { hero_image_id = value ? 1 : 0; }
+            get { return hero_image_id ?? default(int); }
+            set { hero_image_id = value; }
         }
 
         public virtual bool Alive

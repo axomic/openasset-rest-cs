@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>OpenAsset.RestClient.TestLibrary.IsolationTest</StartupObject>
+    <StartupObject>OpenAsset.RestClient.TestLibrary.IntegrationTest</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
