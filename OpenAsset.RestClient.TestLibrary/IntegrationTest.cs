@@ -40,7 +40,7 @@ namespace OpenAsset.RestClient.TestLibrary
             string oaURL = "http://192.168.4.85";
             string username = "admin";
             string password = "admin";
-            bool deleteObjects = false;
+            bool deleteObjects = true;
 
             IntegrationTest test = new IntegrationTest(oaURL, username, password, deleteObjects);
 
