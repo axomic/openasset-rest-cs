@@ -807,7 +807,7 @@ namespace OpenAsset.RestClient.Library
                 string restUrl = _serverURL + Constant.REST_BASE_PATH + urlNoun;
                 string method = createNew ? "POST" : "PUT";
 
-                response = getRESTResponse(restUrl, method, output, true, contentType);
+                response = getRESTResponse(restUrl, method, output, false, contentType);
                 // get response data
                 TextReader tr = this.getReaderFromResponse(response);
                 responseText = tr.ReadToEnd();
