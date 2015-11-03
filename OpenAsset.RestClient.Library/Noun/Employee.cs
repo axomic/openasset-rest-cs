@@ -22,6 +22,12 @@ namespace OpenAsset.RestClient.Library.Noun
         protected string updated;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? hero_image_id;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected List<EmployeeKeyword> employeeKeywords;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected List<Project> projects;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected List<File> files;
         #endregion
 
         #region Accessors
@@ -47,6 +53,66 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return hero_image_id ?? default(int); }
             set { hero_image_id = value; }
+        }
+
+        public virtual List<EmployeeKeyword> EmployeeKeywords
+        {
+            get
+            {
+                if (employeeKeywords == null)
+                    employeeKeywords = new List<EmployeeKeyword>();
+                return employeeKeywords;
+            }
+            set
+            {
+                if (employeeKeywords == null)
+                    employeeKeywords = value;
+                else
+                {
+                    employeeKeywords.Clear();
+                    employeeKeywords.AddRange(value);
+                }
+            }
+        }
+
+        public virtual List<Project> Projects
+        {
+            get
+            {
+                if (projects == null)
+                    projects = new List<Project>();
+                return projects;
+            }
+            set
+            {
+                if (projects == null)
+                    projects = value;
+                else
+                {
+                    projects.Clear();
+                    projects.AddRange(value);
+                }
+            }
+        }
+
+        public virtual List<File> Files
+        {
+            get
+            {
+                if (files == null)
+                    files = new List<File>();
+                return files;
+            }
+            set
+            {
+                if (files == null)
+                    files = value;
+                else
+                {
+                    files.Clear();
+                    files.AddRange(value);
+                }
+            }
         }
         #endregion
 

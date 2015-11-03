@@ -16,6 +16,8 @@ namespace OpenAsset.RestClient.Library.Noun
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string name;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected string updated;
         #endregion
 
         #region Accessors
@@ -23,6 +25,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return name; }
             set { name = value; }
+        }
+
+        public virtual DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
         }
         #endregion
     }

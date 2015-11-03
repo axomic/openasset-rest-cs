@@ -52,6 +52,8 @@ namespace OpenAsset.RestClient.Library.Noun
         protected int? x_resolution;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, NestedNounProperty]
         protected int? y_resolution;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected string updated;
         // size value extra fields
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected int? filesize;
@@ -232,6 +234,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return y_resolution ?? default(int); }
             set { y_resolution = value; }
+        }
+
+        public virtual DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
         }
         #endregion
 

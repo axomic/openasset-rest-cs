@@ -20,6 +20,8 @@ namespace OpenAsset.RestClient.Library.Noun
         protected string code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? display_order;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected string updated;
         #endregion
 
         #region Accessors
@@ -39,6 +41,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return display_order ?? default(int); }
             set { display_order = value; }
+        }
+
+        public virtual DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
         }
         #endregion
 

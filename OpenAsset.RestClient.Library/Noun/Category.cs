@@ -32,6 +32,8 @@ namespace OpenAsset.RestClient.Library.Noun
         protected int? projects_category;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? alive;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected string updated;
         #endregion
 
         #region Accessors
@@ -87,6 +89,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
+        }
+
+        public virtual DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
         }
         #endregion
 

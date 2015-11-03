@@ -38,6 +38,8 @@ namespace OpenAsset.RestClient.Library.Noun
         protected int? include_on_info;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? include_on_search;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected string updated;
 
         //
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
@@ -135,6 +137,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return (include_on_search ?? default(int)) != 0 ? true : false; }
             set { include_on_search = value ? 1 : 0; }
+        }
+
+        public virtual DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
         }
         #endregion
 

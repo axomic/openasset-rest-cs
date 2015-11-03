@@ -72,6 +72,24 @@ namespace OpenAsset.RestClient.Library.Noun
             get { return (alive ?? default(int)) != 0 ? true : false; }
             set { alive = value ? 1 : 0; }
         }
+
+        public virtual bool BuiltIn
+        {
+            get { return (built_in ?? default(int)) != 0 ? true : false; }
+            set { built_in = value ? 1 : 0; }
+        }
+
+        public virtual bool Protected
+        {
+            get { return (_protected ?? default(int)) != 0 ? true : false; }
+            set { _protected = value ? 1 : 0; }
+        }
+
+        public virtual DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
+        }
         #endregion
 
         public override string UniqueCode

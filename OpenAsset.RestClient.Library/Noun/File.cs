@@ -67,6 +67,8 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected int? deleted_user_id;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
+        protected string updated;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected List<Field> fields;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected List<Size> sizes;
@@ -232,6 +234,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return deleted_user_id ?? default(int); }
             set { deleted_user_id = value; }
+        }
+
+        public virtual DateTime Updated
+        {
+            get { return dbString2DateTime(updated); }
+            set { updated = dateTime2DbString(value); }
         }
 
         public virtual List<Field> Fields
