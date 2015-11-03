@@ -58,6 +58,7 @@
     <Compile Include="Information\AccessLevelsList.cs" />
     <Compile Include="Information\Options.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
+    <Compile Include="Noun\Employee.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\AlternateStore.cs" />
     <Compile Include="Noun\AspectRatio.cs" />
@@ -73,8 +74,11 @@
     <Compile Include="Noun\Keyword.cs" />
     <Compile Include="Noun\KeywordCategory.cs" />
     <Compile Include="Noun\Photographer.cs" />
+    <Compile Include="Noun\ObjectType.cs" />
     <Compile Include="Noun\Project.cs" />
+    <Compile Include="Noun\EmployeeKeyword.cs" />
     <Compile Include="Noun\ProjectKeyword.cs" />
+    <Compile Include="Noun\EmployeeKeywordCategory.cs" />
     <Compile Include="Noun\ProjectKeywordCategory.cs" />
     <Compile Include="Noun\Result.cs" />
     <Compile Include="Noun\Search.cs" />

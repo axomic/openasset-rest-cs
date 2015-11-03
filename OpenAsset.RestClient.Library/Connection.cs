@@ -32,10 +32,13 @@ namespace OpenAsset.RestClient.Library
             public int? FullResultsCount;
             public string OpenAssetVersion;
             public int? Offset;
+            public int? Limit;
             public string SessionKey; // last response session key (shouldn't be different from the current)
-            //public int Timing; // only in development
+            public double? Timing; // only in development
             public int? UserId;
             public string Username;
+            public DateTime LastModified;
+            public DateTime Date;
         }
         public ResponseHeaders LastResponseHeaders;
 
@@ -390,7 +393,7 @@ namespace OpenAsset.RestClient.Library
             if (we != null && we.Status == WebExceptionStatus.ProtocolError)
             {
                 HttpWebResponse errorResponse = we.Response as HttpWebResponse;
-                setLastResponseHeaders(errorResponse.Headers);
+                setLastResponseHeaders(errorResponse);
                 TextReader tr = this.getReaderFromResponse(errorResponse);
                 string responseText = tr.ReadToEnd();
                 tr.Close();
@@ -448,16 +451,34 @@ namespace OpenAsset.RestClient.Library
                         request);
                 }
             }
-            setLastResponseHeaders(responseHeader);
+            setLastResponseHeaders(response);
             return response;
         }
 
-        protected virtual void setLastResponseHeaders(WebHeaderCollection headerCollection)
+        protected virtual void setLastResponseHeaders(HttpWebResponse response)
         {
+            WebHeaderCollection headerCollection = response.Headers;
             LastResponseHeaders.OpenAssetVersion = headerCollection[Constant.HEADER_OPENASSET_VERSION];
             LastResponseHeaders.Username = headerCollection[Constant.HEADER_USERNAME];
             LastResponseHeaders.SessionKey = headerCollection[Constant.HEADER_SESSIONKEY];
-            //LastRequestHeaders.Timing = Convert.ToInt32(headerCollection[Constant.HEADER_TIMING]);//development
+            LastResponseHeaders.LastModified = response.LastModified;
+            // development or debug
+            if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_TIMING]))
+            {
+                LastResponseHeaders.Timing = null;
+            }
+            else
+            {
+                LastResponseHeaders.Timing = Convert.ToDouble(headerCollection[Constant.HEADER_TIMING].Replace(" sec",""));
+            }
+            if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_DATE]))
+            {
+                LastResponseHeaders.Date = DateTime.MinValue;
+            }
+            else
+            {
+                LastResponseHeaders.Date = Convert.ToDateTime(headerCollection[Constant.HEADER_DATE]);
+            }
             if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_DISPLAY_RESULTS_COUNT]))
             {
                 LastResponseHeaders.DisplayResultsCount = null;
@@ -481,6 +502,14 @@ namespace OpenAsset.RestClient.Library
             else
             {
                 LastResponseHeaders.Offset = Convert.ToInt32(headerCollection[Constant.HEADER_OFFSET]);
+            }
+            if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_LIMIT]))
+            {
+                LastResponseHeaders.Limit = null;
+            }
+            else
+            {
+                LastResponseHeaders.Limit = Convert.ToInt32(headerCollection[Constant.HEADER_LIMIT]);
             }
             if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_USER_ID]))
             {
@@ -555,7 +584,6 @@ namespace OpenAsset.RestClient.Library
             {
                 MarshallError(url, e, request);
             }
-
 
             return response;
         }

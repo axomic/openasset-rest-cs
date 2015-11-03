@@ -56,6 +56,11 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             set { id = value; }
         }
 
+        public Dictionary<string, object> AdditionalData
+        {
+            get { return _additionalData; }
+        }
+
         public virtual string UniqueCode
         {
             get { return id.ToString(); }

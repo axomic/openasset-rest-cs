@@ -27,11 +27,13 @@ namespace OpenAsset.RestClient.Library
         public const string HEADER_FULL_RESULTS_COUNT = "X-Full-Results-Count";
         public const string HEADER_DISPLAY_RESULTS_COUNT = "X-Display-Results-Count";
         public const string HEADER_OFFSET = "X-Offset";
+        public const string HEADER_LIMIT = "X-Limit";
         public const string HEADER_OPENASSET_VERSION = "X-OpenAsset-Version";
         public const string HEADER_SESSIONKEY = "X-SessionKey";
         public const string HEADER_TIMING = "X-Timing";
         public const string HEADER_USER_ID = "X-User-Id";
         public const string HEADER_USERNAME = "X-Username";
+        public const string HEADER_DATE = "Date";
 
         // exception messages
         public const string EXCEPTION_PROPERTY_NOT_EXISTS = "This property does not exist: ";

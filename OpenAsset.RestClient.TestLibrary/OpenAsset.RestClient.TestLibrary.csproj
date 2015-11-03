@@ -50,7 +50,7 @@
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>OpenAsset.RestClient.TestLibrary.UploadFile</StartupObject>
+    <StartupObject>OpenAsset.RestClient.TestLibrary.BaseTest</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTest.cs" />
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="IsolationTest.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
