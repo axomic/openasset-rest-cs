@@ -457,11 +457,16 @@ namespace OpenAsset.RestClient.Library
 
         protected virtual void setLastResponseHeaders(HttpWebResponse response)
         {
-            WebHeaderCollection headerCollection = response.Headers;
+            setLastResponseHeaders(response.Headers);
+            LastResponseHeaders.LastModified = response.LastModified;
+        }
+
+        protected virtual void setLastResponseHeaders(WebHeaderCollection headerCollection)
+        {
             LastResponseHeaders.OpenAssetVersion = headerCollection[Constant.HEADER_OPENASSET_VERSION];
             LastResponseHeaders.Username = headerCollection[Constant.HEADER_USERNAME];
             LastResponseHeaders.SessionKey = headerCollection[Constant.HEADER_SESSIONKEY];
-            LastResponseHeaders.LastModified = response.LastModified;
+            LastResponseHeaders.LastModified = DateTime.MinValue;
             // development or debug
             if (String.IsNullOrEmpty(headerCollection[Constant.HEADER_TIMING]))
             {
