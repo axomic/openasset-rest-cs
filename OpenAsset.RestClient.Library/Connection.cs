@@ -528,6 +528,11 @@ namespace OpenAsset.RestClient.Library
 
         protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null)
         {
+            return getRESTResponse(url, method, output, retry, contentType, overrideMethod);
+        }
+
+        protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null, DateTime ifModifiedSince)
+        {
             HttpWebResponse response = null;
 
             // HTTP REQUEST
@@ -540,6 +545,10 @@ namespace OpenAsset.RestClient.Library
             request.Timeout = RequestTimeout;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             request.ContentType = contentType;
+            if (ifModifiedSince != DateTime.MinValue)
+            {
+                request.IfModifiedSince = ifModifiedSince;
+            }
 
             if (!String.IsNullOrEmpty(overrideMethod))
             {
@@ -581,7 +590,7 @@ namespace OpenAsset.RestClient.Library
             {
                 if (!retry && httpRetryValid(request, e))
                 {
-                    return getRESTResponse(url, method, output, true, contentType);
+                    return getRESTResponse(url, method, output, true, contentType, overrideMethod);
                 }
                 MarshallError(url, e, request);
             }
@@ -747,6 +756,11 @@ namespace OpenAsset.RestClient.Library
         #region GET Objects
         protected virtual string getObjectStringResponse(string baseUrl, Dictionary<string, object> parameters)
         {
+            return getObjectStringResponse(baseUrl, parameters, DateTime.MinValue);
+        }
+
+        protected virtual string getObjectStringResponse(string baseUrl, Dictionary<string, object> parameters, DateTime ifModifiedSince)
+        {
             string responseText;
             HttpWebResponse response = null;
             try
@@ -763,11 +777,11 @@ namespace OpenAsset.RestClient.Library
                     byte[] formData = GetMultipartFormData(parameters, formDataBoundary);
                     string contentType = "multipart/form-data; boundary=" + formDataBoundary;
 
-                    response = getRESTResponse(baseUrl, "POST", formData, false, contentType, "GET");
+                    response = getRESTResponse(baseUrl, "POST", formData, false, contentType, "GET", ifModifiedSince);
                 }
                 else
                 {
-                    response = getRESTResponse(baseUrl + "?" + parameterString, "GET");
+                    response = getRESTResponse(baseUrl + "?" + parameterString, "GET", ifModifiedSince: ifModifiedSince);
                 }
                 TextReader tr = this.getReaderFromResponse(response);
                 responseText = tr.ReadToEnd();

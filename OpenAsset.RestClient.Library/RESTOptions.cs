@@ -16,6 +16,7 @@ namespace OpenAsset.RestClient.Library
         // URL parameters
         private int _limit;
         private int _offset;
+        private DateTime _ifModifiedSince;
         private List<string> _displayFields;
         private List<string> _orderBy;
         private Dictionary<string, string> _filters;
@@ -54,6 +55,12 @@ namespace OpenAsset.RestClient.Library
                 else
                     _offset = value;
             }
+        }
+
+        public DateTime IfModifiedSince
+        {
+            get { return _ifModifiedSince; }
+            set { _ifModifiedSince = value; }
         }
         #endregion
 
@@ -204,6 +211,19 @@ namespace OpenAsset.RestClient.Library
             }
 
             return parameters;
+        }
+
+        public void SetLastModified(Connection conn)
+        {
+            this.SetLastModified(conn.LastResponseHeaders);
+        }
+
+        public void SetLastModified(Connection.ResponseHeaders headers)
+        {
+            if (headers.LastModified != DateTime.MinValue)
+                this.IfModifiedSince = headers.LastModified;
+            else
+                this.IfModifiedSince = headers.Date;
         }
     }
 }
