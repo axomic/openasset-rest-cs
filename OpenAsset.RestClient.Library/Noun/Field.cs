@@ -142,7 +142,6 @@ namespace OpenAsset.RestClient.Library.Noun
         public virtual DateTime Updated
         {
             get { return dbString2DateTime(updated); }
-            set { updated = dateTime2DbString(value); }
         }
         #endregion
 
