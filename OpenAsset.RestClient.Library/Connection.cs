@@ -23,6 +23,7 @@ namespace OpenAsset.RestClient.Library
         protected int _requestTimeout = Constant.DEFAULT_REST_REQUEST_TIMEOUT;
         protected int _lastValidationEndpoint = 0;
         protected bool _forceProxyBypass = false;
+        protected bool _useIfUnmodifiedSince = false;
 
         //values from the last request made
         // if the last request didn't had the value it is empty
@@ -90,6 +91,12 @@ namespace OpenAsset.RestClient.Library
         {
             get { return _forceProxyBypass; }
             set { _forceProxyBypass = value; }
+        }
+
+        public bool UseIfUnmodifiedSince
+        {
+            get { return _useIfUnmodifiedSince; }
+            set { _useIfUnmodifiedSince = value; }
         }
         #endregion
 
@@ -537,12 +544,12 @@ namespace OpenAsset.RestClient.Library
             }
         }
 
-        protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null)
+        protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null, Dictionary<string,string> requestHeaders = null)
         {
-            return getRESTResponse(url, method, DateTime.MinValue, output, retry, contentType, overrideMethod);
+            return getRESTResponse(url, method, DateTime.MinValue, output, retry, contentType, overrideMethod, requestHeaders);
         }
 
-        protected virtual HttpWebResponse getRESTResponse(string url, string method, DateTime ifModifiedSince, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null)
+        protected virtual HttpWebResponse getRESTResponse(string url, string method, DateTime ifModifiedSince, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null, Dictionary<string,string> requestHeaders = null)
         {
             HttpWebResponse response = null;
 
@@ -579,6 +586,13 @@ namespace OpenAsset.RestClient.Library
                 else
                 {
                     request.Credentials = standardCredentials(url);
+                }
+            }
+            if (requestHeaders != null)
+            {
+                foreach (KeyValuePair<string, string> kvp in requestHeaders)
+                {
+                    request.Headers.Add(kvp.Key, kvp.Value);
                 }
             }
             try
@@ -856,7 +870,7 @@ namespace OpenAsset.RestClient.Library
         #endregion
 
         #region SEND Objects
-        protected virtual string sendObjectStringResponse(byte[] output, bool createNew, string urlNoun, string contentType)
+        protected virtual string sendObjectStringResponse(byte[] output, bool createNew, string urlNoun, string contentType, Dictionary<string,string> requestHeaders = null)
         {
             string responseText;
             HttpWebResponse response = null;
@@ -865,7 +879,7 @@ namespace OpenAsset.RestClient.Library
                 string restUrl = _serverURL + Constant.REST_BASE_PATH + urlNoun;
                 string method = createNew ? "POST" : "PUT";
 
-                response = getRESTResponse(restUrl, method, output, false, contentType);
+                response = getRESTResponse(restUrl, method, output, false, contentType, null, requestHeaders);
                 // get response data
                 TextReader tr = this.getReaderFromResponse(response);
                 responseText = tr.ReadToEnd();
@@ -896,7 +910,17 @@ namespace OpenAsset.RestClient.Library
             string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
             urlNoun += createNew ? "" : "/" + sendingObject.Id;
             string contentType = "application/json";
-            string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType);
+            Dictionary<string, string> requestHeaders = null;
+            if (!createNew && this.UseIfUnmodifiedSince && sendingObject is IUpdatedNoun)
+            {
+                DateTime updated = (sendingObject as IUpdatedNoun).Updated;
+                if (updated != DateTime.MinValue)
+                {
+                    requestHeaders = new Dictionary<string, string>();
+                    requestHeaders["If-Unmodified-Since"] = updated.ToUniversalTime().ToString("r");
+                }
+            }
+            string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType, requestHeaders);
             // deserealize object
             T value = deserealizeResponse<T>(responseText);
             return value;
@@ -935,7 +959,17 @@ namespace OpenAsset.RestClient.Library
             // send post/put request
             string urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
             urlNoun += createNew ? "" : "/" + sendingObject.Id;
-            string responseText = sendObjectStringResponse(formData, createNew, urlNoun, contentType);
+            Dictionary<string, string> requestHeaders = null;
+            if (!createNew && this.UseIfUnmodifiedSince && sendingObject is IUpdatedNoun)
+            {
+                DateTime updated = (sendingObject as IUpdatedNoun).Updated;
+                if (updated != DateTime.MinValue)
+                {
+                    requestHeaders = new Dictionary<string, string>();
+                    requestHeaders["If-Unmodified-Since"] = updated.ToUniversalTime().ToString("r");
+                }
+            }
+            string responseText = sendObjectStringResponse(formData, createNew, urlNoun, contentType, requestHeaders);
             // deserealize object
             T value = deserealizeResponse<T>(responseText);
             return value;
@@ -962,7 +996,29 @@ namespace OpenAsset.RestClient.Library
             if (parent != null)
                 urlNoun = "/" + Noun.Base.BaseNoun.GetNoun(parent.GetType()) + "/" + parent.Id + urlNoun;
             string contentType = "application/json";
-            string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType);
+            Dictionary<string, string> requestHeaders = null;
+            if (!createNew && this.UseIfUnmodifiedSince)
+            {
+                DateTime updated = DateTime.MinValue;
+                if (parent == null && sendingObject is List<IUpdatedNoun>)
+                {
+                    foreach (IUpdatedNoun updateObject in (sendingObject as List<IUpdatedNoun>))
+                    {
+                        if (updated < updateObject.Updated)
+                            updated = updateObject.Updated;
+                    }
+                }
+                else if (parent != null && parent is IUpdatedNoun)
+                {
+                    updated = (parent as IUpdatedNoun).Updated;
+                }
+                if (updated != DateTime.MinValue)
+                {
+                    requestHeaders = new Dictionary<string, string>();
+                    requestHeaders["If-Unmodified-Since"] = updated.ToUniversalTime().ToString("r");
+                }
+            }
+            string responseText = sendObjectStringResponse(output, createNew, urlNoun, contentType, requestHeaders);
 
             // fill values list
             List<T> values = JsonConvert.DeserializeObject<List<T>>(responseText);

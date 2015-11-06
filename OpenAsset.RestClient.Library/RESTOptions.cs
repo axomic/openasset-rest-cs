@@ -225,5 +225,18 @@ namespace OpenAsset.RestClient.Library
             else
                 this.IfModifiedSince = headers.Date;
         }
+       
+        public void SetLastModified<T>(List<T> nouns)
+        {
+            this.IfModifiedSince = DateTime.MinValue;
+            foreach (T noun in nouns)
+            {
+                Noun.Base.IUpdatedNoun updatedNoun = noun as Noun.Base.IUpdatedNoun;
+                if (updatedNoun == null)
+                    continue;
+                if (updatedNoun.Updated > this.IfModifiedSince)
+                    this.IfModifiedSince = updatedNoun.Updated;
+            }
+        }
     }
 }

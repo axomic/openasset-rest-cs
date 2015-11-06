@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace OpenAsset.RestClient.Library.Noun
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Search : Base.BaseNoun
+    public class Search : Base.BaseNoun, Base.IUpdatedNoun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]

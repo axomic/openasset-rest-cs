@@ -60,6 +60,7 @@
     <Compile Include="Information\AccessLevelsList.cs" />
     <Compile Include="Information\Options.cs" />
     <Compile Include="Noun\AccessLevel.cs" />
+    <Compile Include="Noun\Base\IUpdatedNoun.cs" />
     <Compile Include="Noun\Employee.cs" />
     <Compile Include="Noun\Album.cs" />
     <Compile Include="Noun\AlternateStore.cs" />
