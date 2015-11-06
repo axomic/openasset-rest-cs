@@ -342,6 +342,8 @@ namespace OpenAsset.RestClient.Library
             HttpWebResponse errorResponse = we.Response as HttpWebResponse;
             if (errorResponse == null)
                 return false;
+            if (errorResponse.StatusCode == HttpStatusCode.NotModified || errorResponse.StatusCode == HttpStatusCode.PreconditionFailed)
+                return false;
             bool anonLoginEnabled = IsAnonymous();
             string username = null, password = null;
             string authorization = request.Headers["Authorization"];
@@ -415,6 +417,15 @@ namespace OpenAsset.RestClient.Library
                     _lastError = new Error();
                     _lastError.HttpStatusCode = (int)(we.Response as HttpWebResponse).StatusCode;
                     _lastError.ErrorMessage = e.Message;
+                }
+
+                if (_lastError.HttpStatusCode == (int)HttpStatusCode.PreconditionFailed)
+                {
+                    throw new PreconditionFailedException(openAssetUrl, _lastError, e, request);
+                }
+                if (_lastError.HttpStatusCode == (int)HttpStatusCode.NotModified)
+                {
+                    throw new CacheHitException(openAssetUrl, _lastError, e, request);
                 }
             }
             else if (we != null)
@@ -528,10 +539,10 @@ namespace OpenAsset.RestClient.Library
 
         protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null)
         {
-            return getRESTResponse(url, method, output, retry, contentType, overrideMethod);
+            return getRESTResponse(url, method, DateTime.MinValue, output, retry, contentType, overrideMethod);
         }
 
-        protected virtual HttpWebResponse getRESTResponse(string url, string method, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null, DateTime ifModifiedSince)
+        protected virtual HttpWebResponse getRESTResponse(string url, string method, DateTime ifModifiedSince, byte[] output = null, bool retry = false, string contentType = "application/json", string overrideMethod = null)
         {
             HttpWebResponse response = null;
 
@@ -777,11 +788,11 @@ namespace OpenAsset.RestClient.Library
                     byte[] formData = GetMultipartFormData(parameters, formDataBoundary);
                     string contentType = "multipart/form-data; boundary=" + formDataBoundary;
 
-                    response = getRESTResponse(baseUrl, "POST", formData, false, contentType, "GET", ifModifiedSince);
+                    response = getRESTResponse(baseUrl, "POST", ifModifiedSince, formData, false, contentType, "GET");
                 }
                 else
                 {
-                    response = getRESTResponse(baseUrl + "?" + parameterString, "GET", ifModifiedSince: ifModifiedSince);
+                    response = getRESTResponse(baseUrl + "?" + parameterString, "GET", ifModifiedSince);
                 }
                 TextReader tr = this.getReaderFromResponse(response);
                 responseText = tr.ReadToEnd();

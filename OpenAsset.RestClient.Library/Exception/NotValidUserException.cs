@@ -17,5 +17,15 @@ namespace OpenAsset.RestClient.Library
             : base(url, e, r)
         {
         }
+
+        public NotValidUserException(string url, Error error, Exception e)
+            : base(url, error, e)
+        {
+        }
+
+        public NotValidUserException(string url, Error error, Exception e, System.Net.WebRequest r)
+            : base(url, error, e, r)
+        {
+        }
     }
 }
