@@ -22,6 +22,8 @@ namespace OpenAsset.RestClient.Library.Noun
         protected int? cardinality;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string code;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, VersionImplemented("10.1.0")]
+        protected string rest_code;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string description;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
@@ -57,6 +59,12 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return code; }
             set { code = value; }
+        }
+
+        public virtual string RestCode
+        {
+            get { return rest_code; }
+            set { rest_code = value; }
         }
 
         public virtual string Description
