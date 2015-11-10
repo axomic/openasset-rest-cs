@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 namespace OpenAsset.RestClient.Library.Noun
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class GridColumn : Base.BaseNoun, Base.IUpdatedNoun
+    public class GridColumn : Base.BaseNoun
     {
         #region private serializable properties
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]

@@ -67,6 +67,8 @@
     <Compile Include="Noun\AspectRatio.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />
     <Compile Include="Noun\Category.cs" />
+    <Compile Include="Noun\GridColumn.cs" />
+    <Compile Include="Noun\GridLookupString.cs" />
     <Compile Include="Noun\Group.cs" />
     <Compile Include="Noun\CopyrightHolder.cs" />
     <Compile Include="Noun\CopyrightPolicy.cs" />
