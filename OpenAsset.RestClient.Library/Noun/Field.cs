@@ -43,9 +43,18 @@ namespace OpenAsset.RestClient.Library.Noun
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty]
         protected string updated;
 
-        //
+        // Normal sub-field
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), NestedNounProperty]
         protected List<string> values;
+        // Grid sub-field
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected int? limit;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected int? offset;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected int? total;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        protected List<GridRow> rows;
         #endregion
 
         #region Accessors
@@ -109,26 +118,6 @@ namespace OpenAsset.RestClient.Library.Noun
             set { alive = value ? 1 : 0; }
         }
 
-        public virtual List<string> Values
-        {
-            get
-            {
-                if (values == null)
-                    values = new List<string>();
-                return values;
-            }
-            set
-            {
-                if (values == null)
-                    values = value;
-                else
-                {
-                    values.Clear();
-                    values.AddRange(value);
-                }
-            }
-        }
-
         public virtual bool BuiltIn
         {
             get { return (built_in ?? default(int)) != 0 ? true : false; }
@@ -151,8 +140,72 @@ namespace OpenAsset.RestClient.Library.Noun
         {
             get { return dbString2DateTime(updated); }
         }
+
+        // Normal sub-field
+        public virtual List<string> Values
+        {
+            get
+            {
+                if (values == null)
+                    values = new List<string>();
+                return values;
+            }
+            set
+            {
+                if (values == null)
+                    values = value;
+                else
+                {
+                    values.Clear();
+                    values.AddRange(value);
+                }
+            }
+        }
+
+        // Grid sub-field
+        public virtual int Limit
+        {
+            get { return limit ?? default(int); }
+            set { limit = value; }
+        }
+
+        public virtual int Offset
+        {
+            get { return offset ?? default(int); }
+            set { offset = value; }
+        }
+
+        public virtual int Total
+        {
+            get { return total ?? default(int); }
+            set { total = value; }
+        }
+
+        public virtual List<GridRow> Rows
+        {
+            get
+            {
+                if (rows == null)
+                    rows = new List<GridRow>();
+                return rows;
+            }
+            set
+            {
+                if (rows == null)
+                    rows = value;
+                else
+                {
+                    rows.Clear();
+                    rows.AddRange(value);
+                }
+            }
+        }
         #endregion
 
+        public virtual bool IsGrid
+        {
+            get { return rows != null; }
+        }
 
         public override string UniqueCode
         {

@@ -53,6 +53,7 @@
     <Compile Include="CustomResponses\Base\BaseCustomResponse.cs" />
     <Compile Include="CustomResponses\CustomResponseConverter.cs" />
     <Compile Include="CustomResponses\Error.cs" />
+    <Compile Include="CustomResponses\GridDataConverter.cs" />
     <Compile Include="Exception\PreconditionFailedException.cs" />
     <Compile Include="Exception\CacheHitException.cs" />
     <Compile Include="Exception\NotValidUserException.cs" />
@@ -67,6 +68,8 @@
     <Compile Include="Noun\AspectRatio.cs" />
     <Compile Include="Noun\Base\BaseNoun.cs" />
     <Compile Include="Noun\Category.cs" />
+    <Compile Include="Noun\Extenders\GridField.cs" />
+    <Compile Include="Noun\Extenders\GridRow.cs" />
     <Compile Include="Noun\GridColumn.cs" />
     <Compile Include="Noun\GridLookupString.cs" />
     <Compile Include="Noun\Group.cs" />
