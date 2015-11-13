@@ -88,10 +88,10 @@ namespace OpenAsset.RestClient.TestLibrary
         // Initiates the test
         public void init()
         {
-            RESTOptions<Project> pOptions = new RESTOptions<Project>();
-            List<Project> emProjects = this.conn.GetObjects<Project>(5, BaseNoun.GetNoun(typeof(Employee)), pOptions);
-            pOptions.SetSearchParameter("fields", "all");
-            Project project = this.conn.GetObject<Project>(1, pOptions);
+            //RESTOptions<Project> pOptions = new RESTOptions<Project>();
+            //List<Project> emProjects = this.conn.GetObjects<Project>(5, BaseNoun.GetNoun(typeof(Employee)), pOptions);
+            //pOptions.SetSearchParameter("fields", "all");
+            //Project project = this.conn.GetObject<Project>(1, pOptions);
             RESTOptions<Employee> eOptions = new RESTOptions<Employee>();
             Employee employee = this.conn.GetObject<Employee>(5, eOptions);
             //List<Employee> employees = this.conn.GetObjects<Employee>(options);

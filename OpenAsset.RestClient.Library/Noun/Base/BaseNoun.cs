@@ -19,9 +19,6 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, NestedNounProperty]
         protected int id;
 
-        [JsonExtensionData]
-        protected Dictionary<string, object> _additionalData;
-
         #region Error
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         protected int? http_status_code;
@@ -50,15 +47,42 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         }
         #endregion
         
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        #region Additional Data
+        [JsonExtensionData]
+        protected Dictionary<string, object> _additionalData;
 
         public Dictionary<string, object> AdditionalData
         {
             get { return _additionalData; }
+        }
+
+        // Go through _additionalData dictionary and replace JObjects created from grids with proper GridField objects
+        private void translateGridFields()
+        {
+            if (_additionalData == null)
+                return;
+
+            foreach (string name in _additionalData.Keys)
+            {
+                JObject jObject = _additionalData[name] as JObject;
+                if (jObject == null)
+                    continue;
+                try
+                {
+                    JArray rows = jObject["rows"] as JArray;
+                    if (rows == null)
+                        continue;
+                    _additionalData[name] = jObject.ToObject<GridField>();
+                }
+                catch (KeyNotFoundException) { /* Do nothing, not an object we want to translate */}
+            }
+        }
+        #endregion
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
         }
 
         public virtual string UniqueCode
@@ -109,6 +133,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         [OnDeserialized]
         internal void OnDeserializedMethod(StreamingContext context)
         {
+            translateGridFields();
             OnDeserialized(context);
         }
 

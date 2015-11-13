@@ -53,7 +53,7 @@
     <Compile Include="CustomResponses\Base\BaseCustomResponse.cs" />
     <Compile Include="CustomResponses\CustomResponseConverter.cs" />
     <Compile Include="CustomResponses\Error.cs" />
-    <Compile Include="CustomResponses\GridDataConverter.cs" />
+    <Compile Include="CustomResponses\GridContractResolver.cs" />
     <Compile Include="Exception\PreconditionFailedException.cs" />
     <Compile Include="Exception\CacheHitException.cs" />
     <Compile Include="Exception\NotValidUserException.cs" />
