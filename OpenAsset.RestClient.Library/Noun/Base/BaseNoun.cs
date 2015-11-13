@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.ComponentModel;
 using System.Text;
 using System.Text.RegularExpressions;
 // serialization stuff
@@ -13,9 +14,26 @@ using System.Globalization;
 
 namespace OpenAsset.RestClient.Library.Noun.Base
 {
+    public enum RestFieldDataType
+    {
+        [Description("Date")]
+        DATE,
+        [Description("String")]
+        STRING,
+        [Description("Boolean")]
+        BOOLEAN,
+        [Description("Grid")]
+        GRID,
+        [Description("Integer")]
+        INTEGER,
+        [Description("Object")]
+        OBJECT
+    }
+
     [JsonObject(MemberSerialization.OptIn)]
     public class BaseNoun : IComparable
     {
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore), BaseNounProperty, NestedNounProperty]
         protected int id;
 
@@ -50,10 +68,89 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         #region Additional Data
         [JsonExtensionData]
         protected Dictionary<string, object> _additionalData;
+        protected Dictionary<string, RestFieldDataType> _dataTypes;
 
         public Dictionary<string, object> AdditionalData
         {
             get { return _additionalData; }
+        }
+
+        // Used as data accessor for _additionalData elements
+        public object this[string propertyName]
+        {
+            get
+            {
+                if (_additionalData == null || !_additionalData.ContainsKey(propertyName))
+                    return null;
+                RestFieldDataType type = RestFieldDataType.OBJECT;
+                if (_dataTypes != null && _dataTypes.ContainsKey(propertyName))
+                {
+                    type = _dataTypes[propertyName];
+                }
+                object baseObject = _additionalData[propertyName];
+                switch (type)
+                {
+                    case RestFieldDataType.GRID:
+                        if (baseObject is GridField)
+                            return baseObject;
+                        if (baseObject is JObject)
+                            return (baseObject as JObject).ToObject<GridField>();
+                        return null;
+                    case RestFieldDataType.OBJECT:
+                        return baseObject;
+                    case RestFieldDataType.INTEGER:
+                        if (baseObject is int)
+                            return baseObject;
+                        return Convert.ToInt32(baseObject.ToString());
+                    case RestFieldDataType.DATE:
+                        return dbString2DateTime(baseObject.ToString());
+                    case RestFieldDataType.STRING:
+                        return baseObject.ToString();
+                    case RestFieldDataType.BOOLEAN:
+                        if (baseObject is bool)
+                            return baseObject;
+                        if (baseObject is int)
+                            return (baseObject as int?) == 1;
+                        return baseObject.ToString().Trim().Equals("1");
+                }
+                return null;
+            }
+            set
+            {
+                if (_additionalData == null)
+                    _additionalData = new Dictionary<string, object>();
+                if (value == null)
+                {
+                    _additionalData.Remove(propertyName);
+                    return;
+                }
+                object baseObject = value;
+                if (_dataTypes != null && _dataTypes.ContainsKey(propertyName))
+                {
+                    switch (_dataTypes[propertyName])
+                    {
+                        case RestFieldDataType.GRID:
+                            if (baseObject is JObject)
+                                baseObject = (baseObject as JObject).ToObject<GridField>();
+                            if (!(baseObject is GridField))
+                                baseObject = null;
+                        case RestFieldDataType.DATE:
+                            if (baseObject is DateTime)
+                                baseObject = dateTime2DbString(baseObject as DateTime);
+                            else
+                                baseObject = "";
+                        case RestFieldDataType.INTEGER:
+                        case RestFieldDataType.STRING:
+                            baseObject = baseObject.ToString();
+                        case RestFieldDataType.BOOLEAN:
+                            if (baseObject is bool && (baseObject as bool?) == true)
+                                baseObject = "1";
+                            else
+                                baseObject = "0";
+                    }
+                }
+                _additionalData[propertyName] = baseObject;
+            }
         }
 
         // Go through _additionalData dictionary and replace JObjects created from grids with proper GridField objects
@@ -75,6 +172,55 @@ namespace OpenAsset.RestClient.Library.Noun.Base
                     _additionalData[name] = jObject.ToObject<GridField>();
                 }
                 catch (KeyNotFoundException) { /* Do nothing, not an object we want to translate */}
+            }
+        }
+
+        public void SetDataType(string propertyName, RestFieldDataType dataType)
+        {
+            if (_dataTypes == null)
+                _dataTypes = new Dictionary<string,RestFieldDataType>();
+            _dataTypes[propertyName] = dataType;
+        }
+
+        // Use to set data type from field display type
+        public void SetDataType(string propertyName, string fieldDisplayType)
+        {
+            if (String.IsNullOrEmpty(propertyName) || String.IsNullOrEmpty(fieldDisplayType))
+                return;
+            switch (fieldDisplayType)
+            {
+                case "date":
+                    SetDataType(propertyName, RestFieldDataType.DATE);
+                    break;
+                case "grid":
+                    SetDataType(propertyName, RestFieldDataType.GRID);
+                    break;
+                case "boolean":
+                    SetDataType(propertyName, RestFieldDataType.BOOLEAN);
+                    break;
+                case "fixedSuggestion":
+                case "suggestion":
+                case "option":
+                case "multiLine":
+                case "singleLine":
+                    SetDataType(propertyName, RestFieldDataType.STRING);
+                    break;
+            }
+        }
+
+        public void SetDataTypes(List<Field> fields)
+        {
+            foreach (Field field in fields)
+            {
+                SetDataType(field.RestCode, field.FieldDisplayType);
+            }
+        }
+
+        public void SetDataTypes(List<GridColumn> gridColumns)
+        {
+            foreach (GridColumn gridColumn in gridColumns)
+            {
+                SetDataType(gridColumn.Code, gridColumn.FieldDisplayType);
             }
         }
         #endregion
