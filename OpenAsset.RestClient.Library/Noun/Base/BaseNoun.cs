@@ -134,19 +134,23 @@ namespace OpenAsset.RestClient.Library.Noun.Base
                                 baseObject = (baseObject as JObject).ToObject<GridField>();
                             if (!(baseObject is GridField))
                                 baseObject = null;
+                            break;
                         case RestFieldDataType.DATE:
                             if (baseObject is DateTime)
-                                baseObject = dateTime2DbString(baseObject as DateTime);
+                                baseObject = dateTime2DbString((DateTime)baseObject);
                             else
                                 baseObject = "";
+                            break;
                         case RestFieldDataType.INTEGER:
                         case RestFieldDataType.STRING:
                             baseObject = baseObject.ToString();
+                            break;
                         case RestFieldDataType.BOOLEAN:
                             if (baseObject is bool && (baseObject as bool?) == true)
                                 baseObject = "1";
                             else
                                 baseObject = "0";
+                            break;
                     }
                 }
                 _additionalData[propertyName] = baseObject;
