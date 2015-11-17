@@ -256,7 +256,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
 
         #region Serialization callbacks
         [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context)
+        private void OnSerializingMethod(StreamingContext context)
         {
             OnSerializing(context);
         }
@@ -264,7 +264,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         public virtual void OnSerializing(StreamingContext context) { }
 
         [OnSerialized]
-        internal void OnSerializedMethod(StreamingContext context)
+        private void OnSerializedMethod(StreamingContext context)
         {
             OnSerialized(context);
         }
@@ -272,7 +272,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         public virtual void OnSerialized(StreamingContext context) { }
 
         [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context)
+        private void OnDeserializingMethod(StreamingContext context)
         {
             cleanError();
             OnDeserializing(context);
@@ -281,7 +281,7 @@ namespace OpenAsset.RestClient.Library.Noun.Base
         public virtual void OnDeserializing(StreamingContext context) { }
 
         [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
+        private void OnDeserializedMethod(StreamingContext context)
         {
             translateGridFields();
             OnDeserialized(context);
