@@ -826,7 +826,7 @@ namespace OpenAsset.RestClient.Library
             try
             {
                 string restUrl = _serverURL + Constant.REST_BASE_PATH + "/" + Noun.Base.BaseNoun.GetNoun(typeof(T)) + "/" + id;
-                string responseText = this.getObjectStringResponse(restUrl, options.GetPostParameters());
+                string responseText = this.getObjectStringResponse(restUrl, options.GetPostParameters(), options.IfModifiedSince);
 
                 T objT = JsonConvert.DeserializeObject<T>(responseText);
                 return objT;
@@ -857,7 +857,7 @@ namespace OpenAsset.RestClient.Library
                     restUrl += "/" + id;
                 if (!String.IsNullOrEmpty(parentNoun))
                     restUrl += "/" + Noun.Base.BaseNoun.GetNoun(typeof(T));
-                string responseText = this.getObjectStringResponse(restUrl, options.GetPostParameters());
+                string responseText = this.getObjectStringResponse(restUrl, options.GetPostParameters(), options.IfModifiedSince);
 
                 return JsonConvert.DeserializeObject<List<T>>(responseText);
             }

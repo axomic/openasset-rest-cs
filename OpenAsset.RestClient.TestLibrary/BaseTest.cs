@@ -93,6 +93,7 @@ namespace OpenAsset.RestClient.TestLibrary
             //pOptions.SetSearchParameter("fields", "all");
             //Project project = this.conn.GetObject<Project>(1, pOptions);
             RESTOptions<Employee> eOptions = new RESTOptions<Employee>();
+            eOptions.IfModifiedSince = DateTime.Parse("Tue, 27 Oct 2015 12:49:00 GMT");
             Employee employee = this.conn.GetObject<Employee>(5, eOptions);
             //List<Employee> employees = this.conn.GetObjects<Employee>(options);
             //List<Category> categories1 = this.conn.GetObjects<Category>(options);
