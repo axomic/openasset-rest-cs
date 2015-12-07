@@ -163,7 +163,8 @@ namespace OpenAsset.RestClient.Library.Noun.Base
             if (_additionalData == null)
                 return;
 
-            foreach (string name in _additionalData.Keys)
+            List<string> keys = _additionalData.Keys.ToList<string>();
+            foreach (string name in keys)
             {
                 JObject jObject = _additionalData[name] as JObject;
                 if (jObject == null)
