@@ -122,7 +122,7 @@ namespace OpenAsset.RestClient.Library
         public void SetSearchParameter(string parameter, string value)
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");
-            _filters[parameter] = HttpUtility.UrlEncode(value);
+            _filters[parameter] = value;
         }
 
         public void RemoveSearchParameter(string parameter)
@@ -135,7 +135,7 @@ namespace OpenAsset.RestClient.Library
         {
             parameter = Regex.Replace(parameter, "[^A-Za-z_,]", "_");
             if (_filters.ContainsKey(parameter))
-                return HttpUtility.UrlDecode(_filters[parameter]);
+                return _filters[parameter];
             return "";
         }
         #endregion
@@ -190,7 +190,7 @@ namespace OpenAsset.RestClient.Library
             List<string> paramList = new List<string>();
             foreach (KeyValuePair<string, object> kvp in parameters)
             {
-                paramList.Add(kvp.Key + "=" + kvp.Value.ToString());
+                paramList.Add(kvp.Key + "=" + HttpUtility.UrlEncode(kvp.Value.ToString()));
             }
 
             return String.Join("&", paramList.ToArray());
