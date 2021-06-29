@@ -65,8 +65,7 @@ String filepath = "C:\\test.jpg";
 File fileItem = new File();
 
 // Add file details
-fileItem.Filename = filename;
-fileItem.OriginalFilename = filepath;
+fileItem.OriginalFilename = filename;
 fileItem.CategoryId = 2;
 
 // Make a POST request by setting the last parameter as TRUE
