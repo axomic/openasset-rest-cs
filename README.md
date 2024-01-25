@@ -3,7 +3,7 @@ C# library &amp; sample code for using the OpenAsset REST API v1
 
 ## Documentation
 The documentation for the REST API endpoints used by this library can be found at:
-http://help.openasset.com/06_Integration/REST_API
+https://developers.openasset.com/
 
 ### Sample Usage
 The examples below show how to establish a connection to OpenAsset and get/send data.
