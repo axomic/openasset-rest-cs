@@ -166,7 +166,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Third party libraries:
 
 ### Json.NET Library (http://json.codeplex.com/)
-####License:
+####  License:
 
 Copyright (c) 2007 James Newton-King
 
