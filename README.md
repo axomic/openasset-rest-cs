@@ -3,6 +3,8 @@ C# library &amp; sample code for using the OpenAsset REST API v1
 
 ## Documentation
 > [!TIP]
+> Additional information about developing custom integrations using the OpenAsset REST API can also be found in [this support article](https://success.openasset.com/en/articles/3122502-developing-custom-integrations-using-the-openasset-rest-api).
+>
 > The documentation for the REST API endpoints used by this library can be found at:
 https://developers.openasset.com/
 
