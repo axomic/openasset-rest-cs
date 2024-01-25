@@ -2,11 +2,14 @@
 C# library &amp; sample code for using the OpenAsset REST API v1
 
 ## Documentation
-The documentation for the REST API endpoints used by this library can be found at:
-http://help.openasset.com/06_Integration/REST_API
+> [!TIP]
+> Additional information about developing custom integrations using the OpenAsset REST API can also be found in [this support article](https://success.openasset.com/en/articles/3122502-developing-custom-integrations-using-the-openasset-rest-api).
+>
+> The documentation for the REST API endpoints used by this library can be found at:
+https://developers.openasset.com/
 
 ### Sample Usage
-The examples below show how to establish connection to OpenAsset and get/send data.
+The examples below show how to establish a connection to OpenAsset and get/send data.
 
 ```csharp
 // import library directives
@@ -21,7 +24,7 @@ string baseURL = "http://localhost";
 string password = "password";
 string username = "username";
 
-// Establish connection to OpenAsset
+// Establish a connection to OpenAsset
 Connection conn = Connection.GetConnection(baseURL, username, password);
 
 // Verify credentials
@@ -165,7 +168,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Third party libraries:
 
 ### Json.NET Library (http://json.codeplex.com/)
-####License:
+####  License:
 
 Copyright (c) 2007 James Newton-King
 
