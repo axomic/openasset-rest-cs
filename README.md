@@ -6,7 +6,7 @@ The documentation for the REST API endpoints used by this library can be found a
 http://help.openasset.com/06_Integration/REST_API
 
 ### Sample Usage
-The examples below show how to establish connection to OpenAsset and get/send data.
+The examples below show how to establish a connection to OpenAsset and get/send data.
 
 ```csharp
 // import library directives
@@ -21,7 +21,7 @@ string baseURL = "http://localhost";
 string password = "password";
 string username = "username";
 
-// Establish connection to OpenAsset
+// Establish a connection to OpenAsset
 Connection conn = Connection.GetConnection(baseURL, username, password);
 
 // Verify credentials
