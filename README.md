@@ -16,7 +16,7 @@ Integrate directly against the OpenAsset REST API using the HTTP client of your 
 
 ## Support
 
-We are unable to provide support for this library. For questions about the REST API itself, please contact OpenAsset support or visit http://www.openasset.com.
+We are unable to provide support for this library. For questions about the REST API itself, please contact OpenAsset support or visit https://www.openasset.com.
 
 ## License
 
