@@ -20,4 +20,6 @@ We are unable to provide support for this library. For questions about the REST 
 
 ## License
 
-The source in this repository remains available under the MIT License — see [LICENSE](LICENSE). The previous README, including usage examples, is available in this repository's git history.
+The source in this repository remains available under the MIT License — see [LICENSE](LICENSE). Third-party components bundled in this repository are listed in [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES).
+
+The previous README, including usage examples, is available in this repository's git history.
